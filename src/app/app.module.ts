@@ -16,6 +16,8 @@ import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.componen
 
 import { IngredientComponent } from './ingredient/ingredient.component';
 import { IngredientFormComponent } from './ingredient-form/ingredient-form.component';
+import { RecipesComponent } from './recipes/recipes.component';
+import { RecipesFormComponent } from './recipes-form/recipes-form.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { IngredientFormComponent } from './ingredient-form/ingredient-form.compo
     NavigationComponent,
     HomeComponent,
     DeleteConfirmComponent,
-    StatusMessageComponent
+    StatusMessageComponent,
+    RecipesComponent,
+    RecipesFormComponent
   ],
   imports: [
     BrowserModule,
