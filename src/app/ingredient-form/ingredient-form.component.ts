@@ -49,11 +49,52 @@ export class IngredientFormComponent implements OnInit {
       .subscribe(
         ingredient => this.successMessage = "Record updated",
         error => this.errorMessage = <any>error);
+      }else{
+        this.dataService.addRecord("ingredient", ingredientForm.value)
+        .subscribe(
+          result => this.successMessage = "Record added",
+          error => this.errorMessage = <any>error);
+          this.ingredient = {};
       }
+    }
+    ngAfterViewChecked() {
+      this.formChanged();
 
+    }
 
+    formChanged() {
+      this.ingredientForm = this.currentForm;
+      this.ingredientForm.valueChanges
+      .subscribe(
+        data => this.onValueChanged()
+      );
+    }
 
+    onValueChanged() {
+      let form = this.ingredientForm.form;
+
+      for (let field in this.formErrors) {
+        this.formErrors[field] = '';
+        const control = form.get(field);
+
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            this.formErrors[field] += messages[key] + ' ';
+          }
+        }
+      }
+    }
+
+    formErrors = {
+      'ingredient' : ''
+    };
+
+    validationMessages = {
+      'ingredient': {
+        'required': 'Ingredient is required'
+      }
     }
   }
 
-}
+
