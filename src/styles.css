@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+body {
+    padding-top: 70px;
+}
+
+table {
+  margin-top: 10px;
+}
+
+/* Customize container */
+@media (min-width: 600px) {
+    .container {
+        max-width: 768px;
+    }
+}
+/* Customize container */
+@media (min-width: 800px) {
+    .container-fluid {
+        max-width: 1024px;
+    }
+}
