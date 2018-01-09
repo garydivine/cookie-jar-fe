@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { StatusMessageComponent } from './status-message/status-message.component';
 import { DataService } from './data.service';
+import { YummlyService } from './yummly.service';
 import { AppRoutingModule } from './routing/routing.module';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
@@ -27,17 +28,23 @@ import { RecipesFormComponent } from './recipes-form/recipes-form.component';
     DeleteConfirmComponent,
     StatusMessageComponent,
     RecipesComponent,
-    RecipesFormComponent
+    RecipesFormComponent,
+    IngredientComponent,
+    IngredientFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ],
   entryComponents: [DeleteConfirmComponent],
-  providers: [DataService],
+  providers: [
+    DataService,
+    YummlyService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
