@@ -4,7 +4,7 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
 import { NgForm} from '@angular/forms';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Params } from '@angular/router';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-ingredient-form',
@@ -32,7 +32,7 @@ export class IngredientFormComponent implements OnInit {
 
   getRecordsForEdit() {
     this.route.params
-    .switchMap((params: Params) => this.dataService.getRecord("ingredients", +params['id']))
+    .switchMap((params: Params) => this.dataService.getRecord('ingredients', +params['id']))
     .subscribe(ingredient => this.ingredient = ingredient);
   }
 
@@ -50,7 +50,7 @@ export class IngredientFormComponent implements OnInit {
         ingredient => this.successMessage = "Record updated",
         error => this.errorMessage = <any>error);
       }else{
-        this.dataService.addRecord("ingredient", ingredientForm.value)
+        this.dataService.addRecord("ingredients", ingredientForm.value)
         .subscribe(
           result => this.successMessage = "Record added",
           error => this.errorMessage = <any>error);

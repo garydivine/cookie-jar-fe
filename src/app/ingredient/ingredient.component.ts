@@ -1,13 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { fadeInAnimation } from '../animations/fade-in.animation';
 import { DataService } from '../data.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component'
+import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
+
 @Component({
   selector: 'app-ingredient',
   templateUrl: './ingredient.component.html',
   styleUrls: ['./ingredient.component.css'],
-  animations: [fadeInAnimation]
 })
 
 export class IngredientComponent implements OnInit {

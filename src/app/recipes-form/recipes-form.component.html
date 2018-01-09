@@ -7,14 +7,14 @@
 
   <a class="btn btn-primary" routerLink="/recipe">Return to Recipe</a>
 
-  <h1>Manage Recipe</h1>
+  <h1>Add a Recipe</h1>
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
   <form (ngSubmit)="saveRecipe(recipeForm)"  #recipeForm="ngForm" class="form-horizontal">
     <input [ngModel]="recipe?.id" ngModel #recipe_id="ngModel" type="hidden" name="id">
     <div class="form-group">
-      <label for="name" class="col-sm-2 control-label">Recipe Name</label>
+      <label for="name" class="col-sm-2 control-label">Name</label>
       <div class="col-sm-10">
         <input [ngModel]="recipe?.name" ngModel #recipe_name="ngModel" type="text" class="form-control" id="name" name="name" placeholder="e.g. Chocolate Chip" required minlength="2" maxlength="60">
          <span *ngIf="formErrors.name" class="text-danger">
@@ -22,6 +22,7 @@
         </span>
       </div>
     </div>
+    <app-ingredient></app-ingredient>
     <div class="form-group">
       <label for="temp" class="col-sm-2 control-label">Temperature</label>
       <div class="col-sm-10">
@@ -58,7 +59,7 @@
         </span>
       </div>
     </div>
-     <div class="form-group">
+     <div class="form-group"> 
       <div class="col-sm-offset-2 col-sm-10">
         <button [disabled]="!recipeForm.form.valid" type="submit" class="btn btn-primary">Submit</button>
       </div>
