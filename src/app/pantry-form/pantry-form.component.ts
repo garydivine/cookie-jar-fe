@@ -48,13 +48,15 @@ export class PantryFormComponent implements OnInit {
       this.dataService.editRecord("ingredient",ingredientForm.value, ingredientForm.value.id)
       .subscribe(
         ingredient => this.successMessage = "Record updated",
-        error => this.errorMessage = <any>error);
+        error => this.errorMessage = <any>error
+      );
       }else{
         this.dataService.addRecord("ingredients", ingredientForm.value)
         .subscribe(
           result => this.successMessage = "Record added",
-          error => this.errorMessage = <any>error);
-          this.ingredient = {};
+          error => this.errorMessage = "This ingredient already exists"
+        );
+        this.ingredient = {};
       }
     }
     ngAfterViewChecked() {
@@ -87,12 +89,13 @@ export class PantryFormComponent implements OnInit {
     }
 
     formErrors = {
-      'ingredient' : ''
+     // 'ingredient' : ''
     };
 
     validationMessages = {
       'ingredient': {
-        'required': 'Ingredient is required'
+        'required': 'Ingredient is required',
+       
       }
     }
   }
