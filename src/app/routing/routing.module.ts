@@ -5,6 +5,7 @@ import { IngredientComponent } from '../ingredient/ingredient.component';
 import { IngredientFormComponent } from '../ingredient-form/ingredient-form.component';
 import { RecipesComponent } from '../recipes/recipes.component';
 import { RecipesFormComponent } from '../recipes-form/recipes-form.component';
+import { YummlyComponent } from '../yummly/yummly.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'recipe',  component: RecipesComponent },
   { path: 'recipe/edit/:id', component: RecipesComponent },
   { path: 'recipe/add', component: RecipesFormComponent },
+  { path: 'yummly',  component: YummlyComponent },
 ];
 
 @NgModule({

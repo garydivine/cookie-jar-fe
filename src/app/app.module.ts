@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { StatusMessageComponent } from './status-message/status-message.component';
 import { DataService } from './data.service';
-import { YummlyService } from './yummly.service';
 import { AppRoutingModule } from './routing/routing.module';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
@@ -19,6 +18,9 @@ import { IngredientComponent } from './ingredient/ingredient.component';
 import { IngredientFormComponent } from './ingredient-form/ingredient-form.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { RecipesFormComponent } from './recipes-form/recipes-form.component';
+
+import { YummlyService } from './yummly.service';
+import { YummlyComponent } from './yummly/yummly.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { RecipesFormComponent } from './recipes-form/recipes-form.component';
     RecipesComponent,
     RecipesFormComponent,
     IngredientComponent,
-    IngredientFormComponent
+    IngredientFormComponent,
+    YummlyComponent
   ],
   imports: [
     BrowserModule,

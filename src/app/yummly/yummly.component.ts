@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { YummlyService } from '../yummly.service';
+import { fadeInAnimation } from '../animations/fade-in.animation';
 
 @Component({
   selector: 'app-yummly',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class YummlyComponent implements OnInit {
 
-  constructor() { }
+  yummlyRecipes: any[];
+
+  constructor(private yummlyService: YummlyService) {
+
+  }
+
+  getRecipeFromYummly() {
+    this.yummlyService.getRecipes()
+      .subscribe(
+        yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
+      );
+  }
 
   ngOnInit() {
+    this.getRecipeFromYummly();
   }
 
 }

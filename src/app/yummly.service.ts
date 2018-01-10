@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class YummlyService {
 
-  private baseUrl: string = 'http://api.yummly.com/v1/api/recipes?_app_id=37304cb5&_app_key=9a0515dab83f075f9bd1365932fcc264';
+  private baseUrl: string = 'http://api.yummly.com/v1/api/recipes?_app_id=37304cb5&_app_key=9a0515dab83f075f9bd1365932fcc264&q=cookie';
 
   constructor(private http: Http) { }
 
