@@ -14,7 +14,6 @@ import { DataService } from './data.service';
 import { AppRoutingModule } from './routing/routing.module';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
-import { IngredientComponent } from './ingredient/ingredient.component';
 import { IngredientFormComponent } from './ingredient-form/ingredient-form.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { RecipesFormComponent } from './recipes-form/recipes-form.component';
@@ -32,7 +31,6 @@ import { PantryFormComponent } from './pantry-form/pantry-form.component';
     StatusMessageComponent,
     RecipesComponent,
     RecipesFormComponent,
-    IngredientComponent,
     IngredientFormComponent,
     YummlyComponent,
     PantryFormComponent
