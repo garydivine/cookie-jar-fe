@@ -17,7 +17,6 @@
         <th>Name</th>
         <th>Temp</th>
         <th>Time</th>
-        <th>Instructions</th>
         <th>Yield</th>
         <th>Admin</th>
       
@@ -29,11 +28,9 @@
         <td>{{recipe.name}}</td>
         <td>{{recipe.temp}}</td>
         <td>{{recipe.time}}</td>
-        <td>{{recipe.instructions }}</td>
         <td>{{recipe.yield }}</td>
         <td class="text-center">
           <a class="btn btn-primary" [routerLink]="['/recipe/edit/', recipe.id]">Edit</a>&nbsp;
-          <a class="btn btn-primary" [routerLink]="['/ingredientRecipeListItem/add/', recipe.id]">Add Ingredient</a>&nbsp;
           <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">Delete</button>
         </td>
       </tr>
