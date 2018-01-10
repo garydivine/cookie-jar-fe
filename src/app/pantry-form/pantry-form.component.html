@@ -10,7 +10,7 @@
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-  <form (ngSubmit)="saveIngredient(ingredientForm)" #ingredientForm="ngForm" class="form-horizontal">
+  <form (ngSubmit)="saveIngredient(pantryForm)" #pantryForm="ngForm" class="form-horizontal">
     <input [ngModel]="ingredient?.id" ngModel #ingredient_id="ngModel" type="hidden" name="id">
     <div class="form-group">
       <label for="name" class="col-sm-2 control-label">Ingredient</label>
@@ -25,7 +25,7 @@
     
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button [disabled]="!ingredientForm.form.valid" type="submit" class="btn btn-primary">Submit</button>
+        <button [disabled]="!pantryForm.form.valid" type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </form>

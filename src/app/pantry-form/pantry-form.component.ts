@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 })
 export class PantryFormComponent implements OnInit {
 
-  ingredientForm: NgForm;
+  pantryForm: NgForm;
   @ViewChild('pantryForm')
   currentForm: NgForm;
 
@@ -43,15 +43,15 @@ export class PantryFormComponent implements OnInit {
     });
   }
 
-  saveIngredient(ingredientForm: NgForm) {
-    if(typeof ingredientForm.value.id === "number") {
-      this.dataService.editRecord("ingredient",ingredientForm.value, ingredientForm.value.id)
+  saveIngredient(pantryForm: NgForm) {
+    if (typeof pantryForm.value.id === "number") {
+      this.dataService.editRecord("ingredient", pantryForm.value, pantryForm.value.id)
       .subscribe(
         ingredient => this.successMessage = "Record updated",
         error => this.errorMessage = <any>error
       );
       }else{
-        this.dataService.addRecord("ingredients", ingredientForm.value)
+      this.dataService.addRecord("ingredients", pantryForm.value)
         .subscribe(
           result => this.successMessage = "Record added",
           error => this.errorMessage = "This ingredient already exists"
@@ -65,15 +65,15 @@ export class PantryFormComponent implements OnInit {
     }
 
     formChanged() {
-      this.ingredientForm = this.currentForm;
-      this.ingredientForm.valueChanges
+      this.pantryForm = this.currentForm;
+      this.pantryForm.valueChanges
       .subscribe(
         data => this.onValueChanged()
       );
     }
 
     onValueChanged() {
-      let form = this.ingredientForm.form;
+      let form = this.pantryForm.form;
 
       for (let field in this.formErrors) {
         this.formErrors[field] = '';
