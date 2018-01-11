@@ -23,6 +23,7 @@ export class RecipesFormComponent implements OnInit {
   errorMessage: string;
 
   recipe: object;
+  ingredientQueue: Array<object> = [];
 
   constructor(
     private dataService: DataService,
@@ -48,14 +49,39 @@ export class RecipesFormComponent implements OnInit {
       this.dataService.editRecord("recipes", recipeForm.value, recipeForm.value.id)
           .subscribe(
             recipe => this.successMessage = "Record updated successfully",
-            error =>  this.errorMessage = <any>error);
+            error => this.errorMessage = <any>error
+          );
     }else{
       this.dataService.addRecord("recipes", recipeForm.value)
           .subscribe(
-            recipe => this.successMessage = "Record added successfully",
+            recipe => {
+              this.successMessage = "Record added successfully";
+              this.recipe = recipe;
+              for (let ingredientRecipe of this.ingredientQueue) {
+                this.saveIngredientItemToRecipe(ingredientRecipe);
+              }
+              this.ingredientQueue = [];
+              this.recipeForm.form.reset();
+              this.recipe = {};
+          },
             error =>  this.errorMessage = <any>error);
-            this.recipe = {};
     }
+
+  }
+
+  saveIngredientItemToRecipe(ingredientRecipe){
+    this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
+          .subscribe(
+            recipe => {
+            }
+            ,
+            error =>  this.errorMessage = <any>error);
+  }
+
+
+  addToIngredientQueue(ingredientRecipe) {
+    // Need logic here to ensure that the recipe doesnt have same ingredient twice??
+    this.ingredientQueue.push(ingredientRecipe);
 
   }
 

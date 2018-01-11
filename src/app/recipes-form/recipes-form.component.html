@@ -10,7 +10,6 @@
   <h1>Add a Recipe</h1>
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
-
   <form (ngSubmit)="saveRecipe(recipeForm)"  #recipeForm="ngForm" class="form-horizontal">
     <input [ngModel]="recipe?.id" ngModel #recipe_id="ngModel" type="hidden" name="id">
     <div class="form-group">
@@ -22,11 +21,44 @@
         </span>
       </div>
     </div>
-    <app-ingredient-form></app-ingredient-form>
+    <div>
+      <h4>Ingredients In Recipe</h4>
+      <table class="table table-striped table-bordered" style="width:100%">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Unit Of Measurement</th>
+              <th>Admin</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let ingredientItem of recipe?.ingredientRecipeListItem">
+                  <td>{{ingredientItem?.ingredient.name}}</td>
+                  <td>{{ingredientItem.quantity}}</td>
+                  <td>{{ingredientItem.unitOfMeasurement}}</td>
+                  <td class="text-center">
+                    Need to add buttons
+                  </td>
+              </tr>
+              <tr *ngFor="let ingredientItem of ingredientQueue">
+                  <td>{{ingredientItem?.ingredient.name}}</td>
+                  <td>{{ingredientItem.quantity}}</td>
+                  <td>{{ingredientItem.unitOfMeasurement}}</td>
+                  <td class="text-center">
+                    Need to add buttons
+                  </td>
+                </tr>
+          </tbody>
+      </table>
+    </div>
+
+    <!-- <app-ingredient-form (ingredientRecipeSubmitted)="dealWithIngredientToRecipe($event,recipeForm)" ></app-ingredient-form> -->
+    <app-ingredient-form (ingredientRecipeSubmitted)="addToIngredientQueue($event)" ></app-ingredient-form>
     <div class="form-group">
       <label for="temp" class="col-sm-2 control-label">Temperature</label>
       <div class="col-sm-10">
-        <input [ngModel]="recipe?.temp" ngModel #temp="ngModel" type="text" class="form-control" id="temp" name="temp" placeholder="e.g. 350">
+        <input [ngModel]="recipe?.temp" ngModel #temp="ngModel" type="number" class="form-control" id="temp" name="temp" placeholder="e.g. 350">
         <span *ngIf="formErrors.temp" class="text-danger">
           {{ formErrors.temp }}
         </span>
@@ -35,7 +67,7 @@
     <div class="form-group">
       <label for="time" class="col-sm-2 control-label">Cook Time</label>
       <div class="col-sm-10">
-        <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="text" class="form-control" id="time" name="time"  placeholder="e.g. 12">
+        <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="number" class="form-control" id="time" name="time"  placeholder="e.g. 12">
         <span *ngIf="formErrors.time" class="text-danger">
           {{ formErrors.time }}
         </span>
@@ -53,7 +85,7 @@
     <div class="form-group">
       <label for="yield" class="col-sm-2 control-label">Yield</label>
       <div class="col-sm-10">
-        <input [ngModel]="recipe?.yield" ngModel #recipe_yield="ngModel" type="text" class="form-control" id="yield" name="yield" placeholder="24"> 
+        <input [ngModel]="recipe?.yield" ngModel #recipe_yield="ngModel" type="number" class="form-control" id="yield" name="yield" placeholder="24"> 
         <span *ngIf="formErrors.yield" class="text-danger">
           {{ formErrors.yield }}
         </span>
