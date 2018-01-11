@@ -48,7 +48,15 @@ export class RecipesFormComponent implements OnInit {
     if(typeof recipeForm.value.id === "number"){
       this.dataService.editRecord("recipes", recipeForm.value, recipeForm.value.id)
           .subscribe(
-            recipe => this.successMessage = "Record updated successfully",
+            recipe => { 
+              this.successMessage = "Record updated successfully";
+              this.recipe = recipe;
+              for (let ingredientRecipe of this.ingredientQueue) {
+                this.saveIngredientItemToRecipe(ingredientRecipe);
+              }
+              this.ingredientQueue = [];
+              
+          },
             error => this.errorMessage = <any>error
           );
     }else{
@@ -73,6 +81,7 @@ export class RecipesFormComponent implements OnInit {
     this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
           .subscribe(
             recipe => {
+              this.getRecordForEdit();
             }
             ,
             error =>  this.errorMessage = <any>error);
