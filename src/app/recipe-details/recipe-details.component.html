@@ -1,3 +1,37 @@
-<p>
-  recipe-details works!
-</p>
+<div *ngIf="recipeDetails">
+
+<h2>{{recipeDetails.name}}</h2>
+
+  <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
+      <thead>
+          <tr>
+              <th>Recipe Name</th>
+              <th>Yield</th>
+              <th>Bake Time</th>
+              <th>Bake Temperature</th>
+              <th>Ingredients</th>
+              <th>Instructions</th>
+              <th> </th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>{{recipeDetails.name}}</td>
+              <td>{{recipeDetails.yield}}</td>
+              <td>{{recipeDetails.time}}</td>
+              <td>{{recipeDetails.temp}}</td>
+              <div *ngFor="let ingredient of recipeDetails.ingredientRecipeListItem">
+                  <td>
+                      <ul>
+                          <li>{{ingredient.quantity}} {{ingredient.unitOfMeasurement}} of {{ingredient.ingredient.name}}</li>
+                      </ul>
+                  </td>
+              </div>
+              <td>{{recipeDetails.instructions}}</td>
+              <td class="text-center">
+                  <button class="btn btn-primary">Email This Recipe</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
