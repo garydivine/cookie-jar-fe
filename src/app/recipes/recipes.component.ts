@@ -7,7 +7,8 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.css']
+  styleUrls: ['./recipes.component.css'],
+  animations: [fadeInAnimation]
 })
 export class RecipesComponent implements OnInit {
 

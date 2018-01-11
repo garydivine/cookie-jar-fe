@@ -1,0 +1,34 @@
+<div *ngIf="yummlyRecipeDetails">
+
+    <h2>{{yummlyRecipeDetails.name}}</h2>
+
+    <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
+        <thead>
+            <tr>
+                <th>Number of Servings</th>
+                <th>Ingredients</th>
+                <!-- <th>Details</th> -->
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{yummlyRecipeDetails.numberOfServings}}</td>
+                <div *ngFor="let ingredient of yummlyRecipeDetails.ingredientLines">
+                    <td>
+                        <ul>
+                            <li>{{ingredient}}</li>
+                        </ul>
+                    </td>
+                </div>
+                <!-- <td>{{yummlyRecipeDetails.source.sourceRecipeUrl}}</td> -->
+                <td class="text-center">
+                    <button class="btn btn-primary">Add To My Cookie Jar</button>
+                    <br>
+                    <br>
+                    <button class="btn btn-primary">Email This Recipe</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

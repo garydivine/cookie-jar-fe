@@ -21,6 +21,7 @@ import { RecipesFormComponent } from './recipes-form/recipes-form.component';
 import { YummlyService } from './yummly.service';
 import { YummlyComponent } from './yummly/yummly.component';
 import { PantryFormComponent } from './pantry-form/pantry-form.component';
+import { YummlyDetailsComponent } from './yummly-details/yummly-details.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { PantryFormComponent } from './pantry-form/pantry-form.component';
     RecipesFormComponent,
     IngredientFormComponent,
     YummlyComponent,
-    PantryFormComponent
+    PantryFormComponent,
+    YummlyDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,7 @@ import { PantryFormComponent } from './pantry-form/pantry-form.component';
   entryComponents: [DeleteConfirmComponent],
   providers: [
     DataService,
-    YummlyService
+    YummlyService,
   ],
   bootstrap: [AppComponent]
 })
