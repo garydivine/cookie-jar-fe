@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteConfimComponent } from './delete-confim.component';
+import { YummlyComponent } from './yummly.component';
 
-describe('DeleteConfimComponent', () => {
-  let component: DeleteConfimComponent;
-  let fixture: ComponentFixture<DeleteConfimComponent>;
+describe('YummlyComponent', () => {
+  let component: YummlyComponent;
+  let fixture: ComponentFixture<YummlyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteConfimComponent ]
+      declarations: [ YummlyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteConfimComponent);
+    fixture = TestBed.createComponent(YummlyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
