@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DataService } from '../data.service';
-import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component'
+import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
+import { RecipeDetailsComponent } from '../recipe-details/recipe-details.component';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 
 @Component({
@@ -22,15 +23,21 @@ export class RecipesComponent implements OnInit {
   getRecipes() {
     this.dataService.getRecords('recipes')
       .subscribe(
-        recipes => this.recipes = recipes,
-        error =>  this.errorMessage = <any>error);
+      recipes => this.recipes = recipes,
+      error => this.errorMessage = <any>error
+      );
   }
 
   getRecipeDetails(id: number) {
     this.dataService.getRecord('recipes', id)
       .subscribe(
         recipeDetails => this.recipeDetails = recipeDetails,
-        error =>  this.errorMessage = <any>error);
+        error => this.errorMessage = <any>error
+      );
+    const dialogRef = this.dialog.open(RecipeDetailsComponent, {
+      data: { recipeDetails: this.recipeDetails },
+    });
+    dialogRef.afterOpen().subscribe();
   }
 
   deleteRecipe(id: number) {
@@ -41,11 +48,11 @@ export class RecipesComponent implements OnInit {
       if (result) {
         this.dataService.deleteRecord('recipes', id)
           .subscribe(
-            recipes => {
-              this.successMessage = 'Record(s) deleted successfully';
-              this.getRecipes();
-            },
-            error =>  this.errorMessage = <any>error);
+          recipes => {
+            this.successMessage = 'Record(s) deleted successfully';
+            this.getRecipes();
+          },
+          error => this.errorMessage = <any>error);
       }
     });
   }

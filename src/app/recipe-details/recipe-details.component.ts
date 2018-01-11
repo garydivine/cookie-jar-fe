@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-recipe-details',
@@ -7,9 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RecipeDetailsComponent implements OnInit {
 
-  @Input() recipeDetails: any[];
-
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }

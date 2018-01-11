@@ -47,10 +47,14 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
     FormsModule,
     MatDialogModule
   ],
-  entryComponents: [DeleteConfirmComponent],
+  entryComponents: [
+    DeleteConfirmComponent,
+    RecipeDetailsComponent,
+    YummlyDetailsComponent
+  ],
   providers: [
     DataService,
-    YummlyService,
+    YummlyService
   ],
   bootstrap: [AppComponent]
 })

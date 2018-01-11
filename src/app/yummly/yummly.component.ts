@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { YummlyService } from '../yummly.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
+import { YummlyDetailsComponent } from '../yummly-details/yummly-details.component';
 
 @Component({
   selector: 'app-yummly',
@@ -12,8 +14,9 @@ export class YummlyComponent implements OnInit {
 
   yummlyRecipes: any[];
   yummlyRecipeDetails: any[];
+  errorMessage: string;
 
-  constructor(private yummlyService: YummlyService) { }
+  constructor(private yummlyService: YummlyService, public dialog: MatDialog) { }
 
   // Get a recipe list from Yummly using the built Yummly Service
   // contained in yummly.service.ts
@@ -32,12 +35,18 @@ export class YummlyComponent implements OnInit {
     this.yummlyService.getRecipe(id)
       .subscribe(
       yummlyRecipeDetails => this.yummlyRecipeDetails = yummlyRecipeDetails,
-    );
+      error => this.errorMessage = <any>error
+      );
+      console.log(this.yummlyRecipeDetails);
+    const dialogRef = this.dialog.open(YummlyDetailsComponent, {
+      data: { yummlyRecipeDetails: this.yummlyRecipeDetails },
+    });
+    dialogRef.afterOpen().subscribe();
   }
 
-  // Load a random list of Cookie Recipes when the Yummly page loads
-  ngOnInit() {
-    this.getRecipeFromYummly();
-  }
+// Load a random list of Cookie Recipes when the Yummly page loads
+ngOnInit() {
+  this.getRecipeFromYummly();
+}
 
 }

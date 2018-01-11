@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-yummly-details',
@@ -7,11 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class YummlyDetailsComponent implements OnInit {
 
-  // This Component has nothing more than an input of yummlyRecipeDetails
-  // From the yuymmly.component.ts
-  @Input() yummlyRecipeDetails;
-
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
