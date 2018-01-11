@@ -31,13 +31,15 @@ export class RecipesComponent implements OnInit {
   getRecipeDetails(id: number) {
     this.dataService.getRecord('recipes', id)
       .subscribe(
-        recipeDetails => this.recipeDetails = recipeDetails,
-        error => this.errorMessage = <any>error
+      recipeDetails => {
+        this.recipeDetails = recipeDetails;
+        const dialogRef = this.dialog.open(RecipeDetailsComponent, {
+          data: { recipeDetails: this.recipeDetails },
+        });
+        dialogRef.afterOpen().subscribe();
+      },
+      error => this.errorMessage = <any>error
       );
-    const dialogRef = this.dialog.open(RecipeDetailsComponent, {
-      data: { recipeDetails: this.recipeDetails },
-    });
-    dialogRef.afterOpen().subscribe();
   }
 
   deleteRecipe(id: number) {

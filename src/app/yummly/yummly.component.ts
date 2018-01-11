@@ -34,14 +34,15 @@ export class YummlyComponent implements OnInit {
   getRecipeDetailsFromYummly(id) {
     this.yummlyService.getRecipe(id)
       .subscribe(
-      yummlyRecipeDetails => this.yummlyRecipeDetails = yummlyRecipeDetails,
+      yummlyRecipeDetails => {
+        this.yummlyRecipeDetails = yummlyRecipeDetails;
+        const dialogRef = this.dialog.open(YummlyDetailsComponent, {
+          data: { yummlyRecipeDetails: this.yummlyRecipeDetails },
+        });
+        dialogRef.afterOpen().subscribe();
+      },
       error => this.errorMessage = <any>error
       );
-      console.log(this.yummlyRecipeDetails);
-    const dialogRef = this.dialog.open(YummlyDetailsComponent, {
-      data: { yummlyRecipeDetails: this.yummlyRecipeDetails },
-    });
-    dialogRef.afterOpen().subscribe();
   }
 
 // Load a random list of Cookie Recipes when the Yummly page loads
