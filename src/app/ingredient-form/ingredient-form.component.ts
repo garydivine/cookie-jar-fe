@@ -32,10 +32,28 @@ export class IngredientFormComponent implements OnInit {
     private location: Location
   ) { }
 
+  // ngOnInit() {
+  //   this.dataService.getRecords("ingredients")
+  //   .subscribe(
+  //     ingredients => this.ingredients = ingredients
+  //   );
+  // }
+
   ngOnInit() {
     this.dataService.getRecords("ingredients")
-    .subscribe(
-      ingredients => this.ingredients = ingredients
+      .subscribe(
+      ingredients => {
+        ingredients.sort(function (a, b) {
+          var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+          if (nameA < nameB) //sort string ascending
+            return -1
+          if (nameA > nameB)
+            return 1
+          return 0 //default return value (no sorting)
+        })
+
+        this.ingredients = ingredients;
+      }
     );
   }
 
@@ -56,36 +74,48 @@ export class IngredientFormComponent implements OnInit {
 
     }
 
-    formChanged() {
-      this.ingredientForm = this.currentForm;
-      this.ingredientForm.valueChanges
+  formChanged() {
+    this.ingredientForm = this.currentForm;
+    this.ingredientForm.valueChanges
       .subscribe(
-        data => this.onValueChanged()
+      data => this.onValueChanged()
       );
-    }
+  }
 
-    onValueChanged() {
-      let form = this.ingredientForm.form;
+  onValueChanged() {
+    let form = this.ingredientForm.form;
 
-      for (let field in this.formErrors) {
-        this.formErrors[field] = '';
-        const control = form.get(field);
+    for (let field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
 
-        if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
-          for (const key in control.errors) {
-            this.formErrors[field] += messages[key] + ' ';
-          }
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
         }
       }
-    }
-
-
-    formErrors = {
-    };
-
-    validationMessages = {
     }
   }
 
 
+    formErrors = {
+      'ingredient': '',
+      'quantity': '',
+      'unitOfMeasurement': '',
+    };
+
+    validationMessages = {
+      'ingredient': {
+        'required': 'Ingredient is required',
+        'maxlength': 'Ingredient name must be less than 50 characters'
+      },
+      'quantity': {
+        'required':'Ingredient quantity is needed',
+        'maxlength': 'Ingredient quantity must be less than 30 characters'
+     },
+     'unitOfMeasurement': {}
+  };
+
+}

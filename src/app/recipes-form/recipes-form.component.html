@@ -2,10 +2,10 @@
   <ol class="breadcrumb">
       <li><a routerLink="/home">Home</a></li>
       <li><a routerLink="/recipe">Recipes</a></li>
-      <li class="active">Manage Recipe</li>
+      <li class="active">Add or Update Recipe</li>
   </ol>
 
-  <h1>Add a Recipe</h1>
+  <h1>Add or Update a Recipe</h1>
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
   <form (ngSubmit)="saveRecipe(recipeForm)"  #recipeForm="ngForm" class="form-horizontal">
