@@ -39,7 +39,7 @@ export class RecipesComponent implements OnInit {
 
     this.dataService.getRecords('recipes')
       .subscribe(
-      recipes => this.recipes = recipes.reverse().splice(11, 20),
+      recipes => this.recipes = recipes.reverse().splice(10, 20),
       error => this.errorMessage = <any>error
       );
   }
