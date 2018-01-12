@@ -39,7 +39,7 @@
                   <td>{{ingredientItem.quantity}}</td>
                   <td>{{ingredientItem.unitOfMeasurement}}</td>
                   <td class="text-center">
-                    Need to add buttons
+                      <button (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">Delete</button>
                   </td>
               </tr>
               <tr *ngFor="let ingredientItem of ingredientQueue">
@@ -47,7 +47,7 @@
                   <td>{{ingredientItem.quantity}}</td>
                   <td>{{ingredientItem.unitOfMeasurement}}</td>
                   <td class="text-center">
-                    Need to add buttons
+                      <button (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">Delete</button>
                   </td>
                 </tr>
           </tbody>
