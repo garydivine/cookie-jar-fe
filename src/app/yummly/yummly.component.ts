@@ -53,7 +53,6 @@ export class YummlyComponent implements OnInit {
   // Builds a query parameter in yummly.service.ts based on submitted NgForm
   // Stores in the yummlyRecipes variable to immediately update page with results
   getRecipesFromYummlyBasedOnQuery(query: NgForm) {
-    console.log(query.value.replace(/\s/g, ''));
     this.yummlyService.searchForRecipes(query.value.replace(/\s/g, ''))
       .subscribe(
       yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
