@@ -22,7 +22,7 @@
 
 
 
-    <div *ngIf="recipe?.ingredientRecipeListItem.length > 0 || ingredientQueue.length > 0"  >
+    <div [hidden]="ingredientQueue.length === 0 && !recipe?.id">
       <h4>Ingredients In Recipe</h4>
       <table class="table table-striped table-bordered" style="width:100%">
           <thead>
@@ -56,6 +56,8 @@
 
     <!-- <app-ingredient-form (ingredientRecipeSubmitted)="dealWithIngredientToRecipe($event,recipeForm)" ></app-ingredient-form> -->
     <app-ingredient-form (ingredientRecipeSubmitted)="addToIngredientQueue($event)" ></app-ingredient-form>
+    
+    <br>
     <div class="form-group">
       <label for="temp" class="col-sm-2 control-label">Cook at</label>
       <div class="col-sm-2">
@@ -64,9 +66,7 @@
           {{ formErrors.temp }}
         </span>
       </div>
-    </div>
-
-    <div class="form-group">
+    
       <label for="time" class="col-sm-2 control-label">For</label>
       <div class="col-sm-2">
         <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="number" class="form-control" id="time" name="time"  placeholder="e.g. 12">
@@ -74,9 +74,7 @@
           {{ formErrors.time }}
         </span>
       </div>
-    </div>
-
-    <div class="form-group">
+   
       <label for="yield" class="col-sm-2 control-label">Yields</label>
       <div class="col-sm-2">
         <input [ngModel]="recipe?.yield" ngModel #recipe_yield="ngModel" type="number" class="form-control" id="yield" name="yield"
@@ -98,13 +96,13 @@
     </div>
     <br>
       <div class="form-group"> 
-      <div class="col-sm-offset-2 col-sm-10">
-        <button [disabled]="!recipeForm.form.valid" type="submit" class="btn btn-primary">Submit</button>
+       <div class="col-sm-offset-1 col-sm-2">
+        <button [disabled]="!recipeForm.form.valid" type="submit" class="btn btn-primary">Add or Update Recipe to Cookie Jar</button>
+       </div>
+      <div class="col-sm-offset-5 col-sm-2">
+        <a class="btn btn-info" routerLink="/recipe">Return to Main Recipe Page</a>
       </div>
-    </div>
-</form>
-  <br>
-  <div class="pull-right">
-    <a class="btn btn-primary" routerLink="/recipe">Return to Recipe</a>
-    </div>
+     </div>
+  </form>
+  
 </section>
