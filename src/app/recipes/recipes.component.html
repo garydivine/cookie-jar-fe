@@ -12,11 +12,13 @@
 
   <a class="btn btn-primary" routerLink="/recipe/add">Add Recipe</a>
 
-  <form class="form-inline pull-right">
+  <form (ngSubmit)="getRecipesBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
     <div class="form-group">
-      <input type="search" class="form-control" id="search" placeholder="eg: Oatmeal Raisin">
+      <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Oatmeal Raisin"/>
     </div>
-    <button class="btn btn-primary">Search</button>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
   </form>
 
   <br>

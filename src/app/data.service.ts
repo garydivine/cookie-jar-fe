@@ -43,11 +43,17 @@ export class DataService {
 
   addRecord(endpoint: string, record: any): Observable<any> {
     const apiUrl = `${this.baseUrl}${endpoint}`;
-    console.log(apiUrl);
     return this.http.post(apiUrl, record)
       .map(this.extractData);
   }
 
+  searchForRecipes(endpoint: string): Observable<any> {
+    const apiUrl = `${this.baseUrl}recipes?name=${endpoint}`;
+    return this.http.get(apiUrl)
+    .map(result => {
+      return result.json();
+    });
+  }
 
   private extractData(res: Response) {
     const results = res.json();

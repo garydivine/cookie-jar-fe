@@ -4,6 +4,7 @@ import { DataService } from '../data.service';
 import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { RecipeDetailsComponent } from '../recipe-details/recipe-details.component';
 import { fadeInAnimation } from '../animations/fade-in.animation';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-recipes',
@@ -19,6 +20,7 @@ export class RecipesComponent implements OnInit {
   recipeDetails;
   next: boolean;
   previous: boolean;
+  query: NgForm;
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
@@ -56,6 +58,13 @@ export class RecipesComponent implements OnInit {
       },
       error => this.errorMessage = <any>error
       );
+  }
+
+  getRecipesBasedOnQuery(query: NgForm) {
+    this.dataService.searchForRecipes(query.value.replace(/\s/g, ''))
+      .subscribe(
+        recipes => this.recipes = recipes.reverse(),
+    );
   }
 
   deleteRecipe(id: number) {
