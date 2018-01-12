@@ -51,7 +51,6 @@ export class YummlyService {
   // Search for recipes based on a passed query parameter
   searchForRecipes(endpoint: string): Observable<any> {
     const apiUrl = `${this.recipesUrl}${this.apiSpec}&q=${endpoint}`;
-    console.log(apiUrl);
     return this.http.get(apiUrl)
     .map(result => {
       return result.json();
