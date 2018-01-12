@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { YummlyService } from '../yummly.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { YummlyDetailsComponent } from '../yummly-details/yummly-details.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-yummly',
@@ -43,6 +44,16 @@ export class YummlyComponent implements OnInit {
       },
       error => this.errorMessage = <any>error
       );
+  }
+
+  // Get recipe details based on a searched query
+  // Builds a query parameter in yummly.service.ts based on submitted NgForm
+  // Stores in the yummlyRecipes variable to immediately update page with results
+  getRecipesFromYummlyBasedOnQuery(query: NgForm) {
+    this.yummlyService.searchForRecipes(query)
+    .subscribe(
+      yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
+    );
   }
 
 // Load a random list of Cookie Recipes when the Yummly page loads

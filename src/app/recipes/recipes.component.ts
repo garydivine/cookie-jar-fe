@@ -17,13 +17,29 @@ export class RecipesComponent implements OnInit {
   successMessage: string;
   recipes: any[];
   recipeDetails;
+  next: boolean;
+  previous: boolean;
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
   getRecipes() {
+    this.next = true;
+    this.previous = false;
+
     this.dataService.getRecords('recipes')
       .subscribe(
-      recipes => this.recipes = recipes,
+      recipes => this.recipes = recipes.reverse().splice(0, 10),
+      error => this.errorMessage = <any>error,
+    );
+  }
+
+  getNextSetOfRecipes() {
+    this.next = false;
+    this.previous = true;
+
+    this.dataService.getRecords('recipes')
+      .subscribe(
+      recipes => this.recipes = recipes.reverse().splice(11, 20),
       error => this.errorMessage = <any>error
       );
   }
