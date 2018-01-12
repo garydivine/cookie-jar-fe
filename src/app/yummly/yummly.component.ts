@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { YummlyService } from '../yummly.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
@@ -16,6 +16,9 @@ export class YummlyComponent implements OnInit {
   yummlyRecipes: any[];
   yummlyRecipeDetails: any[];
   errorMessage: string;
+  query: NgForm;
+
+  @Output() querySubmitted = new EventEmitter();
 
   constructor(private yummlyService: YummlyService, public dialog: MatDialog) { }
 
@@ -50,15 +53,16 @@ export class YummlyComponent implements OnInit {
   // Builds a query parameter in yummly.service.ts based on submitted NgForm
   // Stores in the yummlyRecipes variable to immediately update page with results
   getRecipesFromYummlyBasedOnQuery(query: NgForm) {
-    this.yummlyService.searchForRecipes(query)
-    .subscribe(
+    console.log(query.value.replace(/\s/g, ''));
+    this.yummlyService.searchForRecipes(query.value.replace(/\s/g, ''))
+      .subscribe(
       yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
     );
   }
 
-// Load a random list of Cookie Recipes when the Yummly page loads
-ngOnInit() {
-  this.getRecipeFromYummly();
-}
+  // Load a random list of Cookie Recipes when the Yummly page loads
+  ngOnInit() {
+    this.getRecipeFromYummly();
+  }
 
 }
