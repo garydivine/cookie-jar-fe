@@ -52,7 +52,7 @@ export class RecipesFormComponent implements OnInit {
               this.successMessage = "Record updated successfully";
               this.recipe = recipe;
               for (let ingredientRecipe of this.ingredientQueue) {
-                this.saveIngredientItemToRecipe(ingredientRecipe);
+                this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
               this.ingredientQueue = [];
               
@@ -66,7 +66,7 @@ export class RecipesFormComponent implements OnInit {
               this.successMessage = "Record added successfully";
               this.recipe = recipe;
               for (let ingredientRecipe of this.ingredientQueue) {
-                this.saveIngredientItemToRecipe(ingredientRecipe);
+                this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
               this.ingredientQueue = [];
               this.recipeForm.form.reset();
@@ -77,11 +77,14 @@ export class RecipesFormComponent implements OnInit {
 
   }
 
-  saveIngredientItemToRecipe(ingredientRecipe){
+  saveIngredientItemToRecipe(ingredientRecipe, recipeForm: NgForm){
     this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
           .subscribe(
             recipe => {
+              // GD Added..also added to method calls..resolves console error on add of new recipe
+              if(typeof recipeForm.value.id === "number"){
               this.getRecordForEdit();
+              }
             }
             ,
             error =>  this.errorMessage = <any>error);
