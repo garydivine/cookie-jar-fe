@@ -1,7 +1,9 @@
 <section @fadeInAnimation>
   <ol class="breadcrumb">
-      <li><a routerLink="/home">Home</a></li>
-      <li class="active">Recipes</li>
+    <li>
+      <a routerLink="/home">Home</a>
+    </li>
+    <li class="active">Recipes</li>
   </ol>
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
@@ -10,26 +12,40 @@
 
   <a class="btn btn-primary" routerLink="/recipe/add">Add Recipe</a>
 
-  <table class="table table-striped table-bordered" id="dataTable" style="width:100%">
+  <form class="form-inline pull-right">
+    <div class="form-group">
+      <input type="search" class="form-control" id="search" placeholder="eg: Oatmeal Raisin">
+    </div>
+    <button class="btn btn-primary">Search</button>
+  </form>
+
+  <br>
+  <br>
+
+  <button *ngIf="next" (click)="getNextSetOfRecipes()" class="btn btn-primary pull-right">Next Page</button>
+  <button *ngIf="previous" (click)="getRecipes()" class="btn btn-primary pull-right">Previous Page</button>
+
+  <br>
+  <br>
+
+  <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Temp</th>
         <th>Time</th>
         <th>Yield</th>
         <th>Admin</th>
-      
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let recipe of recipes">
-        <td>{{recipe.id}}</td>
         <td>{{recipe.name}}</td>
         <td>{{recipe.temp}}</td>
         <td>{{recipe.time}}</td>
         <td>{{recipe.yield }}</td>
         <td class="text-center">
+          <button (click)="getRecipeDetails(recipe.id)" class="btn btn-primary">Recipe Details</button>
           <a class="btn btn-primary" [routerLink]="['/recipe/edit/', recipe.id]">Edit</a>&nbsp;
           <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">Delete</button>
         </td>

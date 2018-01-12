@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -46,6 +47,15 @@ export class YummlyService {
       .map(result => {
         return result.json();
       });
+  }
+
+  // Search for recipes based on a passed query parameter
+  searchForRecipes(query) {
+    const apiUrl = `${this.recipesUrl}${this.apiSpec}&q=${query}`;
+    return this.http.get(apiUrl)
+    .map(result => {
+      return result.json();
+    });
   }
 
 }

@@ -28,7 +28,7 @@ export class RecipesFormComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
   ) {}
 
   getRecordForEdit(){
@@ -48,7 +48,19 @@ export class RecipesFormComponent implements OnInit {
     if(typeof recipeForm.value.id === "number"){
       this.dataService.editRecord("recipes", recipeForm.value, recipeForm.value.id)
           .subscribe(
-            recipe => this.successMessage = "Record updated successfully",
+            recipe => { 
+              this.successMessage = "Record updated successfully";
+              this.recipe = recipe;
+              for (let ingredientRecipe of this.ingredientQueue) {
+                this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
+              }
+              // Needed for deleting ingredients off of a recipe
+              // The recipe returned isn't up-to-date
+              this.getRecordForEdit();
+              
+              this.ingredientQueue = [];
+              
+          },
             error => this.errorMessage = <any>error
           );
     }else{
@@ -58,7 +70,7 @@ export class RecipesFormComponent implements OnInit {
               this.successMessage = "Record added successfully";
               this.recipe = recipe;
               for (let ingredientRecipe of this.ingredientQueue) {
-                this.saveIngredientItemToRecipe(ingredientRecipe);
+                this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
               this.ingredientQueue = [];
               this.recipeForm.form.reset();
@@ -69,10 +81,13 @@ export class RecipesFormComponent implements OnInit {
 
   }
 
-  saveIngredientItemToRecipe(ingredientRecipe){
+  saveIngredientItemToRecipe(ingredientRecipe, recipeForm: NgForm){
     this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
           .subscribe(
             recipe => {
+              if(typeof recipeForm.value.id === "number"){
+              this.getRecordForEdit();
+              }
             }
             ,
             error =>  this.errorMessage = <any>error);
@@ -80,9 +95,34 @@ export class RecipesFormComponent implements OnInit {
 
 
   addToIngredientQueue(ingredientRecipe) {
-    // Need logic here to ensure that the recipe doesnt have same ingredient twice??
     this.ingredientQueue.push(ingredientRecipe);
 
+  }
+
+  deleteIngredientItem(id: number){
+        this.dataService.deleteRecord('ingredientToRecipe', id)
+          .subscribe(
+            deletedIngredientRecipe => {
+            let foundInIngredientQueue: boolean = false;
+
+            // If present, remove deleted item from ingredientQueue
+            for (let ingredientItem of this.ingredientQueue){
+              if (ingredientItem["id"] === deletedIngredientRecipe["id"]) {
+                foundInIngredientQueue = true;
+                let index = this.ingredientQueue.indexOf(ingredientItem);
+                  if (index > -1){
+                    this.ingredientQueue.splice(index, 1);
+                  }
+              }
+            } 
+
+            // If deleted item not in ingredientQueue, refresh the recipe
+            if (!foundInIngredientQueue){
+              this.getRecordForEdit();
+            }
+           },
+          error => this.errorMessage = <any>error);
+      
   }
 
   ngAfterViewChecked() {

@@ -6,9 +6,17 @@
         <li class="active">Yummly Recipes</li>
     </ol>
 
-    <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
-
     <h2>Cookie Recipes</h2>
+
+    <form (ngSubmit)="getRecipesFromYummlyBasedOnQuery('christmascookies')"  #search="ngForm" class="form-inline pull-right">
+        <div class="form-group">
+          <input type="search" class="form-control" id="search" placeholder="eg: Christmas Cookies">
+        </div>
+        <button class="btn btn-primary">Search</button>
+    </form>
+
+    <br>
+    <br>
 
     <button (click)="getRecipeFromYummly()" class="btn btn-primary pull-right">Random Recipes</button>
 
@@ -40,5 +48,4 @@
         </tbody>
     </table>
 
-    <app-yummly-details [yummlyRecipeDetails]="yummlyRecipeDetails"></app-yummly-details>
 </section>
