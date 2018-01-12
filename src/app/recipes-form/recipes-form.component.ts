@@ -28,7 +28,7 @@ export class RecipesFormComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
   ) {}
 
   getRecordForEdit(){
@@ -54,6 +54,10 @@ export class RecipesFormComponent implements OnInit {
               for (let ingredientRecipe of this.ingredientQueue) {
                 this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
+              // Needed for deleting ingredients off of a recipe
+              // The recipe returned isn't up-to-date
+              this.getRecordForEdit();
+              
               this.ingredientQueue = [];
               
           },
@@ -81,7 +85,6 @@ export class RecipesFormComponent implements OnInit {
     this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
           .subscribe(
             recipe => {
-              // GD Added..also added to method calls..resolves console error on add of new recipe
               if(typeof recipeForm.value.id === "number"){
               this.getRecordForEdit();
               }
@@ -92,9 +95,34 @@ export class RecipesFormComponent implements OnInit {
 
 
   addToIngredientQueue(ingredientRecipe) {
-    // Need logic here to ensure that the recipe doesnt have same ingredient twice??
     this.ingredientQueue.push(ingredientRecipe);
 
+  }
+
+  deleteIngredientItem(id: number){
+        this.dataService.deleteRecord('ingredientToRecipe', id)
+          .subscribe(
+            deletedIngredientRecipe => {
+            let foundInIngredientQueue: boolean = false;
+
+            // If present, remove deleted item from ingredientQueue
+            for (let ingredientItem of this.ingredientQueue){
+              if (ingredientItem["id"] === deletedIngredientRecipe["id"]) {
+                foundInIngredientQueue = true;
+                let index = this.ingredientQueue.indexOf(ingredientItem);
+                  if (index > -1){
+                    this.ingredientQueue.splice(index, 1);
+                  }
+              }
+            } 
+
+            // If deleted item not in ingredientQueue, refresh the recipe
+            if (!foundInIngredientQueue){
+              this.getRecordForEdit();
+            }
+           },
+          error => this.errorMessage = <any>error);
+      
   }
 
   ngAfterViewChecked() {
