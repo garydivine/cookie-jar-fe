@@ -8,17 +8,14 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.0.0",
     "@angular/cdk": "^5.0.4",
-    "@angular/cli": "1.2.3",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
-    "@angular/compiler-cli": "^4.0.0",
     "@angular/core": "^5.0.0",
     "@angular/forms": "^5.0.0",
     "@angular/http": "^5.0.0",
@@ -27,7 +24,6 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "core-js": "^2.4.1",
-    "express": "^4.16.2",
     "md-dialog": "0.0.1-alpha.1",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
@@ -51,11 +47,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.4.2",
-    "webpack": "^3.10.0"
-  },
-  "engines": {
-    "node": "6.11.1",
-    "npm": "3.10.9"
+    "typescript": "~2.4.2"
   }
 }
