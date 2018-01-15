@@ -5,6 +5,8 @@ import { NgForm} from '@angular/forms';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
+import { IngredientDialogFormComponent } from '../ingredient-dialog-form/ingredient-dialog-form.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-ingredient-form',
@@ -22,39 +24,50 @@ export class IngredientFormComponent implements OnInit {
   errorMessage: string;
 
   ingredientRecipe: object;
+
+  
   ingredients;
+
+  mostRecentlyAddedIngredient: object;
   
   @Output() ingredientRecipeSubmitted = new EventEmitter();
 
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    public dialog: MatDialog
   ) { }
 
-  // ngOnInit() {
-  //   this.dataService.getRecords("ingredients")
-  //   .subscribe(
-  //     ingredients => this.ingredients = ingredients
-  //   );
-  // }
-
   ngOnInit() {
-    this.dataService.getRecords("ingredients")
-      .subscribe(
-      ingredients => {
-        ingredients.sort(function (a, b) {
-          var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
-          if (nameA < nameB) //sort string ascending
-            return -1
-          if (nameA > nameB)
-            return 1
-          return 0 //default return value (no sorting)
-        })
+    this.getIngredients();
+  }
 
-        this.ingredients = ingredients;
+  getIngredients(){
+    this.dataService.getRecords("ingredients")
+    .subscribe(
+    ingredients => {
+      ingredients.sort(function (a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+        if (nameA < nameB) //sort string ascending
+          return -1
+        if (nameA > nameB)
+          return 1
+        return 0 //default return value (no sorting)
+      })
+
+      this.ingredients = ingredients;
+
+ 
+
+      if (this.mostRecentlyAddedIngredient){
+        console.log(this.mostRecentlyAddedIngredient["name"]);
+        this.ingredientForm.form.controls['ingredient'].setValue(this.mostRecentlyAddedIngredient);
       }
-    );
+    
+
+    }
+  );
   }
 
   saveIngredientToTable(ingredientForm: NgForm) {
@@ -67,6 +80,15 @@ export class IngredientFormComponent implements OnInit {
           this.ingredientForm.form.reset();
 
     }
+
+    invokeIngredientDialog(){
+      let dialogRef = this.dialog.open(IngredientDialogFormComponent);
+      const sub = dialogRef.componentInstance.ingredientSubmitted.subscribe((ingredient) => {
+        this.mostRecentlyAddedIngredient = ingredient;
+        this.getIngredients();
+      });
+    }
+
 
 
     ngAfterViewChecked() {
