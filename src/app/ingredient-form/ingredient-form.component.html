@@ -17,6 +17,7 @@
       <label for="ingredient" class="col-sm-2 control-label">Name</label>
       <div class="col-sm-3">
           <select ngModel #ingredient="ngModel" name="ingredient" class="form-control" required>
+              <option value="">Select ingredient...</option>
               <option *ngFor="let ingredient of ingredients" 
               [ngValue]="ingredient">{{ingredient.name}}</option>
           </select>
