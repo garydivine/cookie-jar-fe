@@ -162,8 +162,22 @@ export class RecipesFormComponent implements OnInit {
     }
   }
 
-  formErrors = {};
+  formErrors = {
+    'name': '',
+    'instructions': ''
+  };
 
-  validationMessages = {};
+  validationMessages = {
+    'name': {
+      'required': 'Recipe name is required',
+      'maxlength' : 'Recipe name must be less than 60 characters'
+    },
+    
+    'instructions': {
+      'required': 'Recipe instructions are required'
+     
+    }
+
+  };
 
 }
