@@ -1,6 +1,8 @@
 <div>
     
-    <button mat-button [mat-dialog-close]="true" class="btn btn-danger pull-right">Close</button>
+    <button mat-button [mat-dialog-close]="true" class="btn btn-danger pull-right">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button>
 
     <h2 md-dialog-title>{{data.recipeDetails.name}}</h2>
 
@@ -32,8 +34,10 @@
                 </tr>
             </tbody>
         </table>
-        <div class="text-right">
-            <button class="btn btn-primary" (click)="openUserMailClient()">Email This Recipe</button>
+        <div class="text-center">
+            <button class="btn btn-primary" (click)="openUserMailClient()">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>  Email This
+            </button>
         </div>
     </mat-dialog-content>
 
