@@ -39,7 +39,9 @@
                   <td>{{ingredientItem.quantity}}</td>
                   <td>{{ingredientItem.unitOfMeasurement}}</td>
                   <td class="text-center">
-                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">Delete</button>
+                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </button>
                   </td>
               </tr>
               <tr *ngFor="let ingredientItem of ingredientQueue">
@@ -47,7 +49,9 @@
                   <td>{{ingredientItem.quantity}}</td>
                   <td>{{ingredientItem.unitOfMeasurement}}</td>
                   <td class="text-center">
-                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">Delete</button>
+                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </button>
                   </td>
                 </tr>
           </tbody>
