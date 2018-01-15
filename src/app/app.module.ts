@@ -23,6 +23,7 @@ import { YummlyComponent } from './yummly/yummly.component';
 import { PantryFormComponent } from './pantry-form/pantry-form.component';
 import { YummlyDetailsComponent } from './yummly-details/yummly-details.component';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
+import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredient-dialog-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
     YummlyComponent,
     PantryFormComponent,
     YummlyDetailsComponent,
-    RecipeDetailsComponent
+    RecipeDetailsComponent,
+    IngredientDialogFormComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
   entryComponents: [
     DeleteConfirmComponent,
     RecipeDetailsComponent,
-    YummlyDetailsComponent
+    YummlyDetailsComponent,
+    IngredientDialogFormComponent
   ],
   providers: [
     DataService,

@@ -3,24 +3,28 @@
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-<div style="border: 1px solid black">
+<div style="border: 2px solid black">
 
   <div class="col-sm-12">
 
-  <h4>Add your next indredient here</h4>
+  <h4>Add your next indredient here:</h4>
   </div>
+
+  <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
   <form (ngSubmit)="saveIngredientToTable(ingredientForm)" #ingredientForm="ngForm">
     <div class="form-group">
       <label for="ingredient" class="col-sm-2 control-label">Name</label>
-      <div class="col-sm-2">
-          <select ngModel #ingredient="ngModel" name="ingredient" required>
+      <div class="col-sm-3">
+          <select ngModel #ingredient="ngModel" name="ingredient" class="form-control" required>
               <option *ngFor="let ingredient of ingredients" 
               [ngValue]="ingredient">{{ingredient.name}}</option>
           </select>
       </div>
-      <div class="col-sm-offset-2 col-sm-5">
-      <a href="../ingredient/add">Don't see your Ingredient? Click here to add.</a>
+      <div class="col-sm-offset-1 col-sm-5">
+        <div (click)="invokeIngredientDialog()">
+          <a>Don't see your Ingredient? Click here to add.</a>
+        </div>
       </div>
     </div>
 
@@ -29,7 +33,7 @@
       <label for="quantity" class="col-sm-2 control-label">Quantity</label>
       <div class="col-sm-2">
         <input ngModel #quantity="ngModel" type="text" class="form-control" id="quantity" name="quantity"
-          placeholder="e.g. 2" required minlength="2" maxlength="30">
+          placeholder="e.g. 2" required maxlength="10">
         <span *ngIf="formErrors.quantity" class="text-danger">
           {{ formErrors.quantity }}
         </span>
@@ -38,7 +42,7 @@
       <label for="unitOfMeasurement" class="col-sm-2 control-label">Unit</label>
       <div class="col-sm-2">
         <input [ngModel]="ingredientRecipe?.unitOfMeasurement" ngModel #unitOfMeasurement="ngModel" type="text" class="form-control" id="unitOfMeasurement" name="unitOfMeasurement"
-          placeholder="e.g. Cups" required minlength="2" maxlength="30">
+          placeholder="e.g. Cups">
         <span *ngIf="formErrors.unitOfMeasurement" class="text-danger">
           {{ formErrors.unitOfMeasurement }}
         </span>
@@ -46,12 +50,10 @@
     </div>
 
     <br>
-    <br>
-
+  
     <div class="form-group">
       <div class="col-sm-offset-9 col-sm-2">
-        <!-- <button [disabled]="!ingredientForm.form.valid" type="submit" class="btn btn-primary">Add</button> -->
-        <button type="submit" class="btn btn-primary">Add Ingredient</button>
+        <button [disabled]="!ingredientForm.form.valid" type="submit" class="btn btn-primary">Add</button>
         <br>
        
       </div>
@@ -61,6 +63,3 @@
 </div>
 
 </section>
-
-<br>
-<br>

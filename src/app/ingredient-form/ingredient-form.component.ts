@@ -5,6 +5,8 @@ import { NgForm} from '@angular/forms';
 import { DataService } from '../data.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
+import { IngredientDialogFormComponent } from '../ingredient-dialog-form/ingredient-dialog-form.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-ingredient-form',
@@ -22,21 +24,50 @@ export class IngredientFormComponent implements OnInit {
   errorMessage: string;
 
   ingredientRecipe: object;
+
+  
   ingredients;
+
+  mostRecentlyAddedIngredient: object;
   
   @Output() ingredientRecipeSubmitted = new EventEmitter();
 
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
+    this.getIngredients();
+  }
+
+  getIngredients(){
     this.dataService.getRecords("ingredients")
     .subscribe(
-      ingredients => this.ingredients = ingredients
-    );
+    ingredients => {
+      ingredients.sort(function (a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+        if (nameA < nameB) //sort string ascending
+          return -1
+        if (nameA > nameB)
+          return 1
+        return 0 //default return value (no sorting)
+      })
+
+      this.ingredients = ingredients;
+
+ 
+
+      if (this.mostRecentlyAddedIngredient){
+        console.log(this.mostRecentlyAddedIngredient["name"]);
+        this.ingredientForm.form.controls['ingredient'].setValue(this.mostRecentlyAddedIngredient);
+      }
+    
+
+    }
+  );
   }
 
   saveIngredientToTable(ingredientForm: NgForm) {
@@ -50,42 +81,63 @@ export class IngredientFormComponent implements OnInit {
 
     }
 
+    invokeIngredientDialog(){
+      let dialogRef = this.dialog.open(IngredientDialogFormComponent);
+      const sub = dialogRef.componentInstance.ingredientSubmitted.subscribe((ingredient) => {
+        this.mostRecentlyAddedIngredient = ingredient;
+        this.getIngredients();
+      });
+    }
+
+
 
     ngAfterViewChecked() {
       this.formChanged();
 
     }
 
-    formChanged() {
-      this.ingredientForm = this.currentForm;
-      this.ingredientForm.valueChanges
+  formChanged() {
+    this.ingredientForm = this.currentForm;
+    this.ingredientForm.valueChanges
       .subscribe(
-        data => this.onValueChanged()
+      data => this.onValueChanged()
       );
-    }
+  }
 
-    onValueChanged() {
-      let form = this.ingredientForm.form;
+  onValueChanged() {
+    let form = this.ingredientForm.form;
 
-      for (let field in this.formErrors) {
-        this.formErrors[field] = '';
-        const control = form.get(field);
+    for (let field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
 
-        if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
-          for (const key in control.errors) {
-            this.formErrors[field] += messages[key] + ' ';
-          }
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
         }
       }
-    }
-
-
-    formErrors = {
-    };
-
-    validationMessages = {
     }
   }
 
 
+    formErrors = {
+      'ingredient': '',
+      'quantity': '',
+      'unitOfMeasurement': '',
+    };
+
+    validationMessages = {
+      'ingredient': {
+        'required': 'Ingredient is required',
+        'maxlength': 'Ingredient name must be less than 50 characters'
+      },
+      'quantity': {
+        'required':'Ingredient quantity is needed',
+        'maxlength': 'Ingredient quantity must be less than 30 characters'
+     },
+     'unitOfMeasurement': {}
+  };
+
+}

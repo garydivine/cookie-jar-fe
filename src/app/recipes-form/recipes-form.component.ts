@@ -3,6 +3,8 @@ import { Component, OnInit, ViewChild }      from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location }               from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component'
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { DataService } from '../data.service'
 import { fadeInAnimation } from '../animations/fade-in.animation';
@@ -29,6 +31,7 @@ export class RecipesFormComponent implements OnInit {
     private dataService: DataService,
     private route: ActivatedRoute,
     private location: Location,
+    public dialog: MatDialog
   ) {}
 
   getRecordForEdit(){
@@ -100,6 +103,10 @@ export class RecipesFormComponent implements OnInit {
   }
 
   deleteIngredientItem(id: number){
+    let dialogRef = this.dialog.open(DeleteConfirmComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
         this.dataService.deleteRecord('ingredientToRecipe', id)
           .subscribe(
             deletedIngredientRecipe => {
@@ -122,7 +129,8 @@ export class RecipesFormComponent implements OnInit {
             }
            },
           error => this.errorMessage = <any>error);
-      
+          }
+        });
   }
 
   ngAfterViewChecked() {

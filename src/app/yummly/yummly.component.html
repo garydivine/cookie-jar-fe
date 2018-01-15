@@ -8,11 +8,13 @@
 
     <h2>Cookie Recipes</h2>
 
-    <form (ngSubmit)="getRecipesFromYummlyBasedOnQuery('christmascookies')"  #search="ngForm" class="form-inline pull-right">
+    <form (ngSubmit)="getRecipesFromYummlyBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
         <div class="form-group">
-          <input type="search" class="form-control" id="search" placeholder="eg: Christmas Cookies">
+          <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Oatmeal Raisin"/>
         </div>
-        <button class="btn btn-primary">Search</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
     </form>
 
     <br>
