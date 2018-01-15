@@ -3,7 +3,8 @@ body {
   }
 .navbar.navbar-inverse {
     border: none;
-    background-color: rgb(110, 69, 6) 
+    background-color: #69502F;
+    color: white
 }
 .navbar .navbar-brand {
     padding-top: 0px;
