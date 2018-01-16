@@ -29,8 +29,9 @@
                             <li *ngFor="let ingredient of data.recipeDetails.ingredientRecipeListItem">{{ingredient.quantity}} {{ingredient.unitOfMeasurement}} of {{ingredient.ingredient.name}}</li>
                         </ul>
                     </td>
-                    <td>{{data.recipeDetails.instructions}}</td>
-                    
+                    <td>
+                        <a href={{data.recipeDetails.instructions}}>{{data.recipeDetails.instructions}}</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
