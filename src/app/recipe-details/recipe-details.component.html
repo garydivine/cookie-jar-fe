@@ -16,6 +16,7 @@
                     <th>Bake Temperature</th>
                     <th>Ingredients</th>
                     <th>Instructions</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -23,14 +24,13 @@
                     <td>{{data.recipeDetails.yield}}</td>
                     <td>{{data.recipeDetails.time}}</td>
                     <td>{{data.recipeDetails.temp}}</td>
-                    <div *ngFor="let ingredient of data.recipeDetails.ingredientRecipeListItem">
-                        <td>
-                            <ul>
-                                <li>{{ingredient.quantity}} {{ingredient.unitOfMeasurement}} {{ingredient.ingredient.name}}</li>
-                            </ul>
-                        </td>
-                    </div>
+                    <td>
+                        <ul>
+                            <li *ngFor="let ingredient of data.recipeDetails.ingredientRecipeListItem">{{ingredient.quantity}} {{ingredient.unitOfMeasurement}} of {{ingredient.ingredient.name}}</li>
+                        </ul>
+                    </td>
                     <td>{{data.recipeDetails.instructions}}</td>
+                    
                 </tr>
             </tbody>
         </table>
