@@ -25,6 +25,7 @@ import { YummlyDetailsComponent } from './yummly-details/yummly-details.componen
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredient-dialog-form.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredie
     YummlyDetailsComponent,
     RecipeDetailsComponent,
     IngredientDialogFormComponent
+
   ],
   imports: [
     BrowserModule,
