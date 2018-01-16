@@ -27,8 +27,6 @@ export class IngredientFormComponent implements OnInit {
 
   
   ingredients;
-
-  mostRecentlyAddedIngredient: object;
   
   @Output() ingredientRecipeSubmitted = new EventEmitter();
 
@@ -57,13 +55,6 @@ export class IngredientFormComponent implements OnInit {
       })
 
       this.ingredients = ingredients;
-
- 
-
-      if (this.mostRecentlyAddedIngredient){
-        console.log(this.mostRecentlyAddedIngredient["name"]);
-        this.ingredientForm.form.controls['ingredient'].setValue(this.mostRecentlyAddedIngredient);
-      }
     
 
     }
@@ -78,13 +69,11 @@ export class IngredientFormComponent implements OnInit {
           error => this.errorMessage = <any>error
         );
           this.ingredientForm.form.reset();
-
     }
 
     invokeIngredientDialog(){
       let dialogRef = this.dialog.open(IngredientDialogFormComponent);
       const sub = dialogRef.componentInstance.ingredientSubmitted.subscribe((ingredient) => {
-        this.mostRecentlyAddedIngredient = ingredient;
         this.getIngredients();
       });
     }
@@ -93,7 +82,6 @@ export class IngredientFormComponent implements OnInit {
 
     ngAfterViewChecked() {
       this.formChanged();
-
     }
 
   formChanged() {

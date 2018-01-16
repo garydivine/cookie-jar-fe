@@ -31,16 +31,25 @@ export class IngredientDialogFormComponent implements OnInit {
   }
 
   saveIngredient(pantryForm: NgForm) {
+    this.successMessage = null;
+    this.errorMessage = null;
       this.dataService.addRecord("ingredients", pantryForm.value)
         .subscribe(
           ingredient => {
             this.successMessage = "Record added";
             this.ingredient = ingredient;
             this.ingredientSubmitted.emit(ingredient);
+            this.ingredient = {};
+            this.pantryForm.form.reset();
           },
-          error => this.errorMessage = "This ingredient already exists"
+          error => {
+            this.errorMessage = "This ingredient already exists";
+            this.ingredient = {};
+            this.pantryForm.form.reset();
+          }
         );
-        this.ingredient = {};
+        
+        
     }
 
     ngAfterViewChecked() {
