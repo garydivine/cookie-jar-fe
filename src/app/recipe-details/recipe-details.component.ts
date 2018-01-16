@@ -35,7 +35,7 @@ Ingredients:
 
   openUserMailClient(){
     for (let ingredientItem of this.data.recipeDetails.ingredientRecipeListItem) {
-      this.linkForEmail = this.linkForEmail + `${ingredientItem.quantity} ${ingredientItem.unitOfMeasurement} of ${ingredientItem.ingredient.name}%0D`
+      this.linkForEmail = this.linkForEmail + `${ingredientItem.quantity} ${ingredientItem.unitOfMeasurement} ${ingredientItem.ingredient.name}%0D`
     }
 
 
