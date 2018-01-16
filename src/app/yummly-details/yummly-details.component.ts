@@ -46,6 +46,7 @@ export class YummlyDetailsComponent implements OnInit {
     this.dataService.addRecord("recipes", this.recipe)
       .subscribe(
       recipe => {
+        this.successMessage = "Recipe added to My Cookie.Jar";
         this.recipe = recipe,
         error => this.errorMessage = <any>error
       });
