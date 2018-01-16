@@ -1,15 +1,22 @@
 body {
     padding-top: 70px;
   }
+
 .navbar.navbar-inverse {
     border: none;
     background-color: #69502F;
     color: white
 }
-.navbar .navbar-brand {
-    padding-top: 0px;
-}
+
 .navbar .navbar-brand img {
-    height: 50px;
-    color: white
+    margin-top: -12px;
+    margin-left: -25%;
+    border-radius: 90%;
+    height: 100px
+}
+
+@media only screen and (max-width: 1050px) {
+    #logo {
+        display: none;
+    }
 }
