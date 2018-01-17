@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { LoginService } from '../login.service';
 import { NgForm} from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   @Output() loginRequestSubmitted = new EventEmitter();
 
   constructor(
-    private loginService: LoginService
+    private loginService: LoginService,
+    public dialogRef: MatDialogRef<LoginComponent>
   ) { }
 
   loginUser(loginForm: NgForm) {

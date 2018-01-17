@@ -5,7 +5,6 @@ body {
 .navbar.navbar-inverse {
     border: none;
     background-color: #69502F;
-    color: white
 }
 
 .navbar .navbar-brand img {
@@ -13,6 +12,12 @@ body {
     margin-left: -25px;
     border-radius: 90%;
     height: 100px
+}
+
+.btn-info {
+    background-color: #97D7D9;
+    color: #F0EFC9;
+    font-size: 16px;
 }
 
 @media only screen and (max-width: 1050px) {

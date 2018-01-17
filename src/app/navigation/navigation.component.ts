@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-navigation',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
+
+  invokeLoginDialog() {
+    const dialogRef = this.dialog.open(LoginComponent);
+  }
 
   ngOnInit() {
   }
