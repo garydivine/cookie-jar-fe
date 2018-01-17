@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.loginService.loginUser('login', loginForm.value)
       .subscribe(
-      result => this.successMessage = 'Login successful for: ' + loginForm.value.username,
+      result => this.dialogRef.close(),
       error => this.errorMessage = <any>error,
     );
     this.dialogRef.afterClosed()
