@@ -30,7 +30,6 @@ export class LogoutComponent implements OnInit {
     this.dialogRef.afterClosed()
       .subscribe(
       result => {
-        console.log('Done');
         location.reload();
       });
   }
