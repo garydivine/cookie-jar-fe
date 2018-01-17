@@ -1,0 +1,8 @@
+<h2 md-dialog-title>Logout of MyCookie.jar</h2>
+<mat-dialog-content>Are you sure?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <div (click)="logoutUser()">
+    <button mat-button [mat-dialog-close]="true">Yes</button>
+  </div>
+</mat-dialog-actions>
