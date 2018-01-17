@@ -64,20 +64,24 @@ export class YummlyDetailsComponent implements OnInit {
 
             let quantity = this.findProperties(ingredientLine)["quantity"];
             if (quantity != null) {
-              quantity.trim();
+              quantity = quantity.trim();
             }
+            console.log(quantity);
             ingredientRecipe["quantity"] = quantity;
 
             let unitOfMeasurement = this.findProperties(ingredientLine)["measurement"];
             if (unitOfMeasurement != null) {
-              unitOfMeasurement.trim();
+              unitOfMeasurement = unitOfMeasurement.trim();
             }
+            console.log(unitOfMeasurement);
+
             ingredientRecipe["unitOfMeasurement"] = unitOfMeasurement
 
             let ingredientStringFromApi: string = this.findProperties(ingredientLine)["ingredientName"];
             if (ingredientStringFromApi != null) {
-                ingredientStringFromApi.trim();
+              ingredientStringFromApi = ingredientStringFromApi.trim();
             }
+            console.log(ingredientStringFromApi);
 
             this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
           }
