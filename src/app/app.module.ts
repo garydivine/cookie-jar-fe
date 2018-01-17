@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { StatusMessageComponent } from './status-message/status-message.component';
 import { DataService } from './data.service';
+import { LoginService } from './login.service';
 import { AppRoutingModule } from './routing/routing.module';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
@@ -20,6 +21,7 @@ import { RecipesFormComponent } from './recipes-form/recipes-form.component';
 
 import { YummlyService } from './yummly.service';
 import { YummlyComponent } from './yummly/yummly.component';
+import { LoginComponent } from './login/login.component';
 import { PantryFormComponent } from './pantry-form/pantry-form.component';
 import { YummlyDetailsComponent } from './yummly-details/yummly-details.component';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
@@ -40,7 +42,8 @@ import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredie
     PantryFormComponent,
     YummlyDetailsComponent,
     RecipeDetailsComponent,
-    IngredientDialogFormComponent
+    IngredientDialogFormComponent,
+    LoginComponent
 
   ],
   imports: [
@@ -59,7 +62,8 @@ import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredie
   ],
   providers: [
     DataService,
-    YummlyService
+    YummlyService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

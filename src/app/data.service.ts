@@ -10,10 +10,10 @@ import 'rxjs/add/operator/map';
 export class DataService {
 
   private baseUrl = 'http://localhost:8080/api/';
-  private headers = new Headers({ 'Content-Type': 'application/json' });
-  private options = new RequestOptions({ headers: this.headers, withCredentials: true });
 
   constructor(private http: Http) { }
+  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private options = new RequestOptions({ headers: this.headers, withCredentials: true });
 
   getRecords(endpoint: string): Observable<any[]> {
     const apiUrl = this.baseUrl + endpoint;
@@ -63,7 +63,6 @@ export class DataService {
   }
 
   private handleError(error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
     if (typeof error._body === 'string') {
       errMsg = error._body;

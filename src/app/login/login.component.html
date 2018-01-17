@@ -1,0 +1,35 @@
+<section @fadeInAnimation>
+
+  <ol class="breadcrumb">
+    <li>
+      <a routerLink="/home">Home</a>
+    </li>
+    <li class="active">Login</li>
+  </ol>
+
+  <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
+
+  <h3>Login to MyCookie.jar:</h3>
+
+  <br>
+
+  <form (ngSubmit)="loginUser(loginForm)" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input ngModel #loginForm.username="ngModel" type="text" class="form-control" id="username" name="username" placeholder="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input ngModel #loginForm.password="ngModel" type="password" class="form-control" id="password" name="password" placeholder="password">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"> Remember Me
+      </label>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+  </form>
+
+</section>
