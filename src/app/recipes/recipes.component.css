@@ -6,3 +6,8 @@
     background-color: #97D7D9;
     color: white;
 }
+td{
+overflow: hidden;
+max-width:350px;
+word-wrap: break-word;
+}
