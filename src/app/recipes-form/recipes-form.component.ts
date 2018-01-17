@@ -52,7 +52,7 @@ export class RecipesFormComponent implements OnInit {
       this.dataService.editRecord("recipes", recipeForm.value, recipeForm.value.id)
           .subscribe(
             recipe => { 
-              this.successMessage = "Record updated successfully";
+              this.successMessage = "Cookie recipe updated successfully";
               this.recipe = recipe;
               for (let ingredientRecipe of this.ingredientQueue) {
                 this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
@@ -70,7 +70,7 @@ export class RecipesFormComponent implements OnInit {
       this.dataService.addRecord("recipes", recipeForm.value)
           .subscribe(
             recipe => {
-              this.successMessage = "Record added successfully";
+              this.successMessage = "Cookie added to your Cookie.Jar!";
               this.recipe = recipe;
               for (let ingredientRecipe of this.ingredientQueue) {
                 this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);

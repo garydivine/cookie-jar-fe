@@ -1,0 +1,9 @@
+.btn-primary {
+    background-color: #69502F;
+    color: white
+}
+
+#ingredientSection{
+    border: 2px solid black;
+    border-radius: 25px;
+}

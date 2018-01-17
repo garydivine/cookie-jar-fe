@@ -1,6 +1,8 @@
 <div>
     
-    <button mat-button [mat-dialog-close]="true" class="btn btn-danger pull-right">Close</button>
+    <button mat-button [mat-dialog-close]="true" class="btn btn-danger pull-right">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button>
 
     <h2 md-dialog-title>{{data.recipeDetails.name}}</h2>
 
@@ -14,6 +16,7 @@
                     <th>Bake Temperature</th>
                     <th>Ingredients</th>
                     <th>Instructions</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -21,19 +24,21 @@
                     <td>{{data.recipeDetails.yield}}</td>
                     <td>{{data.recipeDetails.time}}</td>
                     <td>{{data.recipeDetails.temp}}</td>
-                    <div *ngFor="let ingredient of data.recipeDetails.ingredientRecipeListItem">
-                        <td>
-                            <ul>
-                                <li>{{ingredient.quantity}} {{ingredient.unitOfMeasurement}} of {{ingredient.ingredient.name}}</li>
-                            </ul>
-                        </td>
-                    </div>
-                    <td>{{data.recipeDetails.instructions}}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let ingredient of data.recipeDetails.ingredientRecipeListItem">{{ingredient.quantity}} {{ingredient.unitOfMeasurement}} of {{ingredient.ingredient.name}}</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a href={{data.recipeDetails.instructions}}>{{data.recipeDetails.instructions}}</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <div class="text-right">
-            <button class="btn btn-primary">Email This Recipe</button>
+        <div class="text-center">
+            <button class="btn btn-primary" (click)="openUserMailClient()">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>  Email This
+            </button>
         </div>
     </mat-dialog-content>
 

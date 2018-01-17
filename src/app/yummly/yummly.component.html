@@ -44,7 +44,9 @@
                     <img src={{recipe.smallImageUrls}}/>
                 </td>
                 <td>
-                    <button (click)="getRecipeDetailsFromYummly(recipe.id)" class="btn btn-primary">Recipe Details</button>
+                    <button (click)="getRecipeDetailsFromYummly(recipe.id)" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </button>
                 </td>
             </tr>
         </tbody>

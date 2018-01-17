@@ -1,7 +1,7 @@
 <section @fadeInAnimation>
   <ol class="breadcrumb">
       <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/recipe">Recipes</a></li>
+      <li><a routerLink="/recipe" > My Cookie.Jar</a></li>
       <li class="active">Add or Update Recipe</li>
   </ol>
 
@@ -24,7 +24,7 @@
 
     <div [hidden]="ingredientQueue.length === 0 && !recipe?.id">
       <h4>Ingredients In Recipe</h4>
-      <table class="table table-striped table-bordered" style="width:100%">
+      <table class="table table-striped table-bordered table-hover" style="width:100%">
           <thead>
             <tr>
               <th>Name</th>
@@ -39,7 +39,9 @@
                   <td>{{ingredientItem.quantity}}</td>
                   <td>{{ingredientItem.unitOfMeasurement}}</td>
                   <td class="text-center">
-                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">Delete</button>
+                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </button>
                   </td>
               </tr>
               <tr *ngFor="let ingredientItem of ingredientQueue">
@@ -47,7 +49,9 @@
                   <td>{{ingredientItem.quantity}}</td>
                   <td>{{ingredientItem.unitOfMeasurement}}</td>
                   <td class="text-center">
-                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">Delete</button>
+                      <button  type="button" (click)="deleteIngredientItem(ingredientItem.id)" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </button>
                   </td>
                 </tr>
           </tbody>
@@ -69,7 +73,7 @@
     
       <label for="time" class="col-sm-2 control-label">For</label>
       <div class="col-sm-2">
-        <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="number" class="form-control" id="time" name="time"  placeholder="e.g. 12">
+        <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="text" class="form-control" id="time" name="time"  placeholder="e.g. 12">
         <span *ngIf="formErrors.time" class="text-danger">
           {{ formErrors.time }}
         </span>
