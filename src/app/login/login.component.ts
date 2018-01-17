@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { LoginService } from '../login.service';
-import { NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
@@ -27,9 +27,19 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.loginService.loginUser('login', loginForm.value)
       .subscribe(
-        result => this.successMessage = 'Login successful for: ' + loginForm.value.username,
-        error => this.errorMessage = <any>error,
-      );
+      result => this.successMessage = 'Login successful for: ' + loginForm.value.username,
+      error => this.errorMessage = <any>error,
+    );
+    this.dialogRef.afterClosed()
+      .subscribe(
+      result => {
+        console.log('Done');
+        location.reload();
+      });
+  }
+
+  afterClosed() {
+    this.ngOnInit();
   }
 
   ngOnInit() {
