@@ -19,15 +19,9 @@ export class YummlyDetailsComponent implements OnInit {
 
   existingIngredients;
 
-  ingredientRecipe: object = {
-    unitOfMeasurement: "",
-    quantity: "",
-    ingredient: {}
-  };
 
 
-
-  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce)(?:s|es)?\.?)?\b(.+)/i
+  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz)(?:s|es)?\.?)?\b(.+)/i
 
   successMessage: string;
   errorMessage: string;
@@ -45,6 +39,8 @@ export class YummlyDetailsComponent implements OnInit {
 
   saveYummlyRecipeToCookieJar(){
 
+    console.log("Yummly Recipe" + this.data.yummlyRecipeDetails.ingredientLines);
+
     this.recipe = {
       name:         this.data.yummlyRecipeDetails.name,
       instructions: this.data.yummlyRecipeDetails.source.sourceRecipeUrl,
@@ -60,38 +56,73 @@ export class YummlyDetailsComponent implements OnInit {
           this.recipe = recipe;
           // Adding Ingredient Line Items to Recipe that was just created
           for (let ingredientLine of this.data.yummlyRecipeDetails.ingredientLines) {
-            this.ingredientRecipe["quantity"] = this.findProperties(ingredientLine)["quantity"];
-            this.ingredientRecipe["unitOfMeasurement"] = this.findProperties(ingredientLine)["measurement"];
+            let ingredientRecipe: object = {
+              unitOfMeasurement: "",
+              quantity: "",
+              ingredient: {}
+            };
+
+            let quantity = this.findProperties(ingredientLine)["quantity"];
+            if (quantity != null) {
+              quantity.trim();
+            }
+            ingredientRecipe["quantity"] = quantity;
+
+            let unitOfMeasurement = this.findProperties(ingredientLine)["measurement"];
+            if (unitOfMeasurement != null) {
+              unitOfMeasurement.trim();
+            }
+            ingredientRecipe["unitOfMeasurement"] = unitOfMeasurement
+
             let ingredientStringFromApi: string = this.findProperties(ingredientLine)["ingredientName"];
-            this.saveIngredient(ingredientStringFromApi);
+            if (ingredientStringFromApi != null) {
+                ingredientStringFromApi.trim();
+            }
+
+            this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
           }
         },
         error => this.errorMessage = <any>error
       );
   }
 
-  saveIngredient(ingredientStringFromApi: string) {
+  saveIngredient(ingredientStringFromApi: string, ingredientRecipe: object) {
     //console.log(ingredientRecipe)
-    console.log(this.recipe["id"])
+    //console.log(this.recipe["id"])
     let ingredientToAdd = {
       name: ""
     }
 
     let wasFound: boolean = false;
+    let foundIngredient;
 
     for (let existingIngredient of this.existingIngredients){
       if(existingIngredient.name.toUpperCase() === ingredientStringFromApi.toUpperCase()){
         wasFound = true;
+        foundIngredient = existingIngredient;
       }
     }
+
+    if(wasFound) {
+      this.dataService.addRecord("ingredients", foundIngredient)
+        .subscribe(
+        ingredient => {
+          ingredientRecipe["ingredient"] = ingredient;
+          this.addIngredientLineItemToRecipe(ingredientRecipe);
+        },
+        error => {
+        }
+      );
+    }
+    
 
     if(!wasFound) {
       ingredientToAdd.name = ingredientStringFromApi;
       this.dataService.addRecord("ingredients", ingredientToAdd)
       .subscribe(
         ingredient => {
-          this.ingredientRecipe["ingredient"] = ingredient;
-          this.addIngredientLineItemToRecipe();
+          ingredientRecipe["ingredient"] = ingredient;
+          this.addIngredientLineItemToRecipe(ingredientRecipe);
         },
         error => {
         }
@@ -99,8 +130,8 @@ export class YummlyDetailsComponent implements OnInit {
     }
   }
 
-  addIngredientLineItemToRecipe(){
-    this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], this.ingredientRecipe)
+  addIngredientLineItemToRecipe(ingredientRecipe: object){
+    this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
         .subscribe(
           recipe => {},
           error => this.errorMessage = <any>error
