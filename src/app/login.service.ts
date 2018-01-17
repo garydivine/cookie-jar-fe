@@ -9,15 +9,15 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class LoginService {
 
-  private baseUrl = 'http://localhost:8080/session/';
+  private baseUrl = 'http://localhost:8080/api/session/';
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers, withCredentials: true });
 
   constructor(private http: Http) { }
 
-  loginUser(endpoint: String, record: any): Observable<object> {
+  loginUser(endpoint: String, record: any): Observable<any> {
       const apiUrl = `${this.baseUrl}${endpoint}`;
-      return this.http.post(apiUrl, this.options)
+      return this.http.put(apiUrl, record, this.options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -29,7 +29,9 @@ export class LoginService {
 
   private handleError(error: Response | any) {
     let errMsg: string;
-    if (typeof error._body === 'string') {
+    if (error.status === 403) {
+      errMsg = 'Invalid Credentials';
+    } else if (typeof error._body === 'string') {
       errMsg = error._body;
     } else {
       if (error instanceof Response) {

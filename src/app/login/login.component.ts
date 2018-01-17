@@ -22,13 +22,12 @@ export class LoginComponent implements OnInit {
   ) { }
 
   loginUser(loginForm: NgForm) {
+    this.errorMessage = '';
     this.loginService.loginUser('login', loginForm.value)
       .subscribe(
-        result =>
-        this.loginRequestSubmitted.emit(result),
-        error => this.errorMessage = <any>error
+        result => this.successMessage = 'Login successful for: ' + loginForm.value.username,
+        error => this.errorMessage = <any>error,
       );
-        this.loginForm.form.reset();
   }
 
   ngOnInit() {
