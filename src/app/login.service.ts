@@ -16,8 +16,15 @@ export class LoginService {
   constructor(private http: Http) { }
 
   loginUser(endpoint: String, record: any): Observable<any> {
-      const apiUrl = `${this.baseUrl}${endpoint}`;
-      return this.http.put(apiUrl, record, this.options)
+    const apiUrl = `${this.baseUrl}${endpoint}`;
+    return this.http.put(apiUrl, record, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  logoutUser(endpoint: String): Observable<any> {
+    const apiUrl = `${this.baseUrl}${endpoint}`;
+    return this.http.delete(apiUrl, this.options)
       .map(this.extractData)
       .catch(this.handleError);
   }

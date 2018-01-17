@@ -26,6 +26,7 @@ import { PantryFormComponent } from './pantry-form/pantry-form.component';
 import { YummlyDetailsComponent } from './yummly-details/yummly-details.component';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredient-dialog-form.component';
+import { LogoutComponent } from './logout/logout.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredie
     YummlyDetailsComponent,
     RecipeDetailsComponent,
     IngredientDialogFormComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
 
   ],
   imports: [

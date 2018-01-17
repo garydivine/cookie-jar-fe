@@ -1,15 +1,14 @@
 <section @fadeInAnimation>
 
-  <ol class="breadcrumb">
-    <li>
-      <a routerLink="/home">Home</a>
-    </li>
-    <li class="active">Login</li>
-  </ol>
+  <button mat-button [mat-dialog-close]="true" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  </button>
+    
+  <h3 md-dialog-title>Login to MyCookie.jar</h3>
+  
+  <mat-dialog-content>
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
-
-  <h3>Login to MyCookie.jar:</h3>
 
   <br>
 
@@ -31,5 +30,7 @@
       <button type="submit" class="btn btn-primary">Login</button>
     </div>
   </form>
+
+  </mat-dialog-content>
 
 </section>

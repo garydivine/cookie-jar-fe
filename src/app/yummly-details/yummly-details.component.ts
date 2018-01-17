@@ -16,62 +16,119 @@ export class YummlyDetailsComponent implements OnInit {
     "yield": "",
     "time": "",
   };
- 
-  ingredientQueue: Array<object> = [];
-  ingredient: string;
+
+  existingIngredients;
+
   ingredientRecipe: object = {
-    // "unitOfMeasurement": "",
-    "quantity": "",
-    // "ingredient": "",
-  }
-    ;
+    unitOfMeasurement: "",
+    quantity: "",
+    ingredient: {}
+  };
+
+
+
+  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce)(?:s|es)?\.?)?\b(.+)/i
 
   successMessage: string;
   errorMessage: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dataService: DataService) { }
 
+  getExistingIngredients() {
+    this.dataService.getRecords("ingredients")
+    .subscribe(
+    ingredients => {
+      this.existingIngredients = ingredients;
+    }
+  );
+  }
+
   saveYummlyRecipeToCookieJar(){
 
-    this.recipe["name"] = this.data.yummlyRecipeDetails["name"];
-    this.recipe["instructions"] = this.data.yummlyRecipeDetails["source"]["sourceRecipeUrl"];
-    this.recipe["temp"] = "See Instructions";
-    this.recipe["yield"] =this.data.yummlyRecipeDetails["numberOfServings"];
-    this.recipe["time"] = this.data.yummlyRecipeDetails["totalTime"];
+    this.recipe = {
+      name:         this.data.yummlyRecipeDetails.name,
+      instructions: this.data.yummlyRecipeDetails.source.sourceRecipeUrl,
+      temp:         "See Instructions",
+      yield:        this.data.yummlyRecipeDetails.numberOfServings,
+      time:         this.data.yummlyRecipeDetails.totalTime
+    };
 
     this.dataService.addRecord("recipes", this.recipe)
       .subscribe(
-      recipe => {
-        this.successMessage = "Recipe added to My Cookie.Jar";
-        this.recipe = recipe;
-        let index = 0;
-        for (let ingredient of this.data.yummlyRecipeDetails.ingredientLines) {
-          this.ingredientRecipe["quantity"] = this.data.yummlyRecipeDetails.ingredientLines[index]
-          this.saveIngredientItemToRecipe(this.ingredientRecipe, this.recipe);
-          index = index + 1;
-        }
+        recipe => {
+          this.successMessage = "Recipe added to My Cookie.Jar";
+          this.recipe = recipe;
+          // Adding Ingredient Line Items to Recipe that was just created
+          for (let ingredientLine of this.data.yummlyRecipeDetails.ingredientLines) {
+            this.ingredientRecipe["quantity"] = this.findProperties(ingredientLine)["quantity"];
+            this.ingredientRecipe["unitOfMeasurement"] = this.findProperties(ingredientLine)["measurement"];
+            let ingredientStringFromApi: string = this.findProperties(ingredientLine)["ingredientName"];
+            this.saveIngredient(ingredientStringFromApi);
+          }
+        },
         error => this.errorMessage = <any>error
-      });
+      );
   }
 
-  saveIngredientItemToRecipe(ingredientRecipe, recipe) {
-    console.log(ingredientRecipe)
+  saveIngredient(ingredientStringFromApi: string) {
+    //console.log(ingredientRecipe)
     console.log(this.recipe["id"])
-    this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], this.ingredientRecipe)
+    let ingredientToAdd = {
+      name: ""
+    }
+
+    let wasFound: boolean = false;
+
+    for (let existingIngredient of this.existingIngredients){
+      if(existingIngredient.name.toUpperCase() === ingredientStringFromApi.toUpperCase()){
+        wasFound = true;
+      }
+    }
+
+    if(!wasFound) {
+      ingredientToAdd.name = ingredientStringFromApi;
+      this.dataService.addRecord("ingredients", ingredientToAdd)
       .subscribe(
-      recipe => { }
-      ,
-      error => this.errorMessage = <any>error);
+        ingredient => {
+          this.ingredientRecipe["ingredient"] = ingredient;
+          this.addIngredientLineItemToRecipe();
+        },
+        error => {
+        }
+      );
+    }
   }
 
- 
-    formErrors = {};
-    validationMessages = {};
+  addIngredientLineItemToRecipe(){
+    this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], this.ingredientRecipe)
+        .subscribe(
+          recipe => {},
+          error => this.errorMessage = <any>error
+        );
 
-  
+    }
+
+  findProperties(ingredientString: string): object {
+    let matches = ingredientString.match(this.ingredientPattern)
+
+    console.log(`On ${ingredientString}, we matched: `, matches)
+    if (matches == null) {
+      // do error handling
+      matches = [null, null, null]
+    }
+    
+    return ({
+      quantity:    matches[1] || null,
+      measurement: matches[2] || null,
+      ingredientName:  matches[3]
+    })
+  }
+ 
+  formErrors = {};
+  validationMessages = {};
+
   ngOnInit() {
-    
-    
+    this.getExistingIngredients();
   }
 
 

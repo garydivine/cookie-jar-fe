@@ -5,29 +5,26 @@ import { NgForm} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.css'],
   animations: [fadeInAnimation]
 })
-export class LoginComponent implements OnInit {
+export class LogoutComponent implements OnInit {
 
   loginForm: NgForm;
   successMessage: string;
   errorMessage: string;
 
-  @Output() loginRequestSubmitted = new EventEmitter();
-
   constructor(
     private loginService: LoginService,
-    public dialogRef: MatDialogRef<LoginComponent>
+    public dialogRef: MatDialogRef<LogoutComponent>
   ) { }
 
-  loginUser(loginForm: NgForm) {
-    this.errorMessage = '';
-    this.loginService.loginUser('login', loginForm.value)
+  logoutUser() {
+    this.loginService.logoutUser('login')
       .subscribe(
-        result => this.successMessage = 'Login successful for: ' + loginForm.value.username,
+        result => this.successMessage = 'Logout successful',
         error => this.errorMessage = <any>error,
       );
   }
