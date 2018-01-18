@@ -9,9 +9,48 @@ table {
 }
 
 /* Customize container */
+@media (min-width: 200px) {
+    .container {
+        max-width: 599px;
+    }
+    .btn-primary {
+        background-color: #69502F;
+        color: white
+    }
+    .btn-info {
+        background-color: #97D7D9;
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #BA9765;
+        color: white
+    }
+    .btn-info:hover {
+        background-color: #B6D3D2;
+        color: white;
+    }
+}
+
+/* Customize container */
 @media (min-width: 600px) {
     .container {
         max-width: 768px;
+    }
+    .btn-primary {
+        background-color: #69502F;
+        color: white
+    }
+    .btn-info {
+        background-color: #97D7D9;
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #BA9765;
+        color: white
+    }
+    .btn-info:hover {
+        background-color: #B6D3D2;
+        color: white;
     }
 }
 /* Customize container */
