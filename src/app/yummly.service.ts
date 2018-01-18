@@ -47,9 +47,16 @@ export class YummlyService {
       });
   }
 
-  // Search for recipes based on a passed query parameter
-  searchForRecipes(endpoint: string): Observable<any> {
-    const apiUrl = `${this.recipesUrl}${this.apiSpec}&q=${endpoint}`;
+  // Search for recipes based on a passed query parameters
+  searchForRecipes(userInputWords): Observable<any> {
+    let endpoint ="";
+    // Loop through userInputWords array and add to the end of endpoint
+    for (let word of userInputWords){
+      endpoint = `${endpoint}&q=${word}`
+    }
+    
+    // Build out the url and tack the word cookies on the end
+    const apiUrl = `${this.recipesUrl}${this.apiSpec}${endpoint}&q=cookies&maxResult=30`;
     return this.http.get(apiUrl)
     .map(result => {
       return result.json();
