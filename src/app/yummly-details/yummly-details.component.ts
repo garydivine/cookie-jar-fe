@@ -142,7 +142,6 @@ export class YummlyDetailsComponent implements OnInit {
           recipe => {console.log(this.ingredientsThatErrored)},
           error => this.errorMessage = <any>error
         );
-
     }
 
     updateRecipe(){
