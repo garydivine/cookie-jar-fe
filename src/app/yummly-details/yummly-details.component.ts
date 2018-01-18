@@ -24,7 +24,7 @@ export class YummlyDetailsComponent implements OnInit {
 
 
 
-  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick)(?:s|es)?\.?)?\b(.+)/i
+  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram)(?:s|es)?\.?)?\b(.+)/i
 
   successMessage: string;
   errorMessage: string;
@@ -52,7 +52,7 @@ export class YummlyDetailsComponent implements OnInit {
     this.dataService.addRecord("recipes", this.recipe)
       .subscribe(
         recipe => {
-          this.successMessage = "Recipe added to My Cookie.Jar";
+          this.successMessage = "Recipe added to your Cookie Jar";
           this.recipe = recipe;
           // Adding Ingredient Line Items to Recipe that was just created
           for (let ingredientLine of this.data.yummlyRecipeDetails.ingredientLines) {
@@ -64,24 +64,18 @@ export class YummlyDetailsComponent implements OnInit {
 
             let quantity = this.findProperties(ingredientLine)["quantity"];
             if (quantity != null) {
-              //quantity = quantity.trim();
               quantity = quantity.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
-            console.log(quantity);
             ingredientRecipe["quantity"] = quantity;
 
             let unitOfMeasurement = this.findProperties(ingredientLine)["measurement"];
             if (unitOfMeasurement != null) {
-              //unitOfMeasurement = unitOfMeasurement.trim();
               unitOfMeasurement = unitOfMeasurement.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
-            console.log(unitOfMeasurement);
-
             ingredientRecipe["unitOfMeasurement"] = unitOfMeasurement
 
             let ingredientStringFromApi: string = this.findProperties(ingredientLine)["ingredientName"];
             if (ingredientStringFromApi != null) {
-              //ingredientStringFromApi = ingredientStringFromApi.trim();
               ingredientStringFromApi = ingredientStringFromApi.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
 
@@ -91,15 +85,23 @@ export class YummlyDetailsComponent implements OnInit {
               this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
             }
           }
-          this.dialogRef.close()
+          
+          if (this.ingredientsThatErrored.length > 0) {
+            this.successMessage = `${this.successMessage}. However, there was at least one ingredient we were not able to add for you. 
+            Please see the instructions section of the recipe you just added to see those ingredients and add them to your recipe.`
+            this.updateRecipe();
+          }
+
+          this.dialogRef.close(this.successMessage);
         },
-        error => this.errorMessage = <any>error
+        error => {
+          this.errorMessage = <any>error;
+          this.dialogRef.close(this.errorMessage)
+        }
       );
   }
 
   saveIngredient(ingredientStringFromApi: string, ingredientRecipe: object) {
-    //console.log(ingredientRecipe)
-    //console.log(this.recipe["id"])
     let ingredientToAdd = {
       name: ""
     }
@@ -108,7 +110,7 @@ export class YummlyDetailsComponent implements OnInit {
     let foundIngredient;
 
     for (let existingIngredient of this.existingIngredients){
-      if(existingIngredient.name.toUpperCase() === ingredientStringFromApi.toUpperCase()){
+      if(existingIngredient.name.toLowerCase() === ingredientStringFromApi.toLowerCase()){
         wasFound = true;
         foundIngredient = existingIngredient;
       }
@@ -121,7 +123,7 @@ export class YummlyDetailsComponent implements OnInit {
     
 
     if(!wasFound) {
-      ingredientToAdd.name = ingredientStringFromApi;
+      ingredientToAdd.name = ingredientStringFromApi.toLowerCase();
       this.dataService.addRecord("ingredients", ingredientToAdd)
       .subscribe(
         ingredient => {
@@ -141,6 +143,22 @@ export class YummlyDetailsComponent implements OnInit {
           error => this.errorMessage = <any>error
         );
 
+    }
+
+    updateRecipe(){
+      this.recipe["instructions"] = `${this.recipe["instructions"]} Here are the ingredients we were not able to add for you: `
+
+          for (let ingredientError of this.ingredientsThatErrored){
+            this.recipe["instructions"] = `${this.recipe["instructions"]} ${ingredientError}. `
+
+          }
+      this.dataService.editRecord("recipes", this.recipe, this.recipe["id"])
+          .subscribe(
+            recipe => { 
+              this.recipe = recipe;
+          },
+            error => this.errorMessage = <any>error
+          );
     }
 
   findProperties(ingredientString: string): object {

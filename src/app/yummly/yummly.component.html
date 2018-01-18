@@ -8,6 +8,8 @@
 
     <h2>Cookie Recipes</h2>
 
+    <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
+
     <form (ngSubmit)="getRecipesFromYummlyBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
         <div class="form-group">
           <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Oatmeal Raisin"/>
