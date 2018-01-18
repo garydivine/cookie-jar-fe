@@ -16,6 +16,7 @@
             <tr>
                 <th>Number of Servings</th>
                 <th>Ingredients</th>
+                <th>Instructions</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                         </ul>
                     </td>
                 </div>
+                <td><div [innerHtml]="data.yummlyRecipeDetails.source.sourceRecipeUrl | linkify"></div></td>
             </tr>
         </tbody>
     </table>
