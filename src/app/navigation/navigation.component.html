@@ -17,6 +17,8 @@
                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/recipe">{{user.firstName}}'s Cookie.Jar</a></li>
                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/recipe/add">Add Recipe</a></li>
                 <li routerLinkActive="active"><a routerLink="/yummly" >Cookie Ideas</a></li>
+                <li routerLinkActive="active"><a routerLink="/ingredient/delete">Delete Ingredients</a>
+                </li>
             </ul>
             <div (click)="invokeLogoutDialog()">
                 <button class="btn btn-info">Logout</button>
