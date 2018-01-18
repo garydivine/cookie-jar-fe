@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import { DataService } from '../data.service';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-yummly-details',
@@ -19,14 +20,16 @@ export class YummlyDetailsComponent implements OnInit {
 
   existingIngredients;
 
+  ingredientsThatErrored = [];
 
 
-  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz)(?:s|es)?\.?)?\b(.+)/i
+
+  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick)(?:s|es)?\.?)?\b(.+)/i
 
   successMessage: string;
   errorMessage: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dataService: DataService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dataService: DataService, public dialogRef: MatDialogRef<YummlyDetailsComponent>) { }
 
   getExistingIngredients() {
     this.dataService.getRecords("ingredients")
@@ -38,9 +41,6 @@ export class YummlyDetailsComponent implements OnInit {
   }
 
   saveYummlyRecipeToCookieJar(){
-
-    console.log("Yummly Recipe" + this.data.yummlyRecipeDetails.ingredientLines);
-
     this.recipe = {
       name:         this.data.yummlyRecipeDetails.name,
       instructions: this.data.yummlyRecipeDetails.source.sourceRecipeUrl,
@@ -64,14 +64,16 @@ export class YummlyDetailsComponent implements OnInit {
 
             let quantity = this.findProperties(ingredientLine)["quantity"];
             if (quantity != null) {
-              quantity = quantity.trim();
+              //quantity = quantity.trim();
+              quantity = quantity.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
             console.log(quantity);
             ingredientRecipe["quantity"] = quantity;
 
             let unitOfMeasurement = this.findProperties(ingredientLine)["measurement"];
             if (unitOfMeasurement != null) {
-              unitOfMeasurement = unitOfMeasurement.trim();
+              //unitOfMeasurement = unitOfMeasurement.trim();
+              unitOfMeasurement = unitOfMeasurement.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
             console.log(unitOfMeasurement);
 
@@ -79,11 +81,17 @@ export class YummlyDetailsComponent implements OnInit {
 
             let ingredientStringFromApi: string = this.findProperties(ingredientLine)["ingredientName"];
             if (ingredientStringFromApi != null) {
-              ingredientStringFromApi = ingredientStringFromApi.trim();
+              //ingredientStringFromApi = ingredientStringFromApi.trim();
+              ingredientStringFromApi = ingredientStringFromApi.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
 
-            this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
+            if(ingredientStringFromApi == null){
+              this.ingredientsThatErrored.push(ingredientLine);
+            } else {
+              this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
+            }
           }
+          this.dialogRef.close()
         },
         error => this.errorMessage = <any>error
       );
@@ -129,7 +137,7 @@ export class YummlyDetailsComponent implements OnInit {
   addIngredientLineItemToRecipe(ingredientRecipe: object){
     this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
         .subscribe(
-          recipe => {},
+          recipe => {console.log(this.ingredientsThatErrored)},
           error => this.errorMessage = <any>error
         );
 

@@ -15,6 +15,7 @@ export class LogoutComponent implements OnInit {
   loginForm: NgForm;
   successMessage: string;
   errorMessage: string;
+  user: any;
 
   constructor(
     private loginService: LoginService,
@@ -22,6 +23,7 @@ export class LogoutComponent implements OnInit {
   ) { }
 
   logoutUser() {
+    localStorage.clear();
     this.loginService.logoutUser('login')
       .subscribe(
       result => this.successMessage = 'Logout successful',

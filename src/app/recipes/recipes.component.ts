@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DataService } from '../data.service';
 import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
+import { DeleteCookiesComponent } from '../delete-cookies/delete-cookies.component';
 import { RecipeDetailsComponent } from '../recipe-details/recipe-details.component';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { NgForm } from '@angular/forms';
@@ -69,7 +70,7 @@ export class RecipesComponent implements OnInit {
 
   deleteRecipe(id: number) {
 
-    const dialogRef = this.dialog.open(DeleteConfirmComponent);
+    const dialogRef = this.dialog.open(DeleteCookiesComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
