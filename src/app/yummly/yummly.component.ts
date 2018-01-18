@@ -15,8 +15,10 @@ export class YummlyComponent implements OnInit {
 
   yummlyRecipes: any[];
   yummlyRecipeDetails: any[];
-  errorMessage: string;
   query: NgForm;
+
+  successMessage: string;
+  errorMessage: string;
 
   @Output() querySubmitted = new EventEmitter();
 
@@ -43,7 +45,14 @@ export class YummlyComponent implements OnInit {
         const dialogRef = this.dialog.open(YummlyDetailsComponent, {
           data: { yummlyRecipeDetails: this.yummlyRecipeDetails },
         });
-        dialogRef.afterOpen().subscribe();
+        //dialogRef.afterOpen().subscribe();
+        dialogRef.afterClosed().subscribe(message => {
+          this.successMessage = message;
+        }
+
+
+
+        );
       },
       error => this.errorMessage = <any>error
       );

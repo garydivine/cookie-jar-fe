@@ -8,6 +8,8 @@
 
     <h2>Cookie Recipes</h2>
 
+    <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
+
     <form (ngSubmit)="getRecipesFromYummlyBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
         <div class="form-group">
           <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Oatmeal Raisin"/>
@@ -30,7 +32,7 @@
             <tr>
                 <th>Name</th>
                 <th>Prep Time</th>
-                <th>Stars</th>
+                <th>Rating</th>
                 <th>Picture</th>
                 <th></th>
             </tr>
@@ -39,7 +41,11 @@
             <tr *ngFor="let recipe of yummlyRecipes">
                 <td>{{recipe.recipeName}}</td>
                 <td>{{recipe.totalTimeInSeconds / 60}} minutes</td>
-                <td>{{recipe.rating}}</td>
+                <td>
+                    <div class="star-ratings-sprite">
+                        <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"> </div>
+                    </div>
+                </td>
                 <td>
                     <img src={{recipe.smallImageUrls}}/>
                 </td>

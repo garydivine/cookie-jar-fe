@@ -65,7 +65,7 @@
     <div class="form-group">
       <label for="temp" class="col-sm-2 control-label">Cook at</label>
       <div class="col-sm-2">
-        <input [ngModel]="recipe?.temp" ngModel #temp="ngModel" type="number" class="form-control" id="temp" name="temp" placeholder="e.g. 350">
+        <input [ngModel]="recipe?.temp" ngModel #temp="ngModel" type="text" class="form-control" id="temp" name="temp" placeholder="e.g. 350">
         <span *ngIf="formErrors.temp" class="text-danger">
           {{ formErrors.temp }}
         </span>

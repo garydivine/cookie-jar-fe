@@ -20,13 +20,12 @@ export class YummlyService {
 
   constructor(private http: Http) { }
 
-  // Generate a Random Number between 1 and 80,000
-  // 80,00 is around the total number of recipes on Yummly for cookies as of Jan, 2018
+  // Generate a Random Number between 1 and 40,000
   // This is used to generate the "start=" position (needed at the end of cookieQuery) in the API URL
   // Documentaton for filtering on starting position is in the Yummly API Docs under the bullet "maxResult, start"
   // https://developer.yummly.com/documentation
   generateRandomNumber() {
-    this.randomNumber = Math.floor(Math.random() * (80000 - 0) + 1);
+    this.randomNumber = Math.floor(Math.random() * (40000 - 0) + 1);
   }
 
   // Get a random list of 10 Cookie Recipes out of 80,000

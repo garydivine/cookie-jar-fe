@@ -19,4 +19,12 @@ table {
     .container-fluid {
         max-width: 1024px;
     }
+    .btn-primary {
+        background-color: #69502F;
+        color: white
+    }
+    .btn-info {
+        background-color: #97D7D9;
+        color: white;
+    }
 }

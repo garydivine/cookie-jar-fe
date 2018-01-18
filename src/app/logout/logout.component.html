@@ -1,0 +1,12 @@
+<section @fadeInAnimation>
+  <h3 md-dialog-title>Logout of MyCookie.jar?</h3>
+  <img class="cookiemonster" src="../assets/images/logout.png"/>
+  <mat-dialog-actions>
+    <div class="center-block" (click)="logoutUser()">
+      <button class="btn btn-info" mat-button [mat-dialog-close]="true">Yes</button>
+    </div>
+    <div class="center-block">
+      <button class="btn btn-info" mat-button mat-dialog-close>No</button>
+    </div>
+  </mat-dialog-actions>
+</section>
