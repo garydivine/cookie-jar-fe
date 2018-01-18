@@ -29,6 +29,13 @@ export class LoginService {
       .catch(this.handleError);
   }
 
+  getUserSessionId(): Observable<any> {
+    const apiUrl = `${this.baseUrl}/login`;
+    return this.http.get(apiUrl, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     const results = res.json();
     return results || [];

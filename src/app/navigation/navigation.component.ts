@@ -11,6 +11,8 @@ import { Http, Response, RequestOptions, Headers } from '@angular/http';
 })
 export class NavigationComponent implements OnInit {
 
+  user = null;
+
   constructor(
     public dialog: MatDialog
   ) { }
@@ -23,7 +25,12 @@ export class NavigationComponent implements OnInit {
     const dialogRef = this.dialog.open(LogoutComponent);
   }
 
+  checkForUser() {
+      this.user = JSON.parse(localStorage.getItem('user'));
+  }
+
   ngOnInit() {
+    this.checkForUser();
   }
 
 }
