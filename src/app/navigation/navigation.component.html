@@ -17,10 +17,10 @@
               <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/recipe/add">Add Recipe</a></li>
               <li routerLinkActive="active"><a routerLink="/yummly" >Cookie Ideas</a></li>
           </ul>
-        <div (click)="invokeLoginDialog()">
+        <div *ngIf="!user" (click)="invokeLoginDialog()">
             <button class="btn btn-info">Login</button>
         </div>
-        <div (click)="invokeLogoutDialog()">
+        <div *ngIf="user" (click)="invokeLogoutDialog()">
             <button class="btn btn-info">Logout</button>
         </div>
       </div><!--/.nav-collapse -->

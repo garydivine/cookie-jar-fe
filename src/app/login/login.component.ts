@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: NgForm;
   successMessage: string;
   errorMessage: string;
+  user: any;
 
   @Output() loginRequestSubmitted = new EventEmitter();
 
@@ -27,9 +28,11 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.loginService.loginUser('login', loginForm.value)
       .subscribe(
-      result => this.dialogRef.close(),
-      error => this.errorMessage = <any>error,
-    );
+      user => {
+        this.dialogRef.close();
+        localStorage.setItem('user', JSON.stringify(user));
+      },
+      error => this.errorMessage = <any>error);
     this.dialogRef.afterClosed()
       .subscribe(
       result => {
