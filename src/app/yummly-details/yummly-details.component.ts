@@ -81,7 +81,6 @@ export class YummlyDetailsComponent implements OnInit {
             if (ingredientStringFromApi != null) {
               ingredientStringFromApi = ingredientStringFromApi.trim();
             }
-            console.log(ingredientStringFromApi);
 
             this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
           }
@@ -108,15 +107,8 @@ export class YummlyDetailsComponent implements OnInit {
     }
 
     if(wasFound) {
-      this.dataService.addRecord("ingredients", foundIngredient)
-        .subscribe(
-        ingredient => {
-          ingredientRecipe["ingredient"] = ingredient;
-          this.addIngredientLineItemToRecipe(ingredientRecipe);
-        },
-        error => {
-        }
-      );
+      ingredientRecipe["ingredient"] = foundIngredient;
+      this.addIngredientLineItemToRecipe(ingredientRecipe);
     }
     
 
