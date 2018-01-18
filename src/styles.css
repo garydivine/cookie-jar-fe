@@ -27,4 +27,12 @@ table {
         background-color: #97D7D9;
         color: white;
     }
+    .btn-primary:hover {
+        background-color: #BA9765;
+        color: white
+    }
+    .btn-info:hover {
+        background-color: #B6D3D2;
+        color: white;
+    }
 }
