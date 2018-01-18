@@ -30,7 +30,7 @@
             <tr>
                 <th>Name</th>
                 <th>Prep Time</th>
-                <th>Stars</th>
+                <th>Rating</th>
                 <th>Picture</th>
                 <th></th>
             </tr>
@@ -39,7 +39,11 @@
             <tr *ngFor="let recipe of yummlyRecipes">
                 <td>{{recipe.recipeName}}</td>
                 <td>{{recipe.totalTimeInSeconds / 60}} minutes</td>
-                <td>{{recipe.rating}}</td>
+                <td>
+                    <div class="star-ratings-sprite">
+                        <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"> </div>
+                    </div>
+                </td>
                 <td>
                     <img src={{recipe.smallImageUrls}}/>
                 </td>
