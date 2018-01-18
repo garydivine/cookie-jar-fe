@@ -24,7 +24,7 @@ export class YummlyDetailsComponent implements OnInit {
 
 
 
-  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram)(?:s|es)?\.?)?\b(.+)/i
+  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|drop)(?:s|es)?\.?)?\b(.+)/i
 
   successMessage: string;
   errorMessage: string;
@@ -88,7 +88,7 @@ export class YummlyDetailsComponent implements OnInit {
           
           if (this.ingredientsThatErrored.length > 0) {
             this.successMessage = `${this.successMessage}. However, there was at least one ingredient we were not able to add for you. 
-            Please see the instructions section of the recipe you just added to see those ingredients and add them to your recipe.`
+            Please see the instructions section of the ${this.recipe["name"]} recipe to see those ingredients and add them to your recipe.`
             this.updateRecipe();
           }
 
