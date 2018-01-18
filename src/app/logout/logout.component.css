@@ -1,4 +1,12 @@
+.cookiemonster {
+    height: 200px;
+}
 .btn-info {
     background-color: #97D7D9;
     color: white;
+}
+h3 {
+   text-align: center;
+   font: verdana;
+   color: #69502F
 }
