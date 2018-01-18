@@ -32,7 +32,7 @@ export class LogoutComponent implements OnInit {
     this.dialogRef.afterClosed()
       .subscribe(
       result => {
-        location.reload();
+        location.pathname = '../home';
       });
   }
 
