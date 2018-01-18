@@ -28,6 +28,7 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
 import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredient-dialog-form.component';
 import { LogoutComponent } from './logout/logout.component';
 import { LinkifyPipe } from './linkify.pipe';
+import { IngredientDeleteComponent } from './ingredient-delete/ingredient-delete.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { LinkifyPipe } from './linkify.pipe';
     IngredientDialogFormComponent,
     LoginComponent,
     LogoutComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    IngredientDeleteComponent
 
   ],
   imports: [
