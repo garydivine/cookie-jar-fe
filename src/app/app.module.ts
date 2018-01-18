@@ -28,6 +28,7 @@ import { RecipeDetailsComponent } from './recipe-details/recipe-details.componen
 import { IngredientDialogFormComponent } from './ingredient-dialog-form/ingredient-dialog-form.component';
 import { LogoutComponent } from './logout/logout.component';
 import { LinkifyPipe } from './linkify.pipe';
+import { DeleteCookiesComponent } from './delete-cookies/delete-cookies.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { LinkifyPipe } from './linkify.pipe';
     IngredientDialogFormComponent,
     LoginComponent,
     LogoutComponent,
-    LinkifyPipe
+    LinkifyPipe,
+    DeleteCookiesComponent
 
   ],
   imports: [
@@ -60,6 +62,7 @@ import { LinkifyPipe } from './linkify.pipe';
   ],
   entryComponents: [
     DeleteConfirmComponent,
+    DeleteCookiesComponent,
     RecipeDetailsComponent,
     YummlyDetailsComponent,
     IngredientDialogFormComponent
