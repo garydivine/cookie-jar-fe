@@ -76,7 +76,7 @@ export class RecipesComponent implements OnInit {
         this.dataService.deleteRecord('recipes', id)
           .subscribe(
           recipes => {
-            this.successMessage = 'Record(s) deleted successfully';
+            this.successMessage = 'Recipe removed from your Cookie Jar';
             this.getRecipes();
           },
           error => this.errorMessage = <any>error);

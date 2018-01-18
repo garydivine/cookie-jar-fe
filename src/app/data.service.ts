@@ -65,7 +65,7 @@ export class DataService {
   private handleError(error: Response | any) {
     let errMsg: string;
     if (error.status === 403) {
-      errMsg = 'Not Authorized. Login to see Results';
+      errMsg = 'Snack Overflow Error! You are not Authorized. Login to see Results.';
     } else if (typeof error._body === 'string') {
       errMsg = error._body;
     } else {
