@@ -31,7 +31,10 @@ export class YummlyComponent implements OnInit {
     this.yummlyService.getRecipes()
       .subscribe(
       yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
+    
+      error => this.errorMessage = <any>error
     );
+    
   }
 
   // Get recipe details for a passed ID using the built Yummly Service
@@ -49,9 +52,6 @@ export class YummlyComponent implements OnInit {
         dialogRef.afterClosed().subscribe(message => {
           this.successMessage = message;
         }
-
-
-
         );
       },
       error => this.errorMessage = <any>error
@@ -66,7 +66,9 @@ export class YummlyComponent implements OnInit {
       .subscribe(
       yummlyRecipes => {
         this.yummlyRecipes = yummlyRecipes.matches;
-      }
+      },
+      error => this.errorMessage = <any>error
+      
     );
   }
 
