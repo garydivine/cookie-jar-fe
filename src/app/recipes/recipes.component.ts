@@ -24,6 +24,7 @@ export class RecipesComponent implements OnInit {
   next: boolean;
   previous: boolean;
   query: NgForm;
+  user: any = null;
 
 
   displayedColumns = ['name', 'temp', 'time', 'options'];
@@ -35,8 +36,8 @@ export class RecipesComponent implements OnInit {
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
-  getRecipes() {
-    this.dataService.getRecords('recipes')
+  getRecipes(id: number) {
+    this.dataService.getUserRecords('cookies', this.user.id)
       .subscribe(
       recipes => {
         this.recipes = recipes.reverse();
@@ -45,7 +46,7 @@ export class RecipesComponent implements OnInit {
       error => this.errorMessage = <any>error,
     );
   }
-
+  
   getRecipeDetails(id: number) {
     this.dataService.getRecord('recipes', id)
       .subscribe(
@@ -59,7 +60,7 @@ export class RecipesComponent implements OnInit {
       error => this.errorMessage = <any>error
       );
   }
-
+  
   deleteRecipe(id: number) {
 
     const dialogRef = this.dialog.open(DeleteCookiesComponent);
@@ -70,21 +71,25 @@ export class RecipesComponent implements OnInit {
           .subscribe(
           recipes => {
             this.successMessage = 'Recipe removed from your Cookie Jar';
-            this.getRecipes();
+            this.getRecipes(this.user.id);
           },
           error => this.errorMessage = <any>error);
       }
     });
   }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
+   
+  applyFilter(filterValue: string) {
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+  this.dataSource.filter = filterValue;
 
   ngOnInit() {
-    this.getRecipes();
+    this.getUserFromSession();
+    this.getRecipes(this.user.id);
   }
 
   ngAfterViewInit() {
