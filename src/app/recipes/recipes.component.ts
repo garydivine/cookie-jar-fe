@@ -7,8 +7,6 @@ import { RecipeDetailsComponent } from '../recipe-details/recipe-details.compone
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { NgForm } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
@@ -32,7 +30,6 @@ export class RecipesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
- 
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
@@ -46,7 +43,7 @@ export class RecipesComponent implements OnInit {
       error => this.errorMessage = <any>error,
     );
   }
-  
+
   getRecipeDetails(id: number) {
     this.dataService.getRecord('recipes', id)
       .subscribe(
@@ -60,7 +57,7 @@ export class RecipesComponent implements OnInit {
       error => this.errorMessage = <any>error
       );
   }
-  
+
   deleteRecipe(id: number) {
 
     const dialogRef = this.dialog.open(DeleteCookiesComponent);
@@ -81,11 +78,12 @@ export class RecipesComponent implements OnInit {
   getUserFromSession() {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
-   
+
   applyFilter(filterValue: string) {
   filterValue = filterValue.trim(); // Remove whitespace
   filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
   this.dataSource.filter = filterValue;
+  }
 
   ngOnInit() {
     this.getUserFromSession();
@@ -96,7 +94,6 @@ export class RecipesComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
 
 
 }
