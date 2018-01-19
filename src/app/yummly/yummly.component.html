@@ -5,52 +5,53 @@
 
     <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-    <form (ngSubmit)="getRecipesFromYummlyBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
-        <div class="form-group">
-          <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Oatmeal Raisin"/>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
+    <br>
+    <br>
+
+    <button (click)="getRecipeFromYummly()" class="btn btn-primary">Random Recipes</button>
 
     <br>
     <br>
 
-    <button (click)="getRecipeFromYummly()" class="btn btn-primary pull-right">Random Recipes</button>
+    <mat-form-field>
+            <input matInput (keyup)="getRecipesFromYummlyBasedOnQuery($event.target.value)" placeholder="Search Yummly">
+    </mat-form-field>
 
-    <br>
-    <br>
-
-    <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Prep Time</th>
-                <th>Rating</th>
-                <th>Picture</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let recipe of yummlyRecipes">
-                <td>{{recipe.recipeName}}</td>
-                <td>{{recipe.totalTimeInSeconds / 60}} minutes</td>
-                <td>
-                    <div class="star-ratings-sprite">
-                        <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"> </div>
-                    </div>
-                </td>
-                <td>
-                    <img src={{recipe.smallImageUrls}}/>
-                </td>
-                <td>
-                    <button (click)="getRecipeDetailsFromYummly(recipe.id)" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <mat-table #table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+              <mat-cell *matCellDef="let recipe"> {{recipe.recipeName}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="prep time">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Prep Time </mat-header-cell>
+              <mat-cell *matCellDef="let recipe"> {{recipe.totalTimeInSeconds / 60}} minutes </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="rating">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
+              <mat-cell *matCellDef="let recipe"> <div class="star-ratings-sprite">
+                    <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"> </div>
+                </div> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="picture">
+                <mat-header-cell *matHeaderCellDef> Picture </mat-header-cell>
+                <mat-cell *matCellDef="let recipe"> <img src={{recipe.smallImageUrls}}/> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="view details">
+                    <mat-header-cell *matHeaderCellDef> View Details </mat-header-cell>
+                    <mat-cell *matCellDef="let recipe"> 
+                        <button (click)="getRecipeDetailsFromYummly(recipe.id)" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </button>
+                    </mat-cell>
+            </ng-container>
+      
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      
+        <mat-paginator #paginator
+                       [pageSize]="10"
+                       [pageSizeOptions]="[5, 10, 20]">
+        </mat-paginator>
 
 </section>
