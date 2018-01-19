@@ -64,8 +64,11 @@ export class IngredientFormComponent implements OnInit {
   saveIngredientToTable(ingredientForm: NgForm) {
       this.dataService.addRecord("ingredientRecipeListItem", ingredientForm.value)
         .subscribe(
-          result => 
-          this.ingredientRecipeSubmitted.emit(result),
+          result => {
+            this.successMessage = "Ingredient added to your list";
+            this.ingredientForm = ingredientForm;
+            this.ingredientRecipeSubmitted.emit(result)
+          },
           error => this.errorMessage = <any>error
         );
           this.ingredientForm.form.reset();
