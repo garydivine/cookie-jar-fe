@@ -15,7 +15,14 @@ export class DataService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers, withCredentials: true });
 
-  getRecords(endpoint: string, id: number): Observable<any[]> {
+  getRecords(endpoint: string): Observable<any[]> {
+    const apiUrl = `${this.baseUrl}${endpoint}`;
+    return this.http.get(apiUrl, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getUserRecords(endpoint: string, id: number): Observable<any[]> {
     const apiUrl = `${this.baseUrl}${endpoint}/${id}`;
     return this.http.get(apiUrl, this.options)
       .map(this.extractData)

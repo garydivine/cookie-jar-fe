@@ -30,7 +30,7 @@ export class RecipesComponent implements OnInit {
     this.next = true;
     this.previous = false;
 
-    this.dataService.getRecords('cookies', this.user.id)
+    this.dataService.getUserRecords('cookies', this.user.id)
       .subscribe(
       recipes => this.recipes = recipes.reverse().splice(0, 10),
       error => this.errorMessage = <any>error,
@@ -41,7 +41,7 @@ export class RecipesComponent implements OnInit {
     this.next = false;
     this.previous = true;
 
-    this.dataService.getRecords('cookies', this.user.id)
+    this.dataService.getUserRecords('cookies', this.user.id)
       .subscribe(
       recipes => this.recipes = recipes.reverse().splice(10, 20),
       error => this.errorMessage = <any>error
