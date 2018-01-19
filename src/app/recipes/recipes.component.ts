@@ -22,25 +22,26 @@ export class RecipesComponent implements OnInit {
   next: boolean;
   previous: boolean;
   query: NgForm;
+  user: any = null;
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
-  getRecipes() {
+  getRecipes(id: number) {
     this.next = true;
     this.previous = false;
 
-    this.dataService.getRecords('recipes')
+    this.dataService.getRecords('cookies', this.user.id)
       .subscribe(
       recipes => this.recipes = recipes.reverse().splice(0, 10),
       error => this.errorMessage = <any>error,
     );
   }
 
-  getNextSetOfRecipes() {
+  getNextSetOfRecipes(id: number) {
     this.next = false;
     this.previous = true;
 
-    this.dataService.getRecords('recipes')
+    this.dataService.getRecords('cookies', this.user.id)
       .subscribe(
       recipes => this.recipes = recipes.reverse().splice(10, 20),
       error => this.errorMessage = <any>error
@@ -64,7 +65,7 @@ export class RecipesComponent implements OnInit {
   getRecipesBasedOnQuery(query: NgForm) {
     this.dataService.searchForRecipes(query.value.replace(/\s/g, ''))
       .subscribe(
-        recipes => this.recipes = recipes.reverse(),
+      recipes => this.recipes = recipes.reverse(),
     );
   }
 
@@ -78,15 +79,20 @@ export class RecipesComponent implements OnInit {
           .subscribe(
           recipes => {
             this.successMessage = 'Recipe removed from your Cookie Jar';
-            this.getRecipes();
+            this.getRecipes(this.user.id);
           },
           error => this.errorMessage = <any>error);
       }
     });
   }
 
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
+
   ngOnInit() {
-    this.getRecipes();
+    this.getUserFromSession();
+    this.getRecipes(this.user.id);
   }
 
 }
