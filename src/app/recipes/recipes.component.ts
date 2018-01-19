@@ -1,11 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { DataService } from '../data.service';
 import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { DeleteCookiesComponent } from '../delete-cookies/delete-cookies.component';
 import { RecipeDetailsComponent } from '../recipe-details/recipe-details.component';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { NgForm } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-recipes',
@@ -23,28 +25,25 @@ export class RecipesComponent implements OnInit {
   previous: boolean;
   query: NgForm;
 
+
+  displayedColumns = ['name', 'temp', 'time', 'options'];
+  dataSource = new MatTableDataSource(this.recipes);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+ 
+
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
   getRecipes() {
-    this.next = true;
-    this.previous = false;
-
     this.dataService.getRecords('recipes')
       .subscribe(
-      recipes => this.recipes = recipes.reverse().splice(0, 10),
+      recipes => {
+        this.recipes = recipes.reverse();
+        this.dataSource.data = recipes;
+      },
       error => this.errorMessage = <any>error,
     );
-  }
-
-  getNextSetOfRecipes() {
-    this.next = false;
-    this.previous = true;
-
-    this.dataService.getRecords('recipes')
-      .subscribe(
-      recipes => this.recipes = recipes.reverse().splice(10, 20),
-      error => this.errorMessage = <any>error
-      );
   }
 
   getRecipeDetails(id: number) {
@@ -59,13 +58,6 @@ export class RecipesComponent implements OnInit {
       },
       error => this.errorMessage = <any>error
       );
-  }
-
-  getRecipesBasedOnQuery(query: NgForm) {
-    this.dataService.searchForRecipes(query.value.replace(/\s/g, ''))
-      .subscribe(
-        recipes => this.recipes = recipes.reverse(),
-    );
   }
 
   deleteRecipe(id: number) {
@@ -85,8 +77,21 @@ export class RecipesComponent implements OnInit {
     });
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   ngOnInit() {
     this.getRecipes();
   }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+
 
 }

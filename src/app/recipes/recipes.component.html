@@ -12,52 +12,48 @@
 
   <a class="btn btn-primary" routerLink="/recipe/add">Add Recipe</a>
 
-  <form (ngSubmit)="getRecipesBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
-    <div class="form-group">
-      <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Oatmeal Raisin"/>
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-  </form>
-
   <br>
   <br>
 
-  <button *ngIf="next" (click)="getNextSetOfRecipes()" class="btn btn-primary pull-right">Next Page</button>
-  <button *ngIf="previous" (click)="getRecipes()" class="btn btn-primary pull-right">Previous Page</button>
+  <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  </mat-form-field>
 
-  <br>
-  <br>
+  <mat-table #table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let recipe"> {{recipe.name}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="temp">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Temperature </mat-header-cell>
+        <mat-cell *matCellDef="let recipe"> {{recipe.temp}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Time </mat-header-cell>
+        <mat-cell *matCellDef="let recipe"> {{recipe.time}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="options">
+          <mat-header-cell *matHeaderCellDef> Options </mat-header-cell>
+          <mat-cell *matCellDef="let recipe"><button (click)="getRecipeDetails(recipe.id)" class="btn btn-primary">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            </button>
+            <a class="btn btn-info" [routerLink]="['/recipe/edit/', recipe.id]">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </a>&nbsp;
+            <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button></mat-cell>
+        </ng-container>
 
-  <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Temp</th>
-        <th>Time</th>
-        <th>Yield</th>
-        <th>Options</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let recipe of recipes">
-        <td>{{recipe.name}}</td>
-        <td>{{recipe.temp}}</td>
-        <td>{{recipe.time}}</td>
-        <td>{{recipe.yield }}</td>
-        <td class="text-center">
-          <button (click)="getRecipeDetails(recipe.id)" class="btn btn-primary">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-          </button>
-          <a class="btn btn-info" [routerLink]="['/recipe/edit/', recipe.id]">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-          </a>&nbsp;
-          <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator>
+
+
+
 </section>
