@@ -22,9 +22,9 @@ export class YummlyDetailsComponent implements OnInit {
 
   ingredientsThatErrored = [];
 
+  user: any = null;
 
-
-  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram)(?:s|es)?\.?)?\b(.+)/i
+  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|drop)(?:s|es)?\.?)?\b(.+)/i
 
   successMessage: string;
   errorMessage: string;
@@ -40,13 +40,17 @@ export class YummlyDetailsComponent implements OnInit {
   );
   }
 
-  saveYummlyRecipeToCookieJar(){
+  saveYummlyRecipeToCookieJar() {
+
+    this.getUserFromSession();
+
     this.recipe = {
       name:         this.data.yummlyRecipeDetails.name,
       instructions: this.data.yummlyRecipeDetails.source.sourceRecipeUrl,
       temp:         "See Instructions",
       yield:        this.data.yummlyRecipeDetails.numberOfServings,
-      time:         this.data.yummlyRecipeDetails.totalTime
+      time:         this.data.yummlyRecipeDetails.totalTime,
+      user:         this.user
     };
 
     this.dataService.addRecord("recipes", this.recipe)
@@ -88,7 +92,7 @@ export class YummlyDetailsComponent implements OnInit {
           
           if (this.ingredientsThatErrored.length > 0) {
             this.successMessage = `${this.successMessage}. However, there was at least one ingredient we were not able to add for you. 
-            Please see the instructions section of the recipe you just added to see those ingredients and add them to your recipe.`
+            Please see the instructions section of the ${this.recipe["name"]} recipe to see those ingredients and add them to your recipe.`
             this.updateRecipe();
           }
 
@@ -179,6 +183,9 @@ export class YummlyDetailsComponent implements OnInit {
   formErrors = {};
   validationMessages = {};
 
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
   ngOnInit() {
     this.getExistingIngredients();
   }

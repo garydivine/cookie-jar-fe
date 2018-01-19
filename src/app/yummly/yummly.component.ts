@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { YummlyService } from '../yummly.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { YummlyDetailsComponent } from '../yummly-details/yummly-details.component';
@@ -15,12 +15,17 @@ export class YummlyComponent implements OnInit {
 
   yummlyRecipes: any[];
   yummlyRecipeDetails: any[];
-  query: NgForm;
 
   successMessage: string;
   errorMessage: string;
 
   @Output() querySubmitted = new EventEmitter();
+
+  displayedColumns = ['name', 'prep time', 'rating', 'picture', 'view details'];
+  dataSource = new MatTableDataSource(this.yummlyRecipes);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private yummlyService: YummlyService, public dialog: MatDialog) { }
 
@@ -30,8 +35,13 @@ export class YummlyComponent implements OnInit {
   getRecipeFromYummly() {
     this.yummlyService.getRecipes()
       .subscribe(
-      yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
+      yummlyRecipes => {
+        this.yummlyRecipes = yummlyRecipes.matches;
+        this.dataSource.data = yummlyRecipes.matches;
+      },
+      error => this.errorMessage = <any>error
     );
+    
   }
 
   // Get recipe details for a passed ID using the built Yummly Service
@@ -45,13 +55,9 @@ export class YummlyComponent implements OnInit {
         const dialogRef = this.dialog.open(YummlyDetailsComponent, {
           data: { yummlyRecipeDetails: this.yummlyRecipeDetails },
         });
-        //dialogRef.afterOpen().subscribe();
         dialogRef.afterClosed().subscribe(message => {
           this.successMessage = message;
         }
-
-
-
         );
       },
       error => this.errorMessage = <any>error
@@ -59,18 +65,28 @@ export class YummlyComponent implements OnInit {
   }
 
   // Get recipe details based on a searched query
-  // Builds a query parameter in yummly.service.ts based on submitted NgForm
+  // Builds a query parameter in yummly.service.ts based on user input
   // Stores in the yummlyRecipes variable to immediately update page with results
-  getRecipesFromYummlyBasedOnQuery(query: NgForm) {
-    this.yummlyService.searchForRecipes(query.value.replace(/\s/g, ''))
+  getRecipesFromYummlyBasedOnQuery(query: string) {
+    this.yummlyService.searchForRecipes(query.split(" "))
       .subscribe(
-      yummlyRecipes => this.yummlyRecipes = yummlyRecipes.matches,
+      yummlyRecipes => {
+        this.yummlyRecipes = yummlyRecipes.matches;
+        this.dataSource.data = yummlyRecipes.matches;
+      },
+      error => this.errorMessage = <any>error
+      
     );
   }
 
   // Load a random list of Cookie Recipes when the Yummly page loads
   ngOnInit() {
     this.getRecipeFromYummly();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { DataService } from '../data.service';
 import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { DeleteCookiesComponent } from '../delete-cookies/delete-cookies.component';
@@ -22,29 +22,26 @@ export class RecipesComponent implements OnInit {
   next: boolean;
   previous: boolean;
   query: NgForm;
+  user: any = null;
+
+
+  displayedColumns = ['name', 'temp', 'time', 'options'];
+  dataSource = new MatTableDataSource(this.recipes);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
-  getRecipes() {
-    this.next = true;
-    this.previous = false;
-
-    this.dataService.getRecords('recipes')
+  getRecipes(id: number) {
+    this.dataService.getUserRecords('cookies', this.user.id)
       .subscribe(
-      recipes => this.recipes = recipes.reverse().splice(0, 10),
+      recipes => {
+        this.recipes = recipes.reverse();
+        this.dataSource.data = recipes;
+      },
       error => this.errorMessage = <any>error,
     );
-  }
-
-  getNextSetOfRecipes() {
-    this.next = false;
-    this.previous = true;
-
-    this.dataService.getRecords('recipes')
-      .subscribe(
-      recipes => this.recipes = recipes.reverse().splice(10, 20),
-      error => this.errorMessage = <any>error
-      );
   }
 
   getRecipeDetails(id: number) {
@@ -61,13 +58,6 @@ export class RecipesComponent implements OnInit {
       );
   }
 
-  getRecipesBasedOnQuery(query: NgForm) {
-    this.dataService.searchForRecipes(query.value.replace(/\s/g, ''))
-      .subscribe(
-        recipes => this.recipes = recipes.reverse(),
-    );
-  }
-
   deleteRecipe(id: number) {
 
     const dialogRef = this.dialog.open(DeleteCookiesComponent);
@@ -78,15 +68,32 @@ export class RecipesComponent implements OnInit {
           .subscribe(
           recipes => {
             this.successMessage = 'Recipe removed from your Cookie Jar';
-            this.getRecipes();
+            this.getRecipes(this.user.id);
           },
           error => this.errorMessage = <any>error);
       }
     });
   }
 
-  ngOnInit() {
-    this.getRecipes();
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
+
+  applyFilter(filterValue: string) {
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+  this.dataSource.filter = filterValue;
+  }
+
+  ngOnInit() {
+    this.getUserFromSession();
+    this.getRecipes(this.user.id);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
 
 }

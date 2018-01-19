@@ -1,3 +1,50 @@
-<p>
-  ingredient-delete works!
-</p>
+<section @fadeInAnimation>
+ 
+
+  <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
+
+  <h2>Delete Ingredients</h2>
+
+  <!--
+
+  <a class="btn btn-primary" routerLink="/ingredient/delete">Delete Ingredient</a>
+
+  <form (ngSubmit)="getIngredientsBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
+    <div class="form-group">
+      <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Flour"
+      />
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+-->
+
+  <br>
+  <br>
+
+  <button *ngIf="next" (click)="getNextSetOfIngredients()" class="btn btn-primary pull-right">Next Page</button>
+  <button *ngIf="previous" (click)="getIngredients()" class="btn btn-primary pull-right">Previous Page</button>
+
+  <br>
+  <br>
+
+  <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
+    <thead>
+      <tr>
+        <th>Ingredient</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ingredient of ingredients">
+        <td>{{ingredient.name}}</td>
+        <td class="text-center">
+            <button (click)="deleteIngredient(ingredient.id)" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
