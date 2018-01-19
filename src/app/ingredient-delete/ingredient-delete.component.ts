@@ -4,7 +4,6 @@ import { DataService } from '../data.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { IngredientFormComponent } from '../ingredient-form/ingredient-form.component';
-import { NgForm } from '@angular/forms/src/directives/ng_form';
 
 @Component({
   selector: 'app-ingredient-delete',
@@ -19,7 +18,6 @@ export class IngredientDeleteComponent implements OnInit {
   ingredients: any[];
   next: boolean;
   previous: boolean;
-  query: NgForm;
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
@@ -30,7 +28,7 @@ export class IngredientDeleteComponent implements OnInit {
 
     this.dataService.getRecords('ingredients')
     .subscribe(
-      //need to list ingredients alphabettically
+  
       ingredients => this.ingredients = ingredients.reverse().splice(0, 24),
       error => this.errorMessage = <any>error,
     );
@@ -47,13 +45,6 @@ export class IngredientDeleteComponent implements OnInit {
     );
   }
 
-  // getIngredientsBasedOnQuery(query: NgForm) {
-  //   this.dataService.searchForIngredients(query.value.replace(/\s/g,''))
-  //   .subscribe(
-  //     ingredients => this.ingredients = ingredients.reverse(),
-  //   );
-  // }
-
   deleteIngredient(id: number) {
 
     const dialogRef = this.dialog.open(DeleteConfirmComponent);
@@ -69,8 +60,7 @@ export class IngredientDeleteComponent implements OnInit {
           error => this.errorMessage = 'This ingredient can not be deleted because it is being used in a recipe');
       }
     });
-    console.log("success")
-  }
+   }
 
  
 

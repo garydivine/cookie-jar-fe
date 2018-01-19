@@ -31,6 +31,12 @@ import { LinkifyPipe } from './linkify.pipe';
 import { IngredientDeleteComponent } from './ingredient-delete/ingredient-delete.component';
 import { DeleteCookiesComponent } from './delete-cookies/delete-cookies.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +66,12 @@ import { DeleteCookiesComponent } from './delete-cookies/delete-cookies.componen
     HttpModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   entryComponents: [
     DeleteConfirmComponent,

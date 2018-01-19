@@ -14,7 +14,7 @@ export class YummlyService {
   // tslint:disable-next-line:no-inferrable-types
   private apiSpec: string = '?_app_id=37304cb5&_app_key=9a0515dab83f075f9bd1365932fcc264';
   // tslint:disable-next-line:no-inferrable-types
-  private cookieQuery: string = '&q=cookies&maxResult=10&start=';
+  private cookieQuery: string = '&q=cookies&maxResult=20&start=';
 
   randomNumber: number;
 
@@ -28,7 +28,7 @@ export class YummlyService {
     this.randomNumber = Math.floor(Math.random() * (40000 - 0) + 1);
   }
 
-  // Get a random list of 10 Cookie Recipes out of 80,000
+  // Get a random list of 20 Cookie Recipes out of 80,000
   getRecipes(): Observable<any> {
     this.generateRandomNumber();
     const apiUrl = `${this.recipesUrl}${this.apiSpec}${this.cookieQuery}${this.randomNumber}`;
@@ -56,7 +56,7 @@ export class YummlyService {
     }
     
     // Build out the url and tack the word cookies on the end
-    const apiUrl = `${this.recipesUrl}${this.apiSpec}${endpoint}&q=cookies&maxResult=30`;
+    const apiUrl = `${this.recipesUrl}${this.apiSpec}${endpoint}&q=cookies&maxResult=20`;
     return this.http.get(apiUrl)
     .map(result => {
       return result.json();
