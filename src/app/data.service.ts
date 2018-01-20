@@ -59,9 +59,9 @@ export class DataService {
   searchForRecipes(endpoint: string): Observable<any> {
     const apiUrl = `${this.baseUrl}recipes?name=${endpoint}`;
     return this.http.get(apiUrl, this.options)
-    .map(result => {
-      return result.json();
-    });
+      .map(result => {
+        return result.json();
+      });
   }
 
   private extractData(res: Response) {
