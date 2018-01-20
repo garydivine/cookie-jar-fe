@@ -1,9 +1,10 @@
 <section @fadeInAnimation>
  
-
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-  <h2>My Cookie.Jar</h2>
+  <h2>{{user.firstName}}'s Cookie.Jar</h2>
+
+  <br>
 
   <a class="btn btn-primary" routerLink="/recipe/add">Add Recipe</a>
 

@@ -22,7 +22,7 @@ export class YummlyDetailsComponent implements OnInit {
 
   ingredientsThatErrored = [];
 
-
+  user: any = null;
 
   ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|drop)(?:s|es)?\.?)?\b(.+)/i
 
@@ -40,13 +40,17 @@ export class YummlyDetailsComponent implements OnInit {
   );
   }
 
-  saveYummlyRecipeToCookieJar(){
+  saveYummlyRecipeToCookieJar() {
+
+    this.getUserFromSession();
+
     this.recipe = {
       name:         this.data.yummlyRecipeDetails.name,
       instructions: this.data.yummlyRecipeDetails.source.sourceRecipeUrl,
       temp:         "See Instructions",
       yield:        this.data.yummlyRecipeDetails.numberOfServings,
-      time:         this.data.yummlyRecipeDetails.totalTime
+      time:         this.data.yummlyRecipeDetails.totalTime,
+      user:         this.user
     };
 
     this.dataService.addRecord("recipes", this.recipe)
@@ -179,6 +183,9 @@ export class YummlyDetailsComponent implements OnInit {
   formErrors = {};
   validationMessages = {};
 
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
   ngOnInit() {
     this.getExistingIngredients();
   }

@@ -7,8 +7,6 @@ import { RecipeDetailsComponent } from '../recipe-details/recipe-details.compone
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { NgForm } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
@@ -24,6 +22,7 @@ export class RecipesComponent implements OnInit {
   next: boolean;
   previous: boolean;
   query: NgForm;
+  user: any = null;
 
 
   displayedColumns = ['name', 'temp', 'time', 'options'];
@@ -31,12 +30,11 @@ export class RecipesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
- 
 
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
-  getRecipes() {
-    this.dataService.getRecords('recipes')
+  getRecipes(id: number) {
+    this.dataService.getUserRecords('cookies', this.user.id)
       .subscribe(
       recipes => {
         this.recipes = recipes.reverse();
@@ -70,28 +68,32 @@ export class RecipesComponent implements OnInit {
           .subscribe(
           recipes => {
             this.successMessage = 'Recipe removed from your Cookie Jar';
-            this.getRecipes();
+            this.getRecipes(this.user.id);
           },
           error => this.errorMessage = <any>error);
       }
     });
   }
 
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
+
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+  this.dataSource.filter = filterValue;
   }
 
   ngOnInit() {
-    this.getRecipes();
+    this.getUserFromSession();
+    this.getRecipes(this.user.id);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
 
 
 }
