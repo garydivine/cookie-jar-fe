@@ -1,5 +1,14 @@
-td{
-overflow: hidden;
-max-width:300px;
-word-wrap: break-word;
+.nameColumnAlignment{
+    flex: 0 0 200px;
+    padding-right: 10px;
+}
+
+/* Search input text */
+:host ::ng-deep .mat-input-placeholder {
+    color: rgb(100, 97, 97);
+}
+
+/* Search input underline */
+:host ::ng-deep .mat-input-ripple  {
+    background-color: #81D0D3;
 }

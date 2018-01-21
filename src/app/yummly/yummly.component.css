@@ -9,10 +9,29 @@
     margin: 0 auto;
   }
     
-  .star-ratings-sprite-rating {
-      background: url('/assets/images/star_rating.jpg') repeat-x;
-      background-position: 0 100%;
-      float: left;
-      height: 40px;
-      display:block;
-    }
+.star-ratings-sprite-rating {
+    background: url('/assets/images/star_rating.jpg') repeat-x;
+    background-position: 0 100%;
+    float: left;
+    height: 40px;
+    display:block;
+}
+
+.nameColumnAlignment{
+    flex: 0 0 200px;
+    padding-right: 10px;
+}
+
+.ratingColumnAlignment{
+    padding-right: 30px;
+}
+
+/* Search input text */
+:host ::ng-deep .mat-input-placeholder {
+    color: rgb(100, 97, 97);
+}
+
+/* Search input underline */
+:host ::ng-deep .mat-input-ripple  {
+    background-color: #81D0D3;
+}
