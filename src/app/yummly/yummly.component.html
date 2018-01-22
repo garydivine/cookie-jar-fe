@@ -13,7 +13,7 @@
     <br>
 
     <mat-form-field>
-            <input matInput (keyup)="getRecipesFromYummlyBasedOnQuery($event.target.value)" placeholder="Search Yummly">
+            <input matInput (keyup)="getRecipesFromYummlyBasedOnQuery($event.target.value)" placeholder="Search for Cookie Ideas">
     </mat-form-field>
 
     <mat-table #table [dataSource]="dataSource" matSort>
