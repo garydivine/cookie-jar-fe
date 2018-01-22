@@ -52,6 +52,10 @@ export class RecipesFormComponent implements OnInit {
   }
 
   saveRecipe(recipeForm: NgForm) {
+
+    this.getUserFromSession();
+    this.recipeForm.value['user'] = this.user;
+
     if (typeof recipeForm.value.id === 'number') {
       this.dataService.editRecord('recipes', recipeForm.value, recipeForm.value.id)
           .subscribe(
@@ -72,11 +76,8 @@ export class RecipesFormComponent implements OnInit {
       this.dataService.addRecord('recipes', recipeForm.value)
           .subscribe(
             recipe => {
-              this.getUserFromSession();
               this.successMessage = 'Cookie added to your Cookie.Jar!';
               this.recipe = recipe;
-              this.recipe['user'] = this.user;
-              console.log(this.recipe);
               for (const ingredientRecipe of this.ingredientQueue) {
                 this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
