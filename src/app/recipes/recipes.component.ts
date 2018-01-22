@@ -34,14 +34,25 @@ export class RecipesComponent implements OnInit {
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
   getRecipes(id: number) {
-    this.dataService.getUserRecords('cookies', this.user.id)
-      .subscribe(
-      recipes => {
-        this.recipes = recipes.reverse();
-        this.dataSource.data = recipes;
-      },
-      error => this.errorMessage = <any>error,
-    );
+    if (this.user.id === 1) {
+      this.dataService.getRecords('recipes')
+        .subscribe(
+        recipes => {
+          this.recipes = recipes.reverse();
+          this.dataSource.data = recipes;
+        },
+        error => this.errorMessage = <any>error,
+      );
+    } else {
+      this.dataService.getUserRecords('cookies', this.user.id)
+        .subscribe(
+        recipes => {
+          this.recipes = recipes.reverse();
+          this.dataSource.data = recipes;
+        },
+        error => this.errorMessage = <any>error,
+      );
+    }
   }
 
   getRecipeDetails(id: number) {
@@ -80,9 +91,9 @@ export class RecipesComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-  filterValue = filterValue.trim(); // Remove whitespace
-  filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-  this.dataSource.filter = filterValue;
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   ngOnInit() {
