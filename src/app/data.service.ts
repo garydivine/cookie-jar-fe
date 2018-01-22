@@ -16,13 +16,20 @@ export class DataService {
   private options = new RequestOptions({ headers: this.headers, withCredentials: true });
 
   getRecords(endpoint: string): Observable<any[]> {
-    const apiUrl = this.baseUrl + endpoint;
+    const apiUrl = `${this.baseUrl}${endpoint}`;
     return this.http.get(apiUrl, this.options)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  getRecord(endpoint: string, id): Observable<object> {
+  getUserRecords(endpoint: string, id: number): Observable<any[]> {
+    const apiUrl = `${this.baseUrl}${endpoint}/${id}`;
+    return this.http.get(apiUrl, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getRecord(endpoint: string, id: number): Observable<object> {
     const apiUrl = `${this.baseUrl}${endpoint}/${id}`;
     return this.http.get(apiUrl, this.options)
       .map(this.extractData)
@@ -52,9 +59,9 @@ export class DataService {
   searchForRecipes(endpoint: string): Observable<any> {
     const apiUrl = `${this.baseUrl}recipes?name=${endpoint}`;
     return this.http.get(apiUrl, this.options)
-    .map(result => {
-      return result.json();
-    });
+      .map(result => {
+        return result.json();
+      });
   }
 
   private extractData(res: Response) {

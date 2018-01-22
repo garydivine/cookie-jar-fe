@@ -1,14 +1,10 @@
 <section @fadeInAnimation>
-  <ol class="breadcrumb">
-    <li>
-      <a routerLink="/home">Home</a>
-    </li>
-    <li class="active">My Cookie.Jar</li>
-  </ol>
-
+ 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-  <h2>My Cookie.Jar</h2>
+  <h2>{{user.firstName}}'s Cookie.Jar</h2>
+
+  <br>
 
   <a class="btn btn-primary" routerLink="/recipe/add">Add Recipe</a>
 
@@ -21,8 +17,8 @@
 
   <mat-table #table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-        <mat-cell *matCellDef="let recipe"> {{recipe.name}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameColumnAlignment'"> Name </mat-header-cell>
+        <mat-cell *matCellDef="let recipe" [ngClass]="'nameColumnAlignment'"> {{recipe.name}} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="temp">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Temperature </mat-header-cell>
