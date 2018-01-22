@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
 import { LogoutComponent } from '../logout/logout.component';
+import { CreateUserComponent } from '../create-user/create-user.component';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
 @Component({
@@ -23,6 +24,10 @@ export class NavigationComponent implements OnInit {
 
   invokeLogoutDialog() {
     const dialogRef = this.dialog.open(LogoutComponent);
+  }
+
+  invokeCreateUserDialog() {
+    const dialogRef = this.dialog.open(CreateUserComponent);
   }
 
   checkForUser() {
