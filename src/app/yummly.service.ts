@@ -28,7 +28,7 @@ export class YummlyService {
     this.randomNumber = Math.floor(Math.random() * (40000 - 0) + 1);
   }
 
-  // Get a random list of 20 Cookie Recipes out of 80,000
+  // Get a random list of 20 Cookie Recipes out of 40,000
   getRecipes(): Observable<any> {
     this.generateRandomNumber();
     const apiUrl = `${this.recipesUrl}${this.apiSpec}${this.cookieQuery}${this.randomNumber}`;
@@ -49,18 +49,17 @@ export class YummlyService {
 
   // Search for recipes based on a passed query parameters
   searchForRecipes(userInputWords): Observable<any> {
-    let endpoint ="";
+    let endpoint = '';
     // Loop through userInputWords array and add to the end of endpoint
-    for (let word of userInputWords){
-      endpoint = `${endpoint}&q=${word}`
+    for (const word of userInputWords) {
+      endpoint = `${endpoint}&q=${word}`;
     }
-    
     // Build out the url and tack the word cookies on the end
     const apiUrl = `${this.recipesUrl}${this.apiSpec}${endpoint}&q=cookies&maxResult=20`;
     return this.http.get(apiUrl)
-    .map(result => {
-      return result.json();
-    });
+      .map(result => {
+        return result.json();
+      });
   }
 
 }

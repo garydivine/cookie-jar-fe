@@ -5,46 +5,27 @@
 
   <h2>Delete Ingredients</h2>
 
-  <!--
+  
+  <mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="ingredient">
+      <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameColumnAlignment'"> Name </mat-header-cell>
+      <mat-cell *matCellDef="let ingredient" [ngClass]="'nameColumnAlignment'"> {{ingredient.name}} </mat-cell>
+    </ng-container>
 
-  <a class="btn btn-primary" routerLink="/ingredient/delete">Delete Ingredient</a>
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+      <mat-cell *matCellDef="let ingredient">
+          <button (click)="deleteIngredient(ingredient.id)" class="btn btn-danger">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator>
 
-  <form (ngSubmit)="getIngredientsBasedOnQuery(query)" #query="ngForm" class="form-inline pull-right">
-    <div class="form-group">
-      <input ngModel #query="ngModel" type="text" class="form-control" id="query" name="query" placeholder="e.g. Flour"
-      />
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-  </form>
--->
-
-  <br>
-  <br>
-
-  <button *ngIf="next" (click)="getNextSetOfIngredients()" class="btn btn-primary pull-right">Next Page</button>
-  <button *ngIf="previous" (click)="getIngredients()" class="btn btn-primary pull-right">Previous Page</button>
-
-  <br>
-  <br>
-
-  <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
-    <thead>
-      <tr>
-        <th>Ingredient</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let ingredient of ingredients">
-        <td>{{ingredient.name}}</td>
-        <td class="text-center">
-            <button (click)="deleteIngredient(ingredient.id)" class="btn btn-danger">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </section>

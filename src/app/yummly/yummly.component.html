@@ -1,11 +1,10 @@
 <section @fadeInAnimation>
     
 
-    <h2>Cookie Recipes</h2>
+    <h2>Cookie Ideas</h2>
 
     <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
-
-    <br>
+    
     <br>
 
     <button (click)="getRecipeFromYummly()" class="btn btn-primary">Random Recipes</button>
@@ -19,16 +18,16 @@
 
     <mat-table #table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-              <mat-cell *matCellDef="let recipe"> {{recipe.recipeName}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameColumnAlignment'"> Name </mat-header-cell>
+              <mat-cell *matCellDef="let recipe" [ngClass]="'nameColumnAlignment'"> {{recipe.recipeName}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="prep time">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Prep Time </mat-header-cell>
               <mat-cell *matCellDef="let recipe"> {{recipe.totalTimeInSeconds / 60}} minutes </mat-cell>
             </ng-container>
             <ng-container matColumnDef="rating">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Rating </mat-header-cell>
-              <mat-cell *matCellDef="let recipe"> <div class="star-ratings-sprite">
+              <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'ratingColumnAlignment'"> Rating </mat-header-cell>
+              <mat-cell *matCellDef="let recipe" [ngClass]="'ratingColumnAlignment'"> <div class="star-ratings-sprite">
                     <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"> </div>
                 </div> </mat-cell>
             </ng-container>

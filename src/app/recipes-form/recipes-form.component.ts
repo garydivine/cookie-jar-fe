@@ -1,13 +1,14 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit, ViewChild }      from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Location }               from '@angular/common';
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component'
+import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { DataService } from '../data.service'
+import { DataService } from '../data.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
+import { getDefaultService } from 'selenium-webdriver/edge';
 
 @Component({
   selector: 'app-recipes-form',
@@ -27,6 +28,8 @@ export class RecipesFormComponent implements OnInit {
   recipe: object;
   ingredientQueue: Array<object> = [];
 
+  user: any = null;
+
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
@@ -34,45 +37,48 @@ export class RecipesFormComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  getRecordForEdit(){
+  getRecordForEdit() {
     this.route.params
-      .switchMap((params: Params) => this.dataService.getRecord("recipes", +params['id']))
+      .switchMap((params: Params) => this.dataService.getRecord('recipes', +params['id']))
       .subscribe(recipe => this.recipe = recipe);
   }
 
   ngOnInit() {
     this.route.params
       .subscribe((params: Params) => {
+        // tslint:disable-next-line:no-unused-expression
         (+params['id']) ? this.getRecordForEdit() : null;
       });
   }
 
-  saveRecipe(recipeForm: NgForm){
-    if(typeof recipeForm.value.id === "number"){
-      this.dataService.editRecord("recipes", recipeForm.value, recipeForm.value.id)
+  saveRecipe(recipeForm: NgForm) {
+
+    this.getUserFromSession();
+    this.recipeForm.value['user'] = this.user;
+
+    if (typeof recipeForm.value.id === 'number') {
+      this.dataService.editRecord('recipes', recipeForm.value, recipeForm.value.id)
           .subscribe(
-            recipe => { 
-              this.successMessage = "Cookie recipe updated successfully";
+            recipe => {
+              this.successMessage = 'Cookie recipe updated successfully';
               this.recipe = recipe;
-              for (let ingredientRecipe of this.ingredientQueue) {
+              for (const ingredientRecipe of this.ingredientQueue) {
                 this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
               // Needed for deleting ingredients off of a recipe
               // The recipe returned isn't up-to-date
               this.getRecordForEdit();
-              
               this.ingredientQueue = [];
-              
           },
             error => this.errorMessage = <any>error
           );
-    }else{
-      this.dataService.addRecord("recipes", recipeForm.value)
+    }else {
+      this.dataService.addRecord('recipes', recipeForm.value)
           .subscribe(
             recipe => {
-              this.successMessage = "Cookie added to your Cookie.Jar!";
+              this.successMessage = 'Cookie added to your Cookie.Jar!';
               this.recipe = recipe;
-              for (let ingredientRecipe of this.ingredientQueue) {
+              for (const ingredientRecipe of this.ingredientQueue) {
                 this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
               }
               this.ingredientQueue = [];
@@ -84,11 +90,11 @@ export class RecipesFormComponent implements OnInit {
 
   }
 
-  saveIngredientItemToRecipe(ingredientRecipe, recipeForm: NgForm){
-    this.dataService.addRecord("ingredientToRecipe/" + this.recipe["id"], ingredientRecipe)
+  saveIngredientItemToRecipe(ingredientRecipe, recipeForm: NgForm) {
+    this.dataService.addRecord('ingredientToRecipe/' + this.recipe['id'], ingredientRecipe)
           .subscribe(
             recipe => {
-              if(typeof recipeForm.value.id === "number"){
+              if (typeof recipeForm.value.id === 'number') {
               this.getRecordForEdit();
               }
             }
@@ -102,11 +108,11 @@ export class RecipesFormComponent implements OnInit {
 
   }
 
-  deleteIngredientItem(id: number){
-    let dialogRef = this.dialog.open(DeleteConfirmComponent);
+  deleteIngredientItem(id: number) {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         this.dataService.deleteRecord('ingredientToRecipe', id)
           .subscribe(
             deletedIngredientRecipe => {
@@ -131,6 +137,10 @@ export class RecipesFormComponent implements OnInit {
           error => this.errorMessage = <any>error);
           }
         });
+  }
+
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngAfterViewChecked() {
