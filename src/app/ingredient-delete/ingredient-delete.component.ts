@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { DataService } from '../data.service';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 import { IngredientFormComponent } from '../ingredient-form/ingredient-form.component';
 
@@ -19,6 +19,12 @@ export class IngredientDeleteComponent implements OnInit {
   next: boolean;
   previous: boolean;
 
+  displayedColumns = ['ingredient', 'delete'];
+  dataSource = new MatTableDataSource(this.ingredients);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private dataService: DataService, public dialog: MatDialog) { }
 
   // get a list of all ingredients
@@ -28,19 +34,10 @@ export class IngredientDeleteComponent implements OnInit {
 
     this.dataService.getRecords('ingredients')
     .subscribe(
-  
-      ingredients => this.ingredients = ingredients.reverse().splice(0, 24),
-      error => this.errorMessage = <any>error,
-    );
-  }
-
-  getNextSetOfIngredients() {
-    this.next = false;
-    this.previous = true;
-
-    this.dataService.getRecords('ingredients')
-    .subscribe(
-      ingredients =>this.ingredients = ingredients.reverse().splice(25, 50),
+      ingredients => {
+      this.ingredients = ingredients.reverse();
+      this.dataSource.data = this.ingredients;
+    },
       error => this.errorMessage = <any>error,
     );
   }
@@ -62,11 +59,14 @@ export class IngredientDeleteComponent implements OnInit {
     });
    }
 
- 
 
   ngOnInit() {
     this.getIngredients();
   }
-  
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
 }
