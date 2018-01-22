@@ -33,6 +33,10 @@ export class YummlyComponent implements OnInit {
   // contained in yummly.service.ts
   // Store in the variable yummlyRecipes
   getRecipeFromYummly() {
+    // Setting messages back to null if they have anything in them
+    this.successMessage = null;
+    this.errorMessage = null;
+
     this.yummlyService.getRecipes()
       .subscribe(
       yummlyRecipes => {
@@ -47,6 +51,10 @@ export class YummlyComponent implements OnInit {
   // contained in yummly.service.ts
   // Store in the variable yummlyRecipeDetails
   getRecipeDetailsFromYummly(id) {
+    // Setting messages back to null if they have anything in them
+    this.successMessage = null;
+    this.errorMessage = null;
+
     this.yummlyService.getRecipe(id)
       .subscribe(
       yummlyRecipeDetails => {
@@ -55,7 +63,12 @@ export class YummlyComponent implements OnInit {
           data: { yummlyRecipeDetails: this.yummlyRecipeDetails },
         });
         dialogRef.afterClosed().subscribe(message => {
-          this.successMessage = message;
+          // Ensuring message is other than true
+          // Message is true if the dialog is closed without user adding cookie to cookie jar
+          if(message != true){
+            this.successMessage = message;
+          }
+          
         }
         );
       },
@@ -67,13 +80,16 @@ export class YummlyComponent implements OnInit {
   // Builds a query parameter in yummly.service.ts based on user input
   // Stores in the yummlyRecipes variable to immediately update page with results
   getRecipesFromYummlyBasedOnQuery(query: string) {
+    // Setting messages back to null if they have anything in them
+    this.successMessage = null;
+    this.errorMessage = null;
+    
     this.yummlyService.searchForRecipes(query.split(' '))
       .subscribe(
       yummlyRecipes => {
         this.yummlyRecipes = yummlyRecipes.matches;
         this.dataSource.data = yummlyRecipes.matches;
-      },
-      error => this.errorMessage = <any>error
+      }
     );
   }
 

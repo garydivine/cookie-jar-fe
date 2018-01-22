@@ -5,6 +5,10 @@
 
   <h2>Delete Ingredients</h2>
 
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  </mat-form-field>
+
   
   <mat-table #table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="ingredient">
