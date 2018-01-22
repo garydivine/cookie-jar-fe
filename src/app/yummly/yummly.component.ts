@@ -41,7 +41,6 @@ export class YummlyComponent implements OnInit {
       },
       error => this.errorMessage = <any>error
     );
-    
   }
 
   // Get recipe details for a passed ID using the built Yummly Service
@@ -68,14 +67,13 @@ export class YummlyComponent implements OnInit {
   // Builds a query parameter in yummly.service.ts based on user input
   // Stores in the yummlyRecipes variable to immediately update page with results
   getRecipesFromYummlyBasedOnQuery(query: string) {
-    this.yummlyService.searchForRecipes(query.split(" "))
+    this.yummlyService.searchForRecipes(query.split(' '))
       .subscribe(
       yummlyRecipes => {
         this.yummlyRecipes = yummlyRecipes.matches;
         this.dataSource.data = yummlyRecipes.matches;
       },
       error => this.errorMessage = <any>error
-      
     );
   }
 
@@ -84,6 +82,7 @@ export class YummlyComponent implements OnInit {
     this.getRecipeFromYummly();
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
