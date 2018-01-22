@@ -23,6 +23,18 @@ Front-end:
 
 ### API Documentation
 
+Authenticated users can view our API documentation at the following location:
+
+http://localhost:8080/swagger-ui.html
+
 ### Third-Party API Integration
 
+This project integrates with the Yummly Recipe API: 
+
+https://developer.yummly.com/
+
 ### Deployment Details
+
+Our project was deployed to Heroku SaaS and is available at the following location:
+
+http://cookie-dot-jar.herokuapp.com/
