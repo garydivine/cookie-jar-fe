@@ -24,7 +24,7 @@ export class YummlyDetailsComponent implements OnInit {
 
   user: any = null;
 
-  ingredientPattern = /^((?:[\d\xBC-\xBE\u2151-\u215e]+)|(?:\d+\/\d+)|(?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|drop)(?:s|es)?\.?)?\b(.+)/i
+  ingredientPattern = /^((?:\d+ \d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)|(?:\d+\/\d+)|(?:[\d\xBC-\xBE\u2151-\u215e]+)) ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|drop|pkg|package|bag|c|t)(?:s|es)?\.?)?(.+)/i
 
   successMessage: string;
   errorMessage: string;
@@ -68,18 +68,23 @@ export class YummlyDetailsComponent implements OnInit {
 
             let quantity = this.findProperties(ingredientLine)["quantity"];
             if (quantity != null) {
+              // Remove leading and trailing spaces, commas and periods 
               quantity = quantity.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
             ingredientRecipe["quantity"] = quantity;
 
             let unitOfMeasurement = this.findProperties(ingredientLine)["measurement"];
             if (unitOfMeasurement != null) {
+              // Remove leading and trailing spaces, commas and periods 
               unitOfMeasurement = unitOfMeasurement.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
             ingredientRecipe["unitOfMeasurement"] = unitOfMeasurement
 
             let ingredientStringFromApi: string = this.findProperties(ingredientLine)["ingredientName"];
             if (ingredientStringFromApi != null) {
+              // Remove anyting in leading parentheses
+              // Also remove leading and trailing spaces, commas and periods 
+              ingredientStringFromApi = ingredientStringFromApi.replace(/^(\(.+)\)/g, '');
               ingredientStringFromApi = ingredientStringFromApi.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
 
