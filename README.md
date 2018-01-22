@@ -1,27 +1,28 @@
-# CookieJarFe
+## CookieJarFe
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.1.
+This is the Angular Front-End for the Cookie.jar project. Cookie.jar is a Final Project for the GoForCode November Indianapolis Cohort.
 
-## Development server
+The correspoinding backend project is available here:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+https://github.com/garydivine/cookie-jar-be 
 
-## Code scaffolding
+### Technology Stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The following technologies were used to build this project: 
 
-## Build
+Back-end: 
+* Core: Java using the Spring Framework. RESTful web service principles were adhered to
+* Spring Data JPA
+* Hybernate ORM
+* PostgreSQL Database
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Front-end: 
+* Core: Javascript using the Angular Framework (version 4)
+* Bootstrap front-end framework for HTML, CSS and JS
+* Angular Material UI components
 
-## Running unit tests
+### API Documentation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Third-Party API Integration
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Deployment Details
