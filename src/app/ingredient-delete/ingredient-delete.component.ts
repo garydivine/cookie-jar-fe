@@ -35,7 +35,17 @@ export class IngredientDeleteComponent implements OnInit {
     this.dataService.getRecords('ingredients')
     .subscribe(
       ingredients => {
-      this.ingredients = ingredients.reverse();
+        ingredients.sort(function (a, b) {
+          const nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
+          if (nameA < nameB) //sort string ascending
+            return -1
+          if (nameA > nameB)
+            return 1
+          return 0; //default return value (no sorting)
+        });
+
+      // this.ingredients = ingredients.reverse();
+      this.ingredients = ingredients;
       this.dataSource.data = this.ingredients;
     },
       error => this.errorMessage = <any>error,
@@ -43,6 +53,8 @@ export class IngredientDeleteComponent implements OnInit {
   }
 
   deleteIngredient(id: number) {
+    this.successMessage = '';
+    this.errorMessage = '';
 
     const dialogRef = this.dialog.open(DeleteConfirmComponent);
 
