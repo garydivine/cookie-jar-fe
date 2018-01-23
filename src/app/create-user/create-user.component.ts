@@ -32,28 +32,18 @@ export class CreateUserComponent implements OnInit {
     if (userForm.value.password !== userForm.value.confirmPassword) {
       this.errorMessage = 'Passwords do not match';
     } else {
-    this.userService.createUser('create', userForm.value)
-      .subscribe(
-      user => {
-        this.dialogRef.close();
-        localStorage.setItem('user', JSON.stringify(user));
-      },
-      error => this.errorMessage = <any>error);
-    this.loginInfo = {
-      'user' : this.user.username,
-      'password' : this.user.password
-    };
-    this.loginService.loginUser('login', this.loginInfo)
-      .subscribe(
-      user => {
-        localStorage.setItem('user', JSON.stringify(user));
-      },
-      error => this.errorMessage = <any>error);
-    this.dialogRef.afterClosed()
-      .subscribe(
-      result => {
-        location.reload();
-      });
+      this.userService.createUser('create', userForm.value)
+        .subscribe(
+        user => {
+          // tslint:disable-next-line:max-line-length
+          this.successMessage = `Created your account. Login to get started!`;
+        },
+        error => this.errorMessage = 'User Already Exists');
+      this.dialogRef.afterClosed()
+        .subscribe(
+        result => {
+          location.reload();
+        });
     }
   }
 
