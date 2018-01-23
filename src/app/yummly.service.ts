@@ -15,6 +15,8 @@ export class YummlyService {
   private apiSpec: string = '?_app_id=37304cb5&_app_key=9a0515dab83f075f9bd1365932fcc264';
   // tslint:disable-next-line:no-inferrable-types
   private cookieQuery: string = '&q=cookies&maxResult=20&start=';
+  // tslint:disable-next-line:no-inferrable-types
+  private randomCookieQuery: string = '&q=cookies&maxResult=1&start=';
 
   randomNumber: number;
 
@@ -40,11 +42,20 @@ export class YummlyService {
 
   // Get details on a specific Cookie recipe based on a passed in ID
   getRecipe(id: String): Observable<any> {
-    const apiUrl = `${this.recipeUrl}${id}${this.apiSpec}`;
+    const apiUrl = `${this.recipeUrl}${id}${this.apiSpec}${this.randomNumber}`;
     return this.http.get(apiUrl)
       .map(result => {
         return result.json();
       });
+  }
+
+  // Get details from a random recipe
+  getFeaturedRecipe() {
+    const apiUrl = `${this.recipesUrl}${this.apiSpec}${this.randomCookieQuery}`;
+    return this.http.get(apiUrl)
+    .map(result => {
+      return result.json();
+    });
   }
 
   // Search for recipes based on a passed query parameters
