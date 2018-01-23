@@ -51,7 +51,8 @@ export class YummlyService {
 
   // Get details from a random recipe
   getFeaturedRecipe() {
-    const apiUrl = `${this.recipesUrl}${this.apiSpec}${this.randomCookieQuery}`;
+    this.generateRandomNumber();
+    const apiUrl = `${this.recipesUrl}${this.apiSpec}${this.randomCookieQuery}${this.randomNumber}`;
     return this.http.get(apiUrl)
     .map(result => {
       return result.json();
