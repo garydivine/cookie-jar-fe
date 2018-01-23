@@ -35,7 +35,7 @@ export class RecipesFormComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   getRecordForEdit() {
     this.route.params
@@ -58,48 +58,48 @@ export class RecipesFormComponent implements OnInit {
 
     if (typeof recipeForm.value.id === 'number') {
       this.dataService.editRecord('recipes', recipeForm.value, recipeForm.value.id)
-          .subscribe(
-            recipe => {
-              this.successMessage = 'Cookie recipe updated successfully';
-              this.recipe = recipe;
-              for (const ingredientRecipe of this.ingredientQueue) {
-                this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
-              }
-              // Needed for deleting ingredients off of a recipe
-              // The recipe returned isn't up-to-date
-              this.getRecordForEdit();
-              this.ingredientQueue = [];
-          },
-            error => this.errorMessage = <any>error
-          );
-    }else {
+        .subscribe(
+        recipe => {
+          this.successMessage = 'Cookie recipe updated successfully';
+          this.recipe = recipe;
+          for (const ingredientRecipe of this.ingredientQueue) {
+            this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
+          }
+          // Needed for deleting ingredients off of a recipe
+          // The recipe returned isn't up-to-date
+          this.getRecordForEdit();
+          this.ingredientQueue = [];
+        },
+        error => this.errorMessage = <any>error
+        );
+    } else {
       this.dataService.addRecord('recipes', recipeForm.value)
-          .subscribe(
-            recipe => {
-              this.successMessage = 'Cookie added to your Cookie.Jar!';
-              this.recipe = recipe;
-              for (const ingredientRecipe of this.ingredientQueue) {
-                this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
-              }
-              this.ingredientQueue = [];
-              this.recipeForm.form.reset();
-              this.recipe = {};
-          },
-            error =>  this.errorMessage = <any>error);
+        .subscribe(
+        recipe => {
+          this.successMessage = 'Cookie added to your Cookie.Jar!';
+          this.recipe = recipe;
+          for (const ingredientRecipe of this.ingredientQueue) {
+            this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
+          }
+          this.ingredientQueue = [];
+          this.recipeForm.form.reset();
+          this.recipe = {};
+        },
+        error => this.errorMessage = <any>error);
     }
 
   }
 
   saveIngredientItemToRecipe(ingredientRecipe, recipeForm: NgForm) {
     this.dataService.addRecord('ingredientToRecipe/' + this.recipe['id'], ingredientRecipe)
-          .subscribe(
-            recipe => {
-              if (typeof recipeForm.value.id === 'number') {
-              this.getRecordForEdit();
-              }
-            }
-            ,
-            error =>  this.errorMessage = <any>error);
+      .subscribe(
+      recipe => {
+        if (typeof recipeForm.value.id === 'number') {
+          this.getRecordForEdit();
+        }
+      }
+      ,
+      error => this.errorMessage = <any>error);
   }
 
 
@@ -115,34 +115,35 @@ export class RecipesFormComponent implements OnInit {
       if (result) {
         this.dataService.deleteRecord('ingredientToRecipe', id)
           .subscribe(
-            deletedIngredientRecipe => {
-            let foundInIngredientQueue: boolean = false;
+          deletedIngredientRecipe => {
+            let foundInIngredientQueue = false;
 
             // If present, remove deleted item from ingredientQueue
-            for (let ingredientItem of this.ingredientQueue){
-              if (ingredientItem["id"] === deletedIngredientRecipe["id"]) {
+            for (const ingredientItem of this.ingredientQueue) {
+              if (ingredientItem['id'] === deletedIngredientRecipe['id']) {
                 foundInIngredientQueue = true;
-                let index = this.ingredientQueue.indexOf(ingredientItem);
-                  if (index > -1){
-                    this.ingredientQueue.splice(index, 1);
-                  }
+                const index = this.ingredientQueue.indexOf(ingredientItem);
+                if (index > -1) {
+                  this.ingredientQueue.splice(index, 1);
+                }
               }
-            } 
+            }
 
             // If deleted item not in ingredientQueue, refresh the recipe
-            if (!foundInIngredientQueue){
+            if (!foundInIngredientQueue) {
               this.getRecordForEdit();
             }
-           },
+          },
           error => this.errorMessage = <any>error);
-          }
-        });
+      }
+    });
   }
 
   getUserFromSession() {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewChecked() {
     this.formChanged();
   }
@@ -151,20 +152,21 @@ export class RecipesFormComponent implements OnInit {
     this.recipeForm = this.currentForm;
     this.recipeForm.valueChanges
       .subscribe(
-        data => this.onValueChanged()
+      data => this.onValueChanged()
       );
   }
 
   onValueChanged() {
-    let form = this.recipeForm.form;
+    const form = this.recipeForm.form;
 
-    for (let field in this.formErrors) {
-      
+    // tslint:disable-next-line:forin
+    for (const field in this.formErrors) {
       this.formErrors[field] = '';
       const control = form.get(field);
 
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
+        // tslint:disable-next-line:forin
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
         }
@@ -172,22 +174,21 @@ export class RecipesFormComponent implements OnInit {
     }
   }
 
+  // tslint:disable-next-line:member-ordering
   formErrors = {
     'name': '',
     'instructions': ''
   };
 
+  // tslint:disable-next-line:member-ordering
   validationMessages = {
     'name': {
       'required': 'Recipe name is required',
-      'maxlength' : 'Recipe name must be less than 60 characters'
+      'maxlength': 'Recipe name must be less than 60 characters'
     },
-    
     'instructions': {
       'required': 'Recipe instructions are required'
-     
     }
-
   };
 
 }
