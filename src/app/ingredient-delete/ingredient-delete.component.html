@@ -3,11 +3,13 @@
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-  <h2>Delete Ingredients</h2>
+  <h2>Edit or Delete Ingredients</h2>
 
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
+
+
 
   
   <mat-table #table [dataSource]="dataSource" matSort>
@@ -16,6 +18,20 @@
       <mat-cell *matCellDef="let ingredient" [ngClass]="'nameColumnAlignment'"> {{ingredient.name}} </mat-cell>
     </ng-container>
 
+      <ng-container matColumnDef="options">
+        <mat-header-cell *matHeaderCellDef> Options </mat-header-cell>
+        <mat-cell *matCellDef="let ingredient">
+         
+          <a class="btn btn-info" [routerLink]="['/ingredient/edit/', ingredient.id]">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          </a>&nbsp;
+          <button (click)="deleteIngredient(ingredient.id)" class="btn btn-danger">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <!--
     <ng-container matColumnDef="delete">
       <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
       <mat-cell *matCellDef="let ingredient">
@@ -24,6 +40,7 @@
         </button>
       </mat-cell>
     </ng-container>
+  -->
   
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

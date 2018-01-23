@@ -17,7 +17,7 @@
                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/recipe">{{user.firstName}}'s Cookie.Jar</a></li>
                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/recipe/add">Add Recipe</a></li>
                 <li routerLinkActive="active"><a routerLink="/yummly" >Cookie Ideas</a></li>
-                <li *ngIf="user.id == 1" routerLinkActive="active"><a routerLink="/ingredient/delete">Delete Ingredients</a></li>
+                <li *ngIf="user.id == 1" routerLinkActive="active"><a routerLink="/ingredient/delete">Ingredients</a></li>
                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="invokeLogoutDialog()"><a routerLink="">Logout</a></li>
             </ul>
         </div>
