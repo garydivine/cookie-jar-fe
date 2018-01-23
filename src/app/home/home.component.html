@@ -6,9 +6,7 @@
         <img id="mainbanner" src="./assets/images/plate of cookies.jpg" alt="cookies">
     </div>
   </div>
-
-  <!-- featurettes-->
-
+  
   <hr>
   
   <div class="row featurette">
@@ -38,8 +36,16 @@
       <img src="./assets/images/cookie_jar.jpg" alt="Image of cookie jar">
     </div>
   </div>
-  
+
   <hr>
-    
-  <!-- /END THE FEATURETTES -->
+  
+  <div class="row">
+      <div *ngFor="let recipe of yummlyRecipe"class="col-md-8">
+        <h2 class="featurette-heading">Featured Recipe</h2>
+        <p class="lead">With over 40,000 recipes there's bound to be something you'll love. Login or Sign-Up to add <b>{{recipe.recipeName}}</b> to your Cookie.jar</p>
+      </div>
+      <div *ngFor="let image of yummlyRecipe" class="col-md-4">
+        <img id="yummlyimage" src="{{image.smallImageUrls}}"/>
+      </div>
+  </div>
   </section>
