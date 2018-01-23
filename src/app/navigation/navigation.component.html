@@ -18,22 +18,19 @@
                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/recipe/add">Add Recipe</a></li>
                 <li routerLinkActive="active"><a routerLink="/yummly" >Cookie Ideas</a></li>
                 <li *ngIf="user.id == 1" routerLinkActive="active"><a routerLink="/ingredient/delete">Delete Ingredients</a></li>
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="invokeLogoutDialog()"><a routerLink="">Logout</a></li>
             </ul>
-            <div (click)="invokeLogoutDialog()">
-                <button class="btn btn-info">Logout</button>
-            </div>
-        </div><!--/.nav-collapse -->
+        </div>
      </div>
 
      <div *ngIf="!user">
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li routerLinkActive="active"><a routerLink="/home">Home</a></li>
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="invokeCreateUserDialog()"><a routerLink="">Sign-Up</a></li>
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="invokeLoginDialog()"><a routerLink="">Login</a></li>
                 </ul>
-                <div (click)="invokeLoginDialog()">
-                    <button class="btn btn-info ">Login</button>
-                </div>
-            </div><!--/.nav-collapse -->
+            </div>
     </div>
 
 

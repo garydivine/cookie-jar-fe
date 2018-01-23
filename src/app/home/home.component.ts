@@ -11,9 +11,15 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
 })
 export class HomeComponent implements OnInit {
 
+  user = null;
+
   constructor() { }
 
-  ngOnInit() {
+  checkForUser() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
 
+  ngOnInit() {
+    this.checkForUser();
+  }
 }

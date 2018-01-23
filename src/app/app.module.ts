@@ -12,6 +12,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { StatusMessageComponent } from './status-message/status-message.component';
 import { DataService } from './data.service';
 import { LoginService } from './login.service';
+import { UserService } from './user.service';
 import { AppRoutingModule } from './routing/routing.module';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
@@ -36,7 +37,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
-
+import { CreateUserComponent } from './create-user/create-user.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { MatInputModule } from '@angular/material';
     LogoutComponent,
     LinkifyPipe,
     IngredientDeleteComponent,
-    DeleteCookiesComponent
+    DeleteCookiesComponent,
+    CreateUserComponent
 
   ],
   imports: [
@@ -83,7 +85,8 @@ import { MatInputModule } from '@angular/material';
   providers: [
     DataService,
     YummlyService,
-    LoginService
+    LoginService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

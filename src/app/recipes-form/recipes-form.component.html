@@ -69,7 +69,7 @@
     
       <label for="time" class="col-sm-2 control-label">For</label>
       <div class="col-sm-2">
-        <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="text" class="form-control" id="time" name="time"  placeholder="e.g. 12">
+        <input [ngModel]="recipe?.time" ngModel #recipe_time="ngModel" type="text" class="form-control" id="time" name="time"  placeholder="e.g. 12 min">
         <span *ngIf="formErrors.time" class="text-danger">
           {{ formErrors.time }}
         </span>

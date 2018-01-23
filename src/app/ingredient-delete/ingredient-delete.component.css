@@ -1,0 +1,11 @@
+
+
+/* Search input text */
+:host ::ng-deep .mat-input-placeholder {
+    color: rgb(100, 97, 97);
+}
+
+/* Search input underline */
+:host ::ng-deep .mat-input-ripple  {
+    background-color: #81D0D3;
+}

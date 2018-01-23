@@ -1,0 +1,43 @@
+<section @fadeInAnimation>
+
+  <button mat-button [mat-dialog-close]="true" class="btn btn-danger pull-right">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  </button>
+    
+  <h3 md-dialog-title>Sign-Up for MyCookie.jar</h3>
+  
+  <mat-dialog-content>
+
+  <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
+
+  <br>
+
+  <form (ngSubmit)="createUser(userForm)" #userForm="ngForm">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input ngModel #loginForm.firstName="ngModel" type="text" class="form-control" id="firstName" name="firstName" placeholder="eg: Cookie">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input ngModel #loginForm.lastName="ngModel" type="text" class="form-control" id="lastName" name="lastName" placeholder="eg: Monster">
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input ngModel #loginForm.username="ngModel" type="text" class="form-control" id="username" name="username" placeholder="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input ngModel #loginForm.password="ngModel" type="password" class="form-control" id="password" name="password" placeholder="password">
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input ngModel #loginForm.confirmPassword="ngModel" type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="password">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+  </form>
+
+  </mat-dialog-content>
+
+</section>
