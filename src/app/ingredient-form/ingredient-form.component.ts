@@ -127,8 +127,7 @@ export class IngredientFormComponent implements OnInit {
         'maxlength': 'Ingredient name must be less than 50 characters'
       },
       'quantity': {
-        'required': 'Ingredient quantity is needed',
-        'maxlength': 'Ingredient quantity must be less than 30 characters'
+        'maxlength': 'Ingredient quantity must be less than 20 characters'
      },
      'unitOfMeasurement': {}
   };

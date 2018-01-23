@@ -24,7 +24,7 @@ export class YummlyDetailsComponent implements OnInit {
 
   user: any = null;
 
-  ingredientPattern = /^((?:\d+[ -]\d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)|(?:\d+[\/-]\d+)|(?:[\d\xBC-\xBE\u2151-\u215e]+))? ((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|drop|pkg|package|bag|box|c|t)(?:s|es)?\.?)?(.+)/i
+  ingredientPattern = /^((?:\d+[ -]\d+\/\d+)|(?:\d+ [\d\xBC-\xBE\u2151-\u215e]+?)|(?:\d+[\/-]\d+)|(?:[\d\xBC-\xBE\u2151-\u215e]+))?\s?((?:tbsp|tbs|tsp|cup|tablespoon|teaspoon|pinch|cup|ounce|oz|stick|gram|g|grm|drop|pkg|package|bag|box|c|t)(?:s|es)?\.?)?(.+)/i
 
   successMessage: string;
   errorMessage: string;
@@ -62,8 +62,8 @@ export class YummlyDetailsComponent implements OnInit {
           // Adding Ingredient Line Items to Recipe that was just created
           for (const ingredientLine of this.data.yummlyRecipeDetails.ingredientLines) {
             let ingredientRecipe: object = {
-              unitOfMeasurement: "",
-              quantity: "",
+              unitOfMeasurement: '',
+              quantity: '',
               ingredient: {}
             };
 
@@ -76,7 +76,7 @@ export class YummlyDetailsComponent implements OnInit {
 
             let unitOfMeasurement = this.findProperties(ingredientLine)['measurement'];
             if (unitOfMeasurement != null) {
-              // Remove leading and trailing spaces, commas and periods 
+              // Remove leading and trailing spaces, commas and periods
               unitOfMeasurement = unitOfMeasurement.replace(/(^[,.\s]+)|([,.\s]+$)/g, '');
             }
             ingredientRecipe['unitOfMeasurement'] = unitOfMeasurement;
@@ -85,10 +85,11 @@ export class YummlyDetailsComponent implements OnInit {
             if (ingredientStringFromApi != null) {
               // Remove anyting in leading parentheses
               // Also remove leading and trailing spaces, commas and periods
-              ingredientStringFromApi = ingredientStringFromApi.replace(/(^[,.\s]?(\(.+\)))|([,.\s]+$)/g, '');
+              ingredientStringFromApi = ingredientStringFromApi.replace(/(^[,.\s]?(\(.+?\)) )|([,.\s]+$)/g, '');
+
             }
 
-            if(ingredientStringFromApi == null){
+            if (ingredientStringFromApi == null) {
               this.ingredientsThatErrored.push(ingredientLine);
             } else {
               this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
@@ -114,7 +115,7 @@ export class YummlyDetailsComponent implements OnInit {
       name: ''
     };
 
-    let wasFound: boolean = false;
+    let wasFound = false;
     let foundIngredient;
 
     for (const existingIngredient of this.existingIngredients){
@@ -146,7 +147,9 @@ export class YummlyDetailsComponent implements OnInit {
   addIngredientLineItemToRecipe(ingredientRecipe: object) {
     this.dataService.addRecord('ingredientToRecipe/' + this.recipe['id'], ingredientRecipe)
         .subscribe(
-          recipe => {console.log(this.ingredientsThatErrored)},
+          recipe => {
+            console.log(this.ingredientsThatErrored);
+          },
           error => this.errorMessage = <any>error
         );
     }
@@ -170,7 +173,7 @@ export class YummlyDetailsComponent implements OnInit {
   findProperties(ingredientString: string): object {
     let matches = ingredientString.match(this.ingredientPattern);
 
-    console.log(`On ${ingredientString}, we matched: `, matches)
+    console.log(`On ${ingredientString}, we matched: `, matches);
     if (matches == null) {
       // do error handling
       matches = [null, null, null]
