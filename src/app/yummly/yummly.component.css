@@ -35,3 +35,6 @@
 :host ::ng-deep .mat-input-ripple  {
     background-color: #81D0D3;
 }
+.mat-header-cell {
+    font-weight: bolder;
+}
