@@ -37,12 +37,6 @@ export class RecipesFormComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
-  getRecordForEdit() {
-    this.route.params
-      .switchMap((params: Params) => this.dataService.getRecord('recipes', +params['id']))
-      .subscribe(recipe => this.recipe = recipe);
-  }
-
   ngOnInit() {
     this.route.params
       .subscribe((params: Params) => {
@@ -51,92 +45,100 @@ export class RecipesFormComponent implements OnInit {
       });
   }
 
-  saveRecipe(recipeForm: NgForm) {
+  getRecordForEdit() {
+    this.route.params
+      .switchMap((params: Params) => this.dataService.getRecord('recipes', +params['id']))
+      .subscribe(recipe => this.recipe = recipe);
+  }
 
+  saveRecipe(recipeForm: NgForm) {
     this.getUserFromSession();
     this.recipeForm.value['user'] = this.user;
 
+    // Editing an existing recipe
     if (typeof recipeForm.value.id === 'number') {
       this.dataService.editRecord('recipes', recipeForm.value, recipeForm.value.id)
         .subscribe(
-        recipe => {
-          this.successMessage = 'Cookie recipe updated successfully';
-          this.recipe = recipe;
-          for (const ingredientRecipe of this.ingredientQueue) {
-            this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
-          }
-          // Needed for deleting ingredients off of a recipe
-          // The recipe returned isn't up-to-date
-          this.getRecordForEdit();
-          this.ingredientQueue = [];
-        },
-        error => this.errorMessage = <any>error
+          recipe => {
+            this.successMessage = 'Cookie recipe updated successfully';
+            this.recipe = recipe;
+            for (const ingredientRecipe of this.ingredientQueue) {
+              this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
+            }
+            // Needed for deleting ingredients off of a recipe
+            // The recipe returned isn't up-to-date
+            this.getRecordForEdit();
+            this.ingredientQueue = [];
+          },
+          error => this.errorMessage = <any>error
         );
     } else {
+      // Creating a new recipe
       this.dataService.addRecord('recipes', recipeForm.value)
         .subscribe(
-        recipe => {
-          this.successMessage = 'Cookie added to your Cookie.Jar!';
-          this.recipe = recipe;
-          for (const ingredientRecipe of this.ingredientQueue) {
-            this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
-          }
-          this.ingredientQueue = [];
-          this.recipeForm.form.reset();
-          this.recipe = {};
-        },
-        error => this.errorMessage = <any>error);
+          recipe => {
+            this.successMessage = 'Cookie added to your Cookie.Jar!';
+            this.recipe = recipe;
+            for (const ingredientRecipe of this.ingredientQueue) {
+              this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);
+            }
+            this.ingredientQueue = [];
+            this.recipeForm.form.reset();
+            this.recipe = {};
+          },
+          error => this.errorMessage = <any>error
+      );
     }
-
   }
 
   saveIngredientItemToRecipe(ingredientRecipe, recipeForm: NgForm) {
     this.dataService.addRecord('ingredientToRecipe/' + this.recipe['id'], ingredientRecipe)
       .subscribe(
-      recipe => {
-        if (typeof recipeForm.value.id === 'number') {
-          this.getRecordForEdit();
-        }
-      }
-      ,
-      error => this.errorMessage = <any>error);
+        recipe => {
+          // Refresh edited recipe
+          if (typeof recipeForm.value.id === 'number') {
+            this.getRecordForEdit();
+          }
+        },
+        error => this.errorMessage = <any>error
+      );
   }
-
 
   addToIngredientQueue(ingredientRecipe) {
     this.ingredientQueue.push(ingredientRecipe);
-
   }
 
   deleteIngredientItem(id: number) {
     const dialogRef = this.dialog.open(DeleteConfirmComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.dataService.deleteRecord('ingredientToRecipe', id)
-          .subscribe(
-          deletedIngredientRecipe => {
-            let foundInIngredientQueue = false;
+    dialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          this.dataService.deleteRecord('ingredientToRecipe', id)
+            .subscribe(
+            deletedIngredientRecipe => {
+              let foundInIngredientQueue = false;
 
-            // If present, remove deleted item from ingredientQueue
-            for (const ingredientItem of this.ingredientQueue) {
-              if (ingredientItem['id'] === deletedIngredientRecipe['id']) {
-                foundInIngredientQueue = true;
-                const index = this.ingredientQueue.indexOf(ingredientItem);
-                if (index > -1) {
-                  this.ingredientQueue.splice(index, 1);
+              // If present, remove deleted item from ingredientQueue
+              for (const ingredientItem of this.ingredientQueue) {
+                if (ingredientItem['id'] === deletedIngredientRecipe['id']) {
+                  foundInIngredientQueue = true;
+                  const index = this.ingredientQueue.indexOf(ingredientItem);
+                  if (index > -1) {
+                    this.ingredientQueue.splice(index, 1);
+                  }
                 }
               }
-            }
 
-            // If deleted item not in ingredientQueue, refresh the recipe
-            if (!foundInIngredientQueue) {
-              this.getRecordForEdit();
-            }
-          },
-          error => this.errorMessage = <any>error);
+              // If deleted item not in ingredientQueue, refresh the recipe
+              if (!foundInIngredientQueue) {
+                this.getRecordForEdit();
+              }
+            },
+            error => this.errorMessage = <any>error);
+        }
       }
-    });
+    );
   }
 
   getUserFromSession() {
@@ -152,7 +154,7 @@ export class RecipesFormComponent implements OnInit {
     this.recipeForm = this.currentForm;
     this.recipeForm.valueChanges
       .subscribe(
-      data => this.onValueChanged()
+        data => this.onValueChanged()
       );
   }
 
