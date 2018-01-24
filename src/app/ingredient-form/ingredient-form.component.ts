@@ -41,16 +41,16 @@ export class IngredientFormComponent implements OnInit {
   }
 
   getIngredients(){
-    this.dataService.getRecords("ingredients")
+    this.dataService.getRecords('ingredients')
     .subscribe(
     ingredients => {
       ingredients.sort(function (a, b) {
-        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase()
-        if (nameA < nameB) //sort string ascending
+        let nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) // sort string ascending
           return -1
         if (nameA > nameB)
           return 1
-        return 0 //default return value (no sorting)
+        return 0; // default return value (no sorting)
       });
 
       this.ingredients = ingredients;

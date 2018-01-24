@@ -65,11 +65,10 @@ export class YummlyComponent implements OnInit {
         dialogRef.afterClosed().subscribe(message => {
           // Ensuring message is other than true
           // Message is true if the dialog is closed without user adding cookie to cookie jar
-          if(message != true){
+          if (message != true) {
             this.successMessage = message;
           }
-          
-        }
+                  }
         );
       },
       error => this.errorMessage = <any>error
@@ -83,7 +82,6 @@ export class YummlyComponent implements OnInit {
     // Setting messages back to null if they have anything in them
     this.successMessage = null;
     this.errorMessage = null;
-    
     this.yummlyService.searchForRecipes(query.split(' '))
       .subscribe(
       yummlyRecipes => {
