@@ -32,6 +32,14 @@ export class YummlyDetailsComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dataService: DataService,
   public dialogRef: MatDialogRef<YummlyDetailsComponent>) { }
 
+  ngOnInit() {
+    this.getExistingIngredients();
+  }
+
+  getUserFromSession() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+  }
+
   getExistingIngredients() {
     this.dataService.getRecords('ingredients')
     .subscribe(
@@ -42,7 +50,6 @@ export class YummlyDetailsComponent implements OnInit {
   }
 
   saveYummlyRecipeToCookieJar() {
-
     this.getUserFromSession();
 
     this.recipe = {
@@ -84,7 +91,7 @@ export class YummlyDetailsComponent implements OnInit {
 
             let ingredientStringFromApi: string = this.findProperties(ingredientLine)['ingredientName'];
             if (ingredientStringFromApi != null) {
-              // Remove anyting in leading parentheses
+              // Remove anyting in leading parentheses and the word "of"
               // Also remove leading and trailing spaces, commas and periods
               ingredientStringFromApi = ingredientStringFromApi.replace(/(^[,.\s]?(?:of)?(\(.+?\))? )|([,.\s]+$)/g, '');
 
@@ -96,10 +103,12 @@ export class YummlyDetailsComponent implements OnInit {
               this.saveIngredient(ingredientStringFromApi, ingredientRecipe);
             }
           }
+
+          // Additional Messaging for when one or more ingredients didn't make it to the cookie jar
           if (this.ingredientsThatErrored.length > 0) {
             this.successMessage = `${this.successMessage}. However, there was at least one ingredient we were not able to add for you. 
             Please see the instructions section of the ${this.recipe['name']} recipe to see those ingredients and add them to your recipe.`
-            this.updateRecipe();
+            this.updateRecipeInstructionsWithErrors();
           }
 
           this.dialogRef.close(this.successMessage);
@@ -119,6 +128,7 @@ export class YummlyDetailsComponent implements OnInit {
     let wasFound = false;
     let foundIngredient;
 
+    // Determine if ingredient already exists in database
     for (const existingIngredient of this.existingIngredients){
       if (existingIngredient.name.toLowerCase() === ingredientStringFromApi.toLowerCase()) {
         wasFound = true;
@@ -126,11 +136,13 @@ export class YummlyDetailsComponent implements OnInit {
       }
     }
 
+    // If ingredient exists in database, associate it to ingredientRecipe object
     if (wasFound) {
       ingredientRecipe['ingredient'] = foundIngredient;
       this.addIngredientLineItemToRecipe(ingredientRecipe);
     }
 
+    // If ingredient is not pre-existing, create it
     if (!wasFound) {
       ingredientToAdd.name = ingredientStringFromApi.toLowerCase();
       this.dataService.addRecord('ingredients', ingredientToAdd)
@@ -153,8 +165,8 @@ export class YummlyDetailsComponent implements OnInit {
         );
     }
 
-    updateRecipe() {
-      this.recipe['instructions'] = `${this.recipe['instructions']} Here are the ingredients we were not able to add for you: `
+    updateRecipeInstructionsWithErrors() {
+      this.recipe['instructions'] = `${this.recipe['instructions']} Here are the ingredients we were not able to add for you: `;
 
           for (const ingredientError of this.ingredientsThatErrored){
             this.recipe['instructions'] = `${this.recipe['instructions']} ${ingredientError}.`;
@@ -170,12 +182,13 @@ export class YummlyDetailsComponent implements OnInit {
     }
 
   findProperties(ingredientString: string): object {
+    // Will return an array with the matched strings based on the regex expression
     let matches = ingredientString.match(this.ingredientPattern);
 
     if (matches == null) {
-      // do error handling
       matches = [null, null, null]
     }
+
     return ({
       quantity:    matches[1] || null,
       measurement: matches[2] || null,
@@ -183,12 +196,7 @@ export class YummlyDetailsComponent implements OnInit {
     });
   }
 
-  getUserFromSession() {
-    this.user = JSON.parse(localStorage.getItem('user'));
-  }
-  ngOnInit() {
-    this.getExistingIngredients();
-  }
+
 
 
 }
