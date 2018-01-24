@@ -33,25 +33,24 @@ export class IngredientDialogFormComponent implements OnInit {
   saveIngredient(pantryForm: NgForm) {
     this.successMessage = null;
     this.errorMessage = null;
-      this.dataService.addRecord("ingredients", pantryForm.value)
+      this.dataService.addRecord('ingredients', pantryForm.value)
         .subscribe(
           ingredient => {
-            this.successMessage = "Record added";
+            this.successMessage = 'Record added';
             this.ingredient = ingredient;
             this.ingredientSubmitted.emit(ingredient);
             this.ingredient = {};
             this.pantryForm.form.reset();
           },
           error => {
-            this.errorMessage = "This ingredient already exists";
+            this.errorMessage = 'This ingredient already exists';
             this.ingredient = {};
             this.pantryForm.form.reset();
           }
         );
-        
-        
     }
 
+    // tslint:disable-next-line:use-life-cycle-interface
     ngAfterViewChecked() {
       this.formChanged();
 
@@ -66,14 +65,16 @@ export class IngredientDialogFormComponent implements OnInit {
     }
 
     onValueChanged() {
-      let form = this.pantryForm.form;
+      const form = this.pantryForm.form;
 
-      for (let field in this.formErrors) {
+      // tslint:disable-next-line:forin
+      for (const field in this.formErrors) {
         this.formErrors[field] = '';
         const control = form.get(field);
 
         if (control && control.dirty && !control.valid) {
           const messages = this.validationMessages[field];
+          // tslint:disable-next-line:forin
           for (const key in control.errors) {
             this.formErrors[field] += messages[key] + ' ';
           }
@@ -81,17 +82,16 @@ export class IngredientDialogFormComponent implements OnInit {
       }
     }
 
+    // tslint:disable-next-line:member-ordering
     formErrors = {
      'ingredient' : ''
     };
 
+    // tslint:disable-next-line:member-ordering
     validationMessages = {
       'ingredient': {
         'required': 'Ingredient is required',
-       
       }
-    }
-
-  
+    };
 
 }

@@ -19,7 +19,7 @@ export class IngredientDeleteComponent implements OnInit {
   next: boolean;
   previous: boolean;
 
-  displayedColumns = ['ingredient', 'delete'];
+  displayedColumns = ['ingredient', 'options'];
   dataSource = new MatTableDataSource(this.ingredients);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class LoginService {
 
-  private baseUrl = 'http://localhost:8080/api/session/';
+  private baseUrl = 'https://cookie-jar-be.herokuapp.com/api/session/';
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private options = new RequestOptions({ headers: this.headers, withCredentials: true });
 

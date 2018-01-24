@@ -1,6 +1,5 @@
 <section @fadeInAnimation>
     
-
     <h2>Cookie Ideas</h2>
 
     <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
@@ -17,40 +16,41 @@
     </mat-form-field>
 
     <mat-table #table [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameColumnAlignment'"> Name </mat-header-cell>
-              <mat-cell *matCellDef="let recipe" [ngClass]="'nameColumnAlignment'"> {{recipe.recipeName}} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="prep time">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Prep Time </mat-header-cell>
-              <mat-cell *matCellDef="let recipe"> {{recipe.totalTimeInSeconds / 60}} minutes </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="rating">
-              <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'ratingColumnAlignment'"> Rating </mat-header-cell>
-              <mat-cell *matCellDef="let recipe" [ngClass]="'ratingColumnAlignment'"> <div class="star-ratings-sprite">
-                    <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"> </div>
-                </div> </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="picture">
-                <mat-header-cell *matHeaderCellDef> Picture </mat-header-cell>
-                <mat-cell *matCellDef="let recipe"> <img src={{recipe.smallImageUrls}}/> </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="view details">
-                    <mat-header-cell *matHeaderCellDef> View Details </mat-header-cell>
-                    <mat-cell *matCellDef="let recipe"> 
-                        <button (click)="getRecipeDetailsFromYummly(recipe.id)" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                        </button>
-                    </mat-cell>
-            </ng-container>
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'nameColumnAlignment'"> Name </mat-header-cell>
+            <mat-cell *matCellDef="let recipe" [ngClass]="'nameColumnAlignment'"> {{recipe.recipeName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="prep time">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Prep Time </mat-header-cell>
+            <mat-cell *matCellDef="let recipe"> {{recipe.totalTimeInSeconds / 60}} minutes </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="rating">
+            <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'ratingColumnAlignment'"> Rating </mat-header-cell>
+            <mat-cell *matCellDef="let recipe" [ngClass]="'ratingColumnAlignment'"> 
+                <div class="star-ratings-sprite">
+                    <div [ngStyle]="{'width': recipe.rating/5*100 + '%'}" class="star-ratings-sprite-rating"></div>
+                </div> 
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="picture">
+            <mat-header-cell *matHeaderCellDef> Picture </mat-header-cell>
+            <mat-cell *matCellDef="let recipe"> <img src={{recipe.smallImageUrls}}/> </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="view details">
+            <mat-header-cell *matHeaderCellDef> View Details </mat-header-cell>
+            <mat-cell *matCellDef="let recipe"> 
+                <button (click)="getRecipeDetailsFromYummly(recipe.id)" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                </button>
+            </mat-cell>
+        </ng-container>
+    
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
       
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-      
-        <mat-paginator #paginator
-                       [pageSize]="10"
-                       [pageSizeOptions]="[5, 10, 20]">
-        </mat-paginator>
-
+    <mat-paginator #paginator
+                    [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>
 </section>

@@ -1,6 +1,7 @@
 .nameColumnAlignment{
     flex: 0 0 200px;
     padding-right: 10px;
+   
 }
 
 /* Search input text */
@@ -11,4 +12,8 @@
 /* Search input underline */
 :host ::ng-deep .mat-input-ripple  {
     background-color: #81D0D3;
+}
+
+.mat-header-cell {
+    font-weight: bolder;
 }

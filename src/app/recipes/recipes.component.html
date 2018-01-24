@@ -1,8 +1,8 @@
 <section @fadeInAnimation>
- 
-  <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
-  <h2>{{user.firstName}}'s Cookie.Jar</h2>
+  <h2><span class="cookie-jar-title">{{user.firstName}}'s Cookie.Jar</span></h2>
+
+  <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
 
   <br>
 
@@ -30,7 +30,8 @@
       </ng-container>
       <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef> Options </mat-header-cell>
-          <mat-cell *matCellDef="let recipe"><button (click)="getRecipeDetails(recipe.id)" class="btn btn-primary">
+          <mat-cell *matCellDef="let recipe">
+            <button (click)="getRecipeDetails(recipe.id)" class="btn btn-primary">
               <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             </button>
             <a class="btn btn-info" [routerLink]="['/recipe/edit/', recipe.id]">
@@ -38,10 +39,11 @@
             </a>&nbsp;
             <button (click)="deleteRecipe(recipe.id)" class="btn btn-danger">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button></mat-cell>
+            </button>
+          </mat-cell>
         </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
@@ -49,7 +51,5 @@
                  [pageSize]="10"
                  [pageSizeOptions]="[5, 10, 20]">
   </mat-paginator>
-
-
 
 </section>

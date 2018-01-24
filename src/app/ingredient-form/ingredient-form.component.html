@@ -33,7 +33,7 @@
       <label for="quantity" class="col-sm-2 control-label">Quantity</label>
       <div class="col-sm-2">
         <input ngModel #quantity="ngModel" type="text" class="form-control" id="quantity" name="quantity"
-          placeholder="e.g. 2" required maxlength="10">
+          placeholder="e.g. 2" maxlength="20">
         <span *ngIf="formErrors.quantity" class="text-danger">
           {{ formErrors.quantity }}
         </span>
