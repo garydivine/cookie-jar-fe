@@ -13,7 +13,7 @@ export class RecipeDetailsComponent implements OnInit {
   linkForEmail: string = `mailto:test@example.com&subject=${this.data.recipeDetails.name}&body=Bake at ${this.data.recipeDetails.temp} for ${ this.data.recipeDetails.time}.
 %0D
 %0D
-Instructions: 
+Instructions:
 %0D
 ${this.data.recipeDetails.instructions}
 %0D
@@ -33,7 +33,7 @@ Ingredients:
   ngOnInit() {
   }
 
-  openUserMailClient(){
+  openUserMailClient() {
     for (let ingredientItem of this.data.recipeDetails.ingredientRecipeListItem) {
       this.linkForEmail = this.linkForEmail + `${ingredientItem.quantity} ${ingredientItem.unitOfMeasurement} ${ingredientItem.ingredient.name}%0D`
     }

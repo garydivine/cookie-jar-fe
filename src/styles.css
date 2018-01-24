@@ -14,6 +14,7 @@ table {
         max-width: 599px;
     }
     .btn-primary {
+        /* !important retains the background color on click */
         background-color: #69502F!important;
         border-color: #BA9765!important;
         color: white
@@ -38,6 +39,7 @@ table {
         max-width: 768px;
     }
     .btn-primary {
+        /* !important retains the background color on click */
         background-color: #69502F!important;
         border-color: #BA9765!important;
         color: white
