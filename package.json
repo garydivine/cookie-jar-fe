@@ -32,7 +32,7 @@
     "md-dialog": "0.0.1-alpha.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4",
-    "typescript": "~2.3.3"
+    "typescript": "~2.4.0"
   },
   "devDependencies": {
     "@angular/cli": "1.1.3",
