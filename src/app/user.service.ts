@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService {
 
-  private baseUrl = 'http://cookie-jar-be.herokuapp.com/api/user/';
+  private baseUrl = 'https://cookie-jar-be.herokuapp.com/api/user/';
 
   constructor(private http: Http) { }
 
