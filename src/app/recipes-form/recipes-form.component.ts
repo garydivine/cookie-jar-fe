@@ -8,7 +8,6 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { DataService } from '../data.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
-import { getDefaultService } from 'selenium-webdriver/edge';
 
 @Component({
   selector: 'app-recipes-form',
