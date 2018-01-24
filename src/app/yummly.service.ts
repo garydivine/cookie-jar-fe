@@ -16,7 +16,7 @@ export class YummlyService {
   // tslint:disable-next-line:no-inferrable-types
   private cookieQuery: string = '&q=cookies&maxResult=20&start=';
   // tslint:disable-next-line:no-inferrable-types
-  private randomCookieQuery: string = '&q=cookies&maxResult=1&start=';
+  private randomCookieQuery: string = '&requirePictures=true&q=cookies&maxResult=1&start=';
 
   randomNumber: number;
 
