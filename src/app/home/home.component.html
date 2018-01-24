@@ -3,43 +3,68 @@
   <div id="banner">
 
     <div class="cookie picture">
-        <img id="mainbanner" src="./assets/images/plate of cookies.jpg" alt="cookies">
+      <img id="mainbanner" src="./assets/images/plate of cookies.jpg" alt="cookies">
     </div>
   </div>
 
-  <!-- featurettes-->
-
   <hr>
-  
+
   <div class="row featurette">
     <div class="col-md-8">
       <h2 class="featurette-heading">Welcome to the Cookie.jar!</h2>
-      <p class="lead">So many cookies to choose from!  Whether you are looking for an old favorite or something new, the Cookie.jar is the place to find cookie recipes.</p>
+      <p class="lead">So many cookies to choose from! Whether you are looking for an old favorite or something new, the Cookie.jar is the
+        place to find cookie recipes.</p>
     </div>
     <div class="col-md-4">
       <img id="mainlogo" src="./assets/images/cookielogowhite.jpg" alt="Gingersnap cookie image">
     </div>
   </div>
-  
+
   <hr>
-  
+
   <div class="row">
     <div class="col-md-7 col-md-push-5">
       <h2 class="featurette-heading">The choice is yours.</h2>
       <div *ngIf="user">
-      <p class="lead">Search through your <a routerLink="/recipe">own favorite recipes</a>, <a routerLink="/recipe/add">add a new recipe</a> to your collection or search our <a routerLink="/yummly">online selection of cookies</a>.</p>
-    </div>
+        <p class="lead">Search through your
+          <a routerLink="/recipe">own favorite recipes</a>,
+          <a routerLink="/recipe/add">add a new recipe</a> to your collection or search our
+          <a routerLink="/yummly">online selection of cookies</a>.</p>
+      </div>
       <div *ngIf="!user">
-        <p class="lead">Search through your own favorite recipes, add a new recipe to your collection or search our
-          online selection of cookies.</p>
+        <p class="lead">Search through your own favorite recipes, add a new recipe to your collection or search our online selection of cookies.</p>
       </div>
     </div>
     <div class="col-md-5 col-md-pull-7">
-      <img src="./assets/images/recipes.jpg" alt="Image of recipe box">
+      <img src="./assets/images/cookie_jar.jpg" alt="Image of cookie jar">
     </div>
   </div>
-  
+
   <hr>
+
+  <div *ngIf="!user" class="row">
     
-  <!-- /END THE FEATURETTES -->
-  </section>
+    <div *ngFor="let recipe of yummlyRecipe" class="col-md-8">
+      <h2 class="featurette-heading">Featured Recipes</h2>
+      <p class="lead">With over 50,000 recipes we're bound to have plenty you'll love. We have a recipe for
+        <b>{{recipe.recipeName}}</b> waiting to be added to your Cookie.jar.</p>
+    </div>
+    <div *ngFor="let image of yummlyRecipe" class="col-md-4">
+      <img id="yummlyimage" src="{{image.smallImageUrls}}" />
+    </div>
+
+  </div>
+
+  <div *ngIf="user.id == 3" class="row">
+    
+    <div *ngFor="let recipe of yummlyRecipe" class="col-md-8">
+      <h2 class="featurette-heading">Featured Recipe</h2>
+      <p class="lead">Jump over to your <a routerLink="/yummly">Cookie Ideas</a> to search our 50,000 recipes. Find something you'll love, like these <b>{{recipe.recipeName}}</b></p>
+    </div>
+    <div *ngFor="let image of yummlyRecipe" class="col-md-4">
+      <img id="yummlyimage" src="{{image.smallImageUrls}}" />
+    </div>
+
+  </div>
+
+</section>

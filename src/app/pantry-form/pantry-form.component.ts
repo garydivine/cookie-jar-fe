@@ -44,17 +44,17 @@ export class PantryFormComponent implements OnInit {
   }
 
   saveIngredient(pantryForm: NgForm) {
-    if (typeof pantryForm.value.id === "number") {
-      this.dataService.editRecord("ingredient", pantryForm.value, pantryForm.value.id)
+    if (typeof pantryForm.value.id === 'number') {
+      this.dataService.editRecord('ingredients', pantryForm.value, pantryForm.value.id)
       .subscribe(
-        ingredient => this.successMessage = "Record updated",
+        ingredient => this.successMessage = 'Ingredient updated',
         error => this.errorMessage = <any>error
       );
       }else{
-      this.dataService.addRecord("ingredients", pantryForm.value)
+      this.dataService.addRecord('ingredients', pantryForm.value)
         .subscribe(
-          result => this.successMessage = "Record added",
-          error => this.errorMessage = "This ingredient already exists"
+          result => this.successMessage = 'Ingredient added',
+          error => this.errorMessage = 'This ingredient already exists'
         );
         this.ingredient = {};
       }
@@ -73,7 +73,7 @@ export class PantryFormComponent implements OnInit {
     }
 
     onValueChanged() {
-      let form = this.pantryForm.form;
+      const form = this.pantryForm.form;
 
       for (let field in this.formErrors) {
         this.formErrors[field] = '';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { YummlyService } from '../yummly.service';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 
 @Component({
@@ -11,9 +11,23 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
 })
 export class HomeComponent implements OnInit {
 
+  yummlyRecipe: any;
+
+  successMessage: string;
+  errorMessage: string;
+
   user = null;
 
-  constructor() { }
+  constructor(private yummlyService: YummlyService) { }
+
+  getFeaturedRecipeFromYummly() {
+
+    this.yummlyService.getFeaturedRecipe()
+        .subscribe(
+          yummlyRecipe => this.yummlyRecipe = yummlyRecipe.matches,
+      error => this.errorMessage = <any>error
+    );
+  }
 
   checkForUser() {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -21,5 +35,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.checkForUser();
+    this.getFeaturedRecipeFromYummly();
   }
 }

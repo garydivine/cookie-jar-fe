@@ -6,34 +6,31 @@
     <h2 md-dialog-title>{{data.yummlyRecipeDetails.name}}</h2>
 
     <mat-dialog-content>
-
-    <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
-        <thead>
-            <tr>
-                <th>Number of Servings</th>
-                <th>Ingredients</th>
-                <th>Instructions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{data.yummlyRecipeDetails.numberOfServings}}</td>
-                <div *ngFor="let ingredient of data.yummlyRecipeDetails.ingredientLines">
-                    <td>
-                        <ul>
-                            <li>{{ingredient}}</li>
-                        </ul>
-                    </td>
-                </div>
-                <td><div [innerHtml]="data.yummlyRecipeDetails.source.sourceRecipeUrl | linkify"></div></td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="text-center">
-    <!--    <button class="btn btn-primary">Add To My Cookie Jar</button>-->
-      <button class="btn btn-primary" (click)="saveYummlyRecipeToCookieJar()">Add To My Cookie Jar</button>
-    </div>
-
+        <table class="table table-striped table-bordered table-hover" id="dataTable" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Number of Servings</th>
+                    <th>Ingredients</th>
+                    <th>Instructions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{data.yummlyRecipeDetails.numberOfServings}}</td>
+                    <div *ngFor="let ingredient of data.yummlyRecipeDetails.ingredientLines">
+                        <td>
+                            <ul>
+                                <li>{{ingredient}}</li>
+                            </ul>
+                        </td>
+                    </div>
+                    <td><div [innerHtml]="data.yummlyRecipeDetails.source.sourceRecipeUrl | linkify"></div></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button class="btn btn-primary" (click)="saveYummlyRecipeToCookieJar()">Add To My Cookie Jar</button>
+        </div>
     </mat-dialog-content>
 
 </div>

@@ -4,7 +4,7 @@
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
   </button>
     
-  <h3 md-dialog-title>Sign-Up for MyCookie.jar</h3>
+  <h3 md-dialog-title>Sign-Up for Cookie.jar</h3>
   
   <mat-dialog-content>
 
@@ -13,28 +13,46 @@
   <br>
 
   <form (ngSubmit)="createUser(userForm)" #userForm="ngForm">
+    
     <div class="form-group">
         <label for="firstName">First Name</label>
-        <input ngModel #loginForm.firstName="ngModel" type="text" class="form-control" id="firstName" name="firstName" placeholder="eg: Cookie">
+        <input [ngModel]="user?.firstName" ngModel #user_firstName="ngModel" type="text" class="form-control" id="firstName" name="firstName" required placeholder="eg: Cookie">
+      <span *ngIf="formErrors.firstName" class="text-danger">
+        {{ formErrors.firstName }}
+      </span>        
     </div>
+    
     <div class="form-group">
         <label for="lastName">Last Name</label>
-        <input ngModel #loginForm.lastName="ngModel" type="text" class="form-control" id="lastName" name="lastName" placeholder="eg: Monster">
+        <input [ngModel]="user?.lastName" ngModel #user_lastName="ngModel" type="text" class="form-control" id="lastName" name="lastName" required placeholder="eg: Monster">
+      <span *ngIf="formErrors.lastName" class="text-danger">
+        {{ formErrors.lastName }}
+      </span>
     </div>
+
     <div class="form-group">
-      <label for="username">Username</label>
-      <input ngModel #loginForm.username="ngModel" type="text" class="form-control" id="username" name="username" placeholder="username">
+        <label for="username">Username</label>
+        <input [ngModel]="user?.username" ngModel #user_username="ngModel" type="text" class="form-control" id="username" name="username" required placeholder="username">
+      <span *ngIf="formErrors.username" class="text-danger">
+        {{ formErrors.username }}
+      </span>  
     </div>
+
     <div class="form-group">
-      <label for="password">Password</label>
-      <input ngModel #loginForm.password="ngModel" type="password" class="form-control" id="password" name="password" placeholder="password">
+        <label for="password">Password</label>
+        <input [ngModel]="user?.password" ngModel #user_password="ngModel" type="password" class="form-control" id="password" name="password" required placeholder="password">
+      <span *ngIf="formErrors.password" class="text-danger">
+        {{ formErrors.password }}
+      </span>    
     </div>
+
     <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input ngModel #loginForm.confirmPassword="ngModel" type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="password">
+        <label for="confirmPassword">Confirm Password</label>
+        <input [ngModel] #loginForm.confirmPassword="ngModel" type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="password"> 
     </div>
+
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary center-block">Create</button>
     </div>
   </form>
 

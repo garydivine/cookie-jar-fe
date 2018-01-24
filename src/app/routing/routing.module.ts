@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home',  component: HomeComponent },
   { path: 'ingredient/add',  component: PantryFormComponent },
+  { path: 'ingredient/edit/:id', component: PantryFormComponent },
   { path: 'recipe',  component: RecipesComponent },
   { path: 'recipe/edit/:id', component: RecipesFormComponent  },
   { path: 'recipe/add', component: RecipesFormComponent },

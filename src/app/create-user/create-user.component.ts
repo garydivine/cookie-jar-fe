@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { fadeInAnimation } from '../animations/fade-in.animation';
 import { UserService } from '../user.service';
 import { LoginService } from '../login.service';
@@ -13,11 +13,14 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 })
 export class CreateUserComponent implements OnInit {
 
-  userForm: NgForm;
   successMessage: string;
   errorMessage: string;
   user: any;
   loginInfo: any;
+
+  userForm: NgForm;
+  @ViewChild('userForm')
+  currentForm: NgForm;
 
   @Output() loginRequestSubmitted = new EventEmitter();
 
@@ -32,28 +35,18 @@ export class CreateUserComponent implements OnInit {
     if (userForm.value.password !== userForm.value.confirmPassword) {
       this.errorMessage = 'Passwords do not match';
     } else {
-    this.userService.createUser('create', userForm.value)
-      .subscribe(
-      user => {
-        this.dialogRef.close();
-        localStorage.setItem('user', JSON.stringify(user));
-      },
-      error => this.errorMessage = <any>error);
-    this.loginInfo = {
-      'user' : this.user.username,
-      'password' : this.user.password
-    };
-    this.loginService.loginUser('login', this.loginInfo)
-      .subscribe(
-      user => {
-        localStorage.setItem('user', JSON.stringify(user));
-      },
-      error => this.errorMessage = <any>error);
-    this.dialogRef.afterClosed()
-      .subscribe(
-      result => {
-        location.reload();
-      });
+      this.userService.createUser('create', userForm.value)
+        .subscribe(
+        user => {
+          // tslint:disable-next-line:max-line-length
+          this.successMessage = `Created your account. Login to get started!`;
+        },
+        error => this.errorMessage = 'User Already Exists');
+      this.dialogRef.afterClosed()
+        .subscribe(
+        result => {
+          location.reload();
+        });
     }
   }
 
@@ -63,5 +56,62 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewChecked() {
+    this.formChanged();
+  }
+
+  formChanged() {
+    this.loginInfo = this.currentForm;
+    this.loginInfo.valueChanges
+      .subscribe(
+        data => this.onValueChanged()
+      );
+  }
+
+  onValueChanged() {
+    const form = this.loginInfo.form;
+
+    // tslint:disable-next-line:forin
+    for (const field in this.formErrors) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        // tslint:disable-next-line:forin
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+
+  // tslint:disable-next-line:member-ordering
+  formErrors = {
+    'firstName': '',
+    'lastName': '',
+    'username': '',
+    'password': ''
+  };
+
+  // tslint:disable-next-line:member-ordering
+  validationMessages = {
+    'firstName': {
+      'required': 'First Name is required',
+    },
+    'lastName': {
+      'required': 'Last Name is required',
+    },
+    'username': {
+      'required': 'Username is required',
+    },
+    'password': {
+      'required': 'Password is required',
+    }
+
+  };
 
 }

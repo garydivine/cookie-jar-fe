@@ -9,12 +9,11 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService {
 
-  private baseUrl = 'http://localhost:8080/api/user/';
+  private baseUrl = 'http://cookie-jar-be.herokuapp.com/api/user/';
 
   constructor(private http: Http) { }
 
   createUser(endpoint: String, record: any): Observable<any> {
-    console.log(record);
     const apiUrl = `${this.baseUrl}${endpoint}`;
     return this.http.post(apiUrl, record)
       .map(this.extractData)
