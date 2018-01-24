@@ -42,7 +42,7 @@ export class YummlyService {
 
   // Get details on a specific Cookie recipe based on a passed in ID
   getRecipe(id: String): Observable<any> {
-    const apiUrl = `${this.recipeUrl}${id}${this.apiSpec}${this.randomNumber}`;
+    const apiUrl = `${this.recipeUrl}${id}${this.apiSpec}`;
     return this.http.get(apiUrl)
       .map(result => {
         return result.json();
