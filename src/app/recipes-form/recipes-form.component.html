@@ -1,9 +1,9 @@
 <section @fadeInAnimation>
 
-
   <h1>Add or Update a Recipe</h1>
 
   <app-status-message [successMessage]="successMessage" [errorMessage]="errorMessage"></app-status-message>
+
   <form (ngSubmit)="saveRecipe(recipeForm)"  #recipeForm="ngForm" class="form-horizontal">
     <input [ngModel]="recipe?.id" ngModel #recipe_id="ngModel" type="hidden" name="id">
     <div class="form-group">
@@ -15,8 +15,6 @@
         </span>
       </div>
     </div>
-
-
 
     <div [hidden]="ingredientQueue.length === 0 && !recipe?.id">
       <h4>Ingredients In Recipe</h4>
@@ -54,7 +52,7 @@
       </table>
     </div>
 
-    <!-- <app-ingredient-form (ingredientRecipeSubmitted)="dealWithIngredientToRecipe($event,recipeForm)" ></app-ingredient-form> -->
+    <!-- Embedded Form For Adding Ingredient To Recipe -->
     <app-ingredient-form (ingredientRecipeSubmitted)="addToIngredientQueue($event)" ></app-ingredient-form>
     
     <br>
@@ -95,14 +93,14 @@
       </div>
     </div>
     <br>
-      <div class="form-group"> 
+    <div class="form-group"> 
        <div class="col-sm-offset-1 col-sm-2">
         <button [disabled]="!recipeForm.form.valid" type="submit" class="btn btn-primary">Add or Update Recipe to Cookie Jar</button>
        </div>
       <div class="col-sm-offset-5 col-sm-2">
         <a class="btn btn-info" routerLink="/recipe">Return to Main Recipe Page</a>
       </div>
-     </div>
+    </div>
   </form>
   
 </section>
