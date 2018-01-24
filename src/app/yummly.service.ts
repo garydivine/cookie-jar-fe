@@ -27,7 +27,7 @@ export class YummlyService {
   // Documentaton for filtering on starting position is in the Yummly API Docs under the bullet "maxResult, start"
   // https://developer.yummly.com/documentation
   generateRandomNumber() {
-    this.randomNumber = Math.floor(Math.random() * (40000 - 0) + 1);
+    this.randomNumber = Math.floor(Math.random() * (50000 - 0) + 1);
   }
 
   // Get a random list of 20 Cookie Recipes out of 40,000
