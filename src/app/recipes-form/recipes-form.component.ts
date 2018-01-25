@@ -76,7 +76,7 @@ export class RecipesFormComponent implements OnInit {
       this.dataService.addRecord('recipes', recipeForm.value)
         .subscribe(
           recipe => {
-            this.successMessage = 'Cookie added to your Cookie.Jar!';
+            this.successMessage = 'Cookie added to your Cookie.jar!';
             this.recipe = recipe;
             for (const ingredientRecipe of this.ingredientQueue) {
               this.saveIngredientItemToRecipe(ingredientRecipe, recipeForm);

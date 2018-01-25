@@ -19,6 +19,8 @@ export class YummlyComponent implements OnInit {
   successMessage: string;
   errorMessage: string;
 
+  newImageUrl: string;
+
   @Output() querySubmitted = new EventEmitter();
 
   displayedColumns = ['name', 'prep time', 'rating', 'picture', 'view details'];
