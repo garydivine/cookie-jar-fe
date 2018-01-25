@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
         this.yummlyRecipe = yummlyRecipe.matches;
         this.newImageUrl = this.yummlyRecipe[0]['smallImageUrls'][0];
         this.newImageUrl = this.newImageUrl.replace(/(=[^=]*$)/g, '');
+        this.newImageUrl = this.newImageUrl.replace(/^(http)[^s]/g, 'https:');
       },
       error => this.errorMessage = <any>error
       );

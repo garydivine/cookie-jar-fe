@@ -41,7 +41,17 @@ export class YummlyComponent implements OnInit {
       .subscribe(
       yummlyRecipes => {
         this.yummlyRecipes = yummlyRecipes.matches;
-        this.dataSource.data = yummlyRecipes.matches;
+        let tempRecipes = [];
+        for (const recipe of this.yummlyRecipes) {
+          let stringifiedRecipe = JSON.stringify(recipe);
+          stringifiedRecipe = stringifiedRecipe.replace(/(http)[^s]/g, 'https:');
+          let newRecipe = JSON.parse(stringifiedRecipe);
+          tempRecipes.push(newRecipe);
+        }
+
+        this.yummlyRecipes = tempRecipes;
+
+        this.dataSource.data = this.yummlyRecipes;
       },
       error => this.errorMessage = <any>error
     );
