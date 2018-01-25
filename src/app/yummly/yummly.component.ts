@@ -19,6 +19,8 @@ export class YummlyComponent implements OnInit {
   successMessage: string;
   errorMessage: string;
 
+  newImageUrl: string;
+
   @Output() querySubmitted = new EventEmitter();
 
   displayedColumns = ['name', 'prep time', 'rating', 'picture', 'view details'];
@@ -41,6 +43,8 @@ export class YummlyComponent implements OnInit {
       .subscribe(
       yummlyRecipes => {
         this.yummlyRecipes = yummlyRecipes.matches;
+        this.newImageUrl = this.yummlyRecipe[0]['smallImageUrls'][0];
+        this.newImageUrl = this.newImageUrl.replace(/(=[^=]*$)/g, '');
         this.dataSource.data = yummlyRecipes.matches;
       },
       error => this.errorMessage = <any>error
